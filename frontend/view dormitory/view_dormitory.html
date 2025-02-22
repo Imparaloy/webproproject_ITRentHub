@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dormitory Management</title>
+    <link rel="stylesheet" href="view_dormitory.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#">Select dormitory</a></li>
+                    <li><a href="#">Add dormitory</a></li>
+                    <li><a href="#" class="active">View dormitory</a></li>
+                    <li><a href="#">Chat dormitory</a></li>
+                    <li><a href="#">reserve date</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header>
+                <h1>Welcome, Username</h1>
+                <div class="header-right">
+                    <button class="notification-btn" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="logout-btn">Log out</button>
+                </div>
+            </header>
+
+            <!-- Main Section -->
+            <main>
+                <section class="content-box">
+                    <h2>View dormitory</h2>
+                    
+                    <div class="rating-section">
+                        <div class="guest-reviews">
+                            <h3>Guest Reviews :</h3>
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="point-rating">
+                            <h3>point :</h3>
+                            <div class="rating-value">10.0</div>
+                        </div>
+                    </div>
+
+                    <div class="reviews-section">
+                        <h3>Reviews :</h3>
+                        <div class="review-cards">
+                            <div class="review-card"></div>
+                            <div class="review-card"></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
