@@ -1,0 +1,182 @@
+body {
+    background-color: white;
+    color: #1a202c;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d1d5db;
+    padding: 1rem;
+    border-radius: 50px;
+    margin: 1rem;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-left: 1rem;
+}
+
+.nav-links a, .login {
+    color: black;
+    text-decoration: none;
+    margin: 0 1rem;
+}
+
+.hero {
+    text-align: center;
+    margin-top: 5rem;
+}
+
+.hero h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.hero p {
+    color: #4a5568;
+    margin-top: 1rem;
+}
+
+.learn-more {
+    margin-top: 1.5rem;
+    padding: 0.5rem 1.5rem;
+    background-color: #d1d5db;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+}
+
+.search-bar {
+    display: flex;
+    background-color: #d1d5db;
+    padding: 0.5rem;
+    border-radius: 50px;
+    width: 60%;
+    max-width: 500px;
+    margin: 2rem auto;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50px;
+    outline: none;
+}
+
+.sort-icon, .search-button {
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    border: none;
+}
+
+/* ตั้งค่าเริ่มต้นสำหรับไอคอน */
+.sort-icon {
+    background: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ปรับขนาดรูปภาพให้เหมาะสม */
+.sort-icon .icon {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* เพิ่มเอฟเฟกต์เมื่อ hover */
+.sort-icon:hover .icon {
+    transform: scale(1.1);
+}
+
+/* ทำให้ Responsive */
+@media (max-width: 768px) {
+    .sort-icon .icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sort-icon .icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+.apartments {
+    margin: 2rem 5rem;
+}
+
+.apartment-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.apartment {
+    display: flex;
+    align-items: center;
+    background-color: #d1d5db;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.image-placeholder {
+    width: 100px;
+    height: 60px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.info {
+    margin-left: 1rem;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.price {
+    font-size: 0.875rem;
+}
+
+.why-us {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.reasons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.reason {
+    width: 80px;
+    height: 80px;
+    background-color: #d1d5db;
+    border-radius: 10px;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 2rem;
+    padding-bottom: 1rem;
+}
+
