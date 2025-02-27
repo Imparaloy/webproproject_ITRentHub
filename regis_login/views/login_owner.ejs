@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Login</title>
+    <%- include("regis_style") %>
+</head>
+<body>
+    <div class="wrapper">
+    <div class="container" style="margin: auto;">
+        <h1>ITRentHub</h1>
+        <p>Login as Dormitory Owner</p>
+
+        <% if (message) { %>
+            <p style="color: red; font-weight: bold;"><%= message %></p>
+        <% } %>
+
+        <form action="/login" method="POST">
+            <label for="login">Username or Email</label>
+            <input type="text" id="login" name="login" value="<%= formdata?.login || '' %>" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <div class="remember-me-container">
+                <input type="checkbox" id="rememberme" name="rememberme">
+                <label for="rememberme">Remember me</label>
+            </div>
+
+            <input type="hidden" name="roles" value="owner"> <!-- Assigns role as 'owner' -->
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p class="bottom-text">Don't have an account? <a href="/register_owner">Sign up now</a></p>
+        <p class="bottom-text"><a href="#">forget password</a></p>
+    </div>
+    <a href="/login"><button class="dormitory-owner-btn" style="display: block; margin: auto; margin-top: 20px;">Renter</button></a>
+    </div>
+
+</body>
+</html>
