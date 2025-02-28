@@ -32,26 +32,35 @@
     <section class="apartments">
         <h2>Recommend apartment</h2>
         <div class="apartment-list">
-            <div class="apartment">
-                <div class="image-placeholder"></div>
-                <div class="info">
-                    <p class="name">Name Apartment</p>
-                    <p class="price">xxxx - xxxx THB/month</p>
+            <% topRatedRentals.forEach(r => { %>
+                <div class="apartment">
+                    <div class="image-placeholder"></div>
+                    <div class="info">
+                        <p class="name"><%= r.Rental_Name %></p>
+                        <p class="price"><%= r.Rental_price %> THB/month</p>
+                    </div>
                 </div>
-            </div>
-            <div class="apartment">
-                <div class="image-placeholder"></div>
-                <div class="info">
-                    <p class="name">Name Apartment</p>
-                    <p class="price">xxxx - xxxx THB/month</p>
-                </div>
-            </div>
+            <% }); %>
         </div>
     </section>
 
     <section class="apartments">
         <h2>Pet friendly apartment</h2>
         <div class="apartment-list">
+            <div class="apartment">
+                <div class="image-placeholder"></div>
+                <div class="info">
+                    <p class="name">Name Apartment</p>
+                    <p class="price">xxxx - xxxx THB/month</p>
+                </div>
+            </div>
+            <div class="apartment">
+                <div class="image-placeholder"></div>
+                <div class="info">
+                    <p class="name">Name Apartment</p>
+                    <p class="price">xxxx - xxxx THB/month</p>
+                </div>
+            </div>
             <div class="apartment">
                 <div class="image-placeholder"></div>
                 <div class="info">
