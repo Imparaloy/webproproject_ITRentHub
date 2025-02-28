@@ -58,6 +58,19 @@ app.get('/login_owner', function (req, res) {
 res.render("login_owner", { message: null, formdata: null });
 });
 
+app.get('/reset_password', function (req, res) {
+  let loginValue = req.query.login || '';
+  let rolesValue = req.query.roles;
+  if (loginValue == '') {
+    if (rolesValue == "owner") {
+      return res.render("login_owner", { message: "Enter your Username or Email", formdata: null });
+    } else {
+      return res.render("login", { message: "Enter your Username or Email", formdata: null });
+    }
+  }
+  res.render("forgetpw", { message: null, formdata: { login: loginValue, roles: rolesValue } });
+});
+
 // ตัว show แค่เช็คว่ามีค่ามาแล้วจริง ADMIN เท่านั้นที่ควรดูได้
 app.get('/show', function (req, res) {
   const query = 'SELECT * FROM account';
@@ -250,6 +263,40 @@ app.post('/login_owner', async (req, res) => {
   });
 });
 
+// Reset password
+app.post('/reset_password', async function (req, res) {
+  let { login, roles, password, cpassword } = req.body;
+
+  if (password !== cpassword) {
+    return res.render("forgetpw", { message: "Passwords do not match!", formdata: { login, roles } });
+  }
+
+  let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
+  db.get(checkSql, [login, login], async (err, row) => {
+      if (err) {
+          console.error("Database error:", err);
+          return res.status(500).send("Internal Server Error");
+      }
+
+      if (!row) {
+        return res.render(`login${roles === 'owner' ? '_owner' : ''}`,
+          { message: "No account with this Username or Email", formdata: { login } });
+      }
+
+      let hashedPassword = await bcrypt.hash(password, 10); // Hash the new password
+
+      let updateSql = `UPDATE account SET Password = ? WHERE (User_Name = ? OR Email = ?)`;
+      db.run(updateSql, [hashedPassword, login, login], function (err) {
+          if (err) {
+              console.error("Database error:", err);
+              return res.status(500).send("Internal Server Error");
+          }
+
+          console.log("Password updated successfully");
+          res.redirect(`/login${row.Roles === 'owner' ? '_owner' : ''}`);
+      });
+  });
+});
 
 app.listen(port, () => {
   console.log(`Starting node.js at port ${port}`);

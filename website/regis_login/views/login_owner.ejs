@@ -28,15 +28,23 @@
                 <label for="rememberme">Remember me</label>
             </div>
 
-            <input type="hidden" name="roles" value="owner"> <!-- Assigns role as 'owner' -->
+            <input type="hidden" id="roles" name="roles" value="owner"> <!-- Assigns role as 'owner' -->
 
             <button type="submit" class="btn">Login</button>
         </form>
         <p class="bottom-text">Don't have an account? <a href="/register_owner">Sign up now</a></p>
-        <p class="bottom-text"><a href="#">forget password</a></p>
+        <p class="bottom-text"><a href="#" onclick="redirectToForgetPassword()">forget password</a></p>
     </div>
     <a href="/login"><button class="dormitory-owner-btn" style="display: block; margin: auto; margin-top: 20px;">Renter</button></a>
     </div>
+
+    <script>
+        function redirectToForgetPassword() {
+            let loginValue = document.getElementById("login").value; // Get login value
+            let rolesValue = document.getElementById("roles").value; // Get roles value
+            window.location.href = `/reset_password?login=${encodeURIComponent(loginValue)}&roles=${encodeURIComponent(rolesValue)}`;
+        }
+    </script>
 
 </body>
 </html>
