@@ -139,9 +139,15 @@ body {
 }
 
 .image-placeholder {
-    width: 110px;
-    height: 110px;
+    width: 200px;
+    height: 160px;
     background-color: white;
+    border-radius: 10px;
+}
+
+.image-placeholder img {
+    width: 200px;
+    height: 160px;
     border-radius: 10px;
 }
 
