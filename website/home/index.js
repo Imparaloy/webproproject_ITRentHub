@@ -26,14 +26,25 @@ app.use(express.urlencoded({ extended: true }))
 app.get('/home', function (req, res) {
     const query = 'SELECT * FROM rental_data';
     const query2 = `
-        SELECT r.Rental_ID, r.Rental_Name, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         JOIN review rv ON r.Rental_ID = rv.Rental_ID
-        GROUP BY r.Rental_ID, r.Rental_Name, rp.Rental_price
+        GROUP BY r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
         ORDER BY avg_rating DESC
         LIMIT 4;
     `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด
+    const query3 = `
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+        FROM rental_data r
+        JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+        JOIN review rv ON r.Rental_ID = rv.Rental_ID
+        JOIN facility f ON r.Rental_ID = f.Rental_ID
+        WHERE f.Pets = 1
+        GROUP BY r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+        ORDER BY avg_Rating DESC
+        LIMIT 4;
+    `;
     // all มีผลกลับมา run ไม่มีผลกลับมา
     db.all(query, (err, rows) => {
       if (err) {
@@ -43,8 +54,13 @@ app.get('/home', function (req, res) {
         if (err) {
             console.log(err.message);
         }
+        db.all(query3, (err, topRatedPetrentals) => {
+            if (err) {
+                console.log(err.message);
+            }
     //   console.log(rows);
-            res.render('home', { data : rows, topRatedRentals: topRatedRentals});
+            res.render('home', { data : rows, topRatedRentals: topRatedRentals, topRatedPetrentals: topRatedPetrentals});
+          });
        });
     });
   });
