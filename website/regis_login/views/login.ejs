@@ -10,7 +10,7 @@
     <div class="wrapper">
     <div class="container" style="margin: auto;">
         <h1>ITRentHub</h1>
-        <p>Login</p>
+        <p>Login as Renter</p>
 
         <% if (message) { %>
             <p style="color: red; font-weight: bold;"><%= message %></p>
@@ -28,15 +28,23 @@
                 <label for="rememberme">Remember me</label>
             </div>
 
-            <input type="hidden" name="roles" value="user"> <!-- Assigns role as 'user' -->
+            <input type="hidden" id="roles" name="roles" value="user"> <!-- Assigns role as 'user' -->
 
             <button type="submit" class="btn">Login</button>
         </form>
         <p class="bottom-text">Don't have an account? <a href="/register">Sign up now</a></p>
-        <p class="bottom-text"><a href="#">forget password</a></p>
+        <p class="bottom-text"><a href="#" onclick="redirectToForgetPassword()">forget password</a></p>
     </div>
     <a href="/login_owner"><button class="dormitory-owner-btn" style="display: block; margin: auto; margin-top: 20px;">Dormitory Owner</button></a>
     </div>
+
+    <script>
+        function redirectToForgetPassword() {
+            let loginValue = document.getElementById("login").value; // Get login value
+            let rolesValue = document.getElementById("roles").value; // Get roles value
+            window.location.href = `/reset_password?login=${encodeURIComponent(loginValue)}&roles=${encodeURIComponent(rolesValue)}`;
+        }
+    </script>
 
 </body>
 </html>
