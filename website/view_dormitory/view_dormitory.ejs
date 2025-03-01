@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dormitory Management</title>
+    <link rel="stylesheet" href="view_dormitory.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#">Select dormitory</a></li>
+                    <li><a href="#">Add dormitory</a></li>
+                    <li><a href="#" class="active">View dormitory</a></li>
+                    <li><a href="#">Chat dormitory</a></li>
+                    <li><a href="#">reserve date</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header>
+                <h1>Welcome, <%= username %></h1>
+                <div class="header-right">
+                    <button class="notification-btn" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="logout-btn">Log out</button>
+                </div>
+            </header>
+
+            <!-- Main Section -->
+            <main>
+                <section class="content-box">
+                    <h2>View Dormitory</h2>
+                
+                    <!-- อันดับหอพัก -->
+                    <div class="ranking-section">
+                        <h3>Ranking:</h3>
+                        <table class="ranking-table">
+                            <tr>
+                                <th>Rank</th>
+                                <th>Dormitory Name</th>
+                                <th>Rating</th>
+                            </tr>
+                            <% rankings.forEach((dorm, index) => { %>
+                                <tr>
+                                    <td><%= index + 1 %></td>
+                                    <td><%= dorm.name %></td>
+                                    <td><%= dorm.rating %></td>
+                                </tr>
+                            <% }); %>
+                        </table>
+                    </div>
+                
+                    <!-- คะแนนของหอพักที่เลือก -->
+                    <div class="point-rating">
+                        <h3>Rating:</h3>
+                        <div class="rating-value"><%= dormitory.rating %></div>
+                    </div>
+                </section>
+                
+            </main>
+        </div>
+    </div>
+</body>
+</html>
