@@ -44,7 +44,7 @@ app.get('/home', function (req, res) {
         GROUP BY r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
         ORDER BY avg_Rating DESC
         LIMIT 4;
-    `;
+    `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด และเลี้ยงสัตว์ได้
     // all มีผลกลับมา run ไม่มีผลกลับมา
     db.all(query, (err, rows) => {
       if (err) {
@@ -64,6 +64,35 @@ app.get('/home', function (req, res) {
        });
     });
   });
+
+  app.get('/Show_data', function (req, res) {
+    let sql = `
+    SELECT * 
+    FROM rental_data rd
+    LEFT JOIN rental_price rp ON rd.Rental_ID = rp.Rental_ID
+    LEFT JOIN review rv ON rd.Rental_ID = rv.Rental_ID
+    LEFT JOIN facility fa ON rd.Rental_ID = fa.Rental_ID
+    WHERE rd.Rental_ID = ${req.query.Rental_ID}
+    `;
+    console.log(sql);
+    db.all(sql, (err, rows) => {
+        if (err) {
+            console.log(err.message);
+            res.status(500).send("Database error!"); // เพิ่มกรณี error
+            return;
+        }
+        if (rows && rows.length > 0 && rows[0].Photo) {  // ใช้ rows แทน result
+            let images = rows[0].Gallery.split(",");
+            console.log("Images:", images);
+            res.render("Show_data", { data: rows, images: images });
+        } else {
+            console.log("No data found or Gallery column is empty.");
+            console.log("Images: []");
+            res.render("Show_data", { data: rows, images: [] });  // ส่ง array ว่างถ้าไม่มีข้อมูล
+        }
+        console.log(rows);
+    });
+});
 
 app.listen(port, () => {
     console.log(`Starting node.js at port ${port}`);
