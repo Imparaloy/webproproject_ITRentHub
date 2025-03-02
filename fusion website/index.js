@@ -298,61 +298,6 @@ app.post('/reset_password', async function (req, res) {
   });
 });
 
-app.get('/select_dormitory', (req, res) => {
-    if (!req.session.user) {
-        return res.redirect('/login');
-    }
-
-    const userId = req.session.user.User_ID;
-
-    db.get('SELECT User_Name FROM account WHERE User_ID = ?', [userId], (err, user) => {
-        if (err) {
-            console.error(err.message);
-            return res.status(500).send("Internal Server Error");
-        }
-
-        const username = user ? user.User_Name : 'Guest';
-
-        db.all('SELECT * FROM dormitory WHERE User_ID = ?', [userId], (err, dormitories) => {
-            if (err) {
-                console.error(err.message);
-                return res.status(500).send("Internal Server Error");
-            }
-
-            if (dormitories.length === 0) {
-                return res.render('no_dormitory', { username });
-            }
-
-            res.render('select_dormitory', { username, dormitories });
-        });
-    });
-});
-
-app.get('/add', (req, res) => {
-    if (!req.session.user) {
-        return res.redirect('/login');
-    }
-
-    res.render('add_dormitory', { username: req.session.user.User_Name });
-});
-
-app.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            return res.redirect('/select_dormitory');
-        }
-        res.redirect('/login');
-    });
-});
-
-app.get('/notifications', (req, res) => {
-    if (!req.session.user) {
-        return res.redirect('/login');
-    }
-
-    res.render('notifications', { username: req.session.user.User_Name });
-});
-
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
