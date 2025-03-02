@@ -300,17 +300,17 @@ app.post('/reset_password', async function (req, res) {
 //-------reserve user-------
 
 
-// สร้างตาราง reservations หากยังไม่มี
-db.run(`CREATE TABLE IF NOT EXISTS reservations (
-  Reservation_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  Rental_ID INTEGER NOT NULL,
-  Name TEXT NOT NULL,
-  Phone TEXT NOT NULL,
-  Date TEXT NOT NULL,
-  Time TEXT NOT NULL,
-  Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (Rental_ID) REFERENCES rental_data (Rental_ID)
-)`);
+// // สร้างตาราง reservations หากยังไม่มี
+// db.run(`CREATE TABLE IF NOT EXISTS reservations (
+//   Reservation_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+//   Rental_ID INTEGER NOT NULL,
+//   Name TEXT NOT NULL,
+//   Phone TEXT NOT NULL,
+//   Date TEXT NOT NULL,
+//   Time TEXT NOT NULL,
+//   Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//   FOREIGN KEY (Rental_ID) REFERENCES rental_data (Rental_ID)
+// )`);
 
 // แสดงหน้า Reserve Date
 app.get('/reserve', (req, res) => {
