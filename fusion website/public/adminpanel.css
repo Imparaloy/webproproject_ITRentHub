@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --------- Navbar --------- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d1d5db;
+    padding: 1rem;
+    border-radius: 50px;
+    margin: 1rem;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-left: 1rem;
+}
+
+.nav-links a {
+    color: black;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #374151;
+}
+
+.username {
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+/* --------- Admin Panel Layout --------- */
+.admin-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 1.5rem;
+}
+
+.admin-panel {
+    width: 80%;
+    background-color: #e5e7eb;
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* --------- Rental Table --------- */
+.rental-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.rental-table th, .rental-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.rental-table th {
+    background-color: #9ca3af;
+    color: white;
+    font-weight: bold;
+}
+
+.rental-table tbody tr:hover {
+    background-color: #f3f4f6;
+}
+
+/* --------- Footer --------- */
+footer {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 2rem;
+    padding-bottom: 1rem;
+}
