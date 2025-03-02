@@ -1,12 +1,9 @@
 const express = require('express');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
-const helmet = require('helmet');
-
 const app = express();
 const port = 3000;
 
-app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -32,7 +29,7 @@ app.get('/dormitory', (req, res) => {
     }
 
     // ดึงชื่อผู้ใช้จากฐานข้อมูล
-    db.get('SELECT name FROM users WHERE id = ?', [userId], (err, user) => {
+    db.get('SELECT name FROM users WHERE User_ID = ?', [userId], (err, user) => {
         if (err) {
             return res.status(500).send('Database query error');
         }
