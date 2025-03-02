@@ -299,5 +299,5 @@ app.post('/reset_password', async function (req, res) {
 });
 
 app.listen(port, () => {
-  console.log(`Starting node.js at port ${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
