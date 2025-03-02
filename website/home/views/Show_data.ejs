@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail <%=data[0].Rental_Name%></title>
+    <link rel="stylesheet" href="Show_data_styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <span class="logo">ITRentHub</span>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Apartment</a>
+            <a href="#">About Us</a>
+        </div>
+        <a href="#" class="login">Log in</a>
+    </nav>
+
+    <section class="apartment-detail">
+        <div class="header">
+            <h1><%=data[0].Rental_Name%></h1>
+            <div class="rental-rate">
+                <p>rental rate :</p>
+                <h2><%=data[0].Rental_price%> <span>THB/Month</span></h2>
+            </div>
+        </div>
+    
+        <div class="tabs">
+            <p>Gallery</p>
+            <p>Location</p>
+        </div>
+    
+        <div class="gallery">
+            <div class="main-image-container">
+                <button class="arrow left-arrow">&#8249;</button>
+                <img src="/home_img/<%= images[0] %>" class="main-image" id="mainImage" alt="Main Image">
+                <button class="arrow right-arrow">&#8250;</button>
+            </div>
+            <div class="thumbnail-row">
+                <% images.forEach((img, index) => { %>
+                    <img src="/home_img/<%= img %>" class="thumbnail" onclick="changeImage('/home_img/<%= img %>')" alt="Thumbnail <%= index + 1 %>">
+                <% }); %>
+            </div>
+        </div>
+    
+        <div class="container">
+            <div class="detail-section">
+                <h3>Detail :</h3>
+                <div class="detail-text">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </div>
+            </div>
+            <div class="text-section">
+                <div class="text-box">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; ITRentHub 2025
+    </footer>
+</body>
+<script>
+    const mainImage = document.getElementById("mainImage");
+    const thumbnails = document.querySelectorAll(".thumbnail");
+    const images = <%- JSON.stringify(images) %>;
+    console.log(images);
+    let currentIndex = 0;
+
+    function changeImage(src) {
+        mainImage.src = src;
+        thumbnails.forEach((thumb, index) => {
+            thumb.classList.remove("active");
+            if (thumb.src.includes(src)) {
+                currentIndex = index;
+                thumb.classList.add("active");
+            }
+        });
+    }
+
+    function changeImageByArrow(direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) currentIndex = images.length - 1;
+        if (currentIndex >= images.length) currentIndex = 0;
+        mainImage.src = "/home_img/" + images[currentIndex]; // แก้ไขตรงนี้
+        updateActiveThumbnail();
+    }
+
+    function updateActiveThumbnail() {
+        thumbnails.forEach((thumb, index) => {
+            thumb.classList.remove("active");
+            if (index === currentIndex) {
+                thumb.classList.add("active");
+            }
+        });
+    }
+
+    document.querySelector(".left-arrow").onclick = () => changeImageByArrow(-1);
+    document.querySelector(".right-arrow").onclick = () => changeImageByArrow(1);
+
+    changeImage("/home_img/" + images[0]);
+</script>
+</html>
