@@ -66,31 +66,62 @@ app.get('/home', function (req, res) {
   });
 
   app.get('/Show_data', function (req, res) {
-    let sql = `
-    SELECT * 
-    FROM rental_data rd
-    LEFT JOIN rental_price rp ON rd.Rental_ID = rp.Rental_ID
-    LEFT JOIN review rv ON rd.Rental_ID = rv.Rental_ID
-    LEFT JOIN facility fa ON rd.Rental_ID = fa.Rental_ID
-    WHERE rd.Rental_ID = ${req.query.Rental_ID}
+    let rentalId = req.query.Rental_ID;
+
+    // Query หลักสำหรับข้อมูล rental, price, review, facility
+    let mainSql = `
+        SELECT * FROM rental_data rd
+        LEFT JOIN rental_price rp ON rd.Rental_ID = rp.Rental_ID
+        LEFT JOIN review rv ON rd.Rental_ID = rv.Rental_ID
+        LEFT JOIN facility fa ON rd.Rental_ID = fa.Rental_ID
+        WHERE rd.Rental_ID = ${rentalId}
     `;
-    console.log(sql);
-    db.all(sql, (err, rows) => {
+
+    // Query สำหรับข้อมูล room_data
+    let roomSql = `
+        SELECT * FROM room_data rm
+        WHERE rm.Rental_ID = ${rentalId}
+    `;
+
+    db.all(mainSql, (err, mainRows) => {
         if (err) {
             console.log(err.message);
-            res.status(500).send("Database error!"); // เพิ่มกรณี error
+            res.status(500).send("Database error!");
             return;
         }
-        if (rows && rows.length > 0 && rows[0].Photo) {  // ใช้ rows แทน result
-            let images = rows[0].Gallery.split(",");
-            console.log("Images:", images);
-            res.render("Show_data", { data: rows, images: images });
-        } else {
-            console.log("No data found or Gallery column is empty.");
-            console.log("Images: []");
-            res.render("Show_data", { data: rows, images: [] });  // ส่ง array ว่างถ้าไม่มีข้อมูล
-        }
-        console.log(rows);
+
+        db.all(roomSql, (err, roomRows) => {
+            if (err) {
+                console.log(err.message);
+                res.status(500).send("Database error!");
+                return;
+            }
+
+            // ดึงข้อมูล facility
+            let facilitySql = `SELECT * FROM facility WHERE Rental_ID = ${rentalId}`;
+            db.get(facilitySql, (err, facilityRow) => {
+                if (err) {
+                    console.log(err.message);
+                    res.status(500).send("Database error!");
+                    return;
+                }
+
+                const description = mainRows[0].Description.replace(/\n/g, '<br>');
+                let images = mainRows[0].Gallery ? mainRows[0].Gallery.split(",") : [];
+
+                res.render("Show_data", { 
+                    data: mainRows, 
+                    images: images, 
+                    description: description, 
+                    rooms: roomRows,
+                    facility: facilityRow // ส่งข้อมูล facility ไปยัง template
+                });
+
+                console.log("Main Rows:", mainRows);
+                console.log("Room Rows:", roomRows);
+                console.log("Facility Row:", facilityRow);
+            });
+        });
     });
 });
 
