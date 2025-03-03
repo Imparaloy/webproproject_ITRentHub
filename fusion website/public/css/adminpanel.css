@@ -87,6 +87,20 @@
     background-color: #f3f4f6;
 }
 
+select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+
 /* --------- Footer --------- */
 footer {
     text-align: center;

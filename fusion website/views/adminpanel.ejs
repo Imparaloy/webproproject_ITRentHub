@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITRentHub - Admin Panel</title>
-    <link rel="stylesheet" href="/adminpanel.css">
+    <link rel="stylesheet" href="../public/css/adminpanel.css">
 </head>
 <body>
     <nav class="navbar">
@@ -15,7 +15,6 @@
             <a href="/about">About Us</a>
             <a href="/admin">Admin Panel</a>
         </div>
-        <span class="username"><%= username %></span>
     </nav>
 
     <h1 class="admin-title">Admin Panel</h1>
@@ -37,10 +36,20 @@
                         <td><%= rental.id %></td>
                         <td><%= rental.name %></td>
                         <td><%= rental.type %></td>
-                        <td><%= rental.status %></td>
+                        <td>
+                            <form action="/update-status" method="POST">
+                                <input type="hidden" name="rentalId" value="<%= rental.id %>">
+                                <select name="status" onchange="this.form.submit()">
+                                    <option value="Pending" <%= rental.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                    <option value="Approved" <%= rental.status === 'Approved' ? 'selected' : '' %>>Approved</option>
+                                    <option value="Rejected" <%= rental.status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+                                </select>
+                            </form>
+                        </td>
                     </tr>
                 <% }); %>
             </tbody>
+            
         </table>
     </div>
 
