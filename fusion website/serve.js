@@ -19,7 +19,7 @@ let db = new sqlite3.Database("itrentalhub_null.db", (err) => {
 
 app.get("/admin", function (req, res) {
     let sql = `
-    SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Status AS status
+    SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Approved AS status
     FROM rental_data`;
     
     db.all(sql, [], (err, rows) => {
@@ -36,7 +36,7 @@ app.get("/admin", function (req, res) {
 app.post("/update-status", (req, res) => {
     const { rentalId, status } = req.body;
     
-    let sql = `UPDATE rental_data SET status = ? WHERE Rental_ID = ?`;
+    let sql = `UPDATE rental_data SET Approved = ? WHERE Rental_ID = ?`;
     db.run(sql, [status, rentalId], function (err) {
         if (err) {
             return res.status(500).send("Database update error!");
