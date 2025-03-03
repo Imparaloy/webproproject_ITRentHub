@@ -16,9 +16,10 @@ let db = new sqlite3.Database("itrentalhub_null.db", (err) => {
     console.log("Connected to the SQlite database.");
 });
 
+
 app.get("/admin", function (req, res) {
     let sql = `
-    SELECT Rental_ID AS id, Rental_Name AS name, Type AS type
+    SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Status AS status
     FROM rental_data`;
     
     db.all(sql, [], (err, rows) => {
@@ -32,17 +33,17 @@ app.get("/admin", function (req, res) {
     });
 });
 
-// app.post("/update-status", (req, res) => {
-//     const { rentalId, status } = req.body;
+app.post("/update-status", (req, res) => {
+    const { rentalId, status } = req.body;
     
-//     let sql = `UPDATE rental_data SET status = ? WHERE Rental_ID = ?`;
-//     db.run(sql, [status, rentalId], function (err) {
-//         if (err) {
-//             return res.status(500).send("Database update error!");
-//         }
-//         res.redirect("/admin");
-//     });
-// });
+    let sql = `UPDATE rental_data SET status = ? WHERE Rental_ID = ?`;
+    db.run(sql, [status, rentalId], function (err) {
+        if (err) {
+            return res.status(500).send("Database update error!");
+        }
+        res.redirect("/admin");
+    });
+});
 
 app.listen(3000, () => {
     console.log("Server is running on http://localhost:3000");
