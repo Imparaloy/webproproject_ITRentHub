@@ -31,7 +31,7 @@ app.get("/admin", function (req, res) {
             return;
         }
         
-        res.render("adminpanel", { rentals: rows , username: username });
+        res.render("admin/adminpanel", { rentals: rows , username: username });
     });
 });
 
@@ -46,6 +46,10 @@ app.post("/update-status", (req, res) => {
         res.redirect("/admin");
     });
 });
+
+// owner zone
+
+
 
 app.listen(3000, () => {
     console.log("Server is running on http://localhost:3000");

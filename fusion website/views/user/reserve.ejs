@@ -5,8 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserve Date</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="/css/reserve.css">
 </head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    /* --------- Navbar --------- */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #d1d5db;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        margin: 1.5rem auto;
+        max-width: 80%;
+    }
+    
+    .logo {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+    }
+    
+    .nav-links a {
+        color: black;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .nav-links a:hover {
+        color: #374151;
+    }
+    
+    .username {
+        font-weight: bold;
+    }
+    
+    /* --------- Heading --------- */
+    h2 {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 1.5rem;
+    }
+    
+    /* --------- Form Container --------- */
+    form {
+        background-color: #d3d3d3;
+        width: 80%;
+        max-width: 700px;
+        padding: 30px;
+        margin: 30px auto;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* --------- Labels & Inputs --------- */
+    label {
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+    
+    input {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 15px;
+        background-color: white;
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
+    /* --------- Date & Time Inputs --------- */
+    .date-time {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .date-time label {
+        width: 48%;
+    }
+    
+    .date-time input {
+        width: 100%;
+    }
+    
+    /* --------- Button --------- */
+    button {
+        background-color: black;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+    }
+    
+    button:hover {
+        background-color: #444;
+    }
+    
+    /* --------- Footer --------- */
+    footer {
+        text-align: center;
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-top: 2rem;
+        padding-bottom: 1rem;
+    }
+    
+</style>
 <body>
     <nav class="navbar">
         <span class="logo">ITRentHub</span>
@@ -39,6 +158,6 @@
         &copy; ITRentHub 2025
     </footer>
 
-    <script src="/js/reserve.js"></script>
+    <script src="/reserve.js"></script>
 </body>
 </html>

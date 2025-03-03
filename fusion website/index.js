@@ -43,19 +43,19 @@ app.get("/", (req, res) => {
 });
 
 app.get('/register', function (req, res) {
-    res.render("register", { message: null, formdata: null });
+    res.render("register/register", { message: null, formdata: null });
 });
 
 app.get('/register_owner', function (req, res) {
-  res.render("register_owner", { message: null, formdata: null });
+  res.render("register/register_owner", { message: null, formdata: null });
 });
 
 app.get('/login', function (req, res) {
-  res.render("login", { message: null, formdata: null });
+  res.render("login/login", { message: null, formdata: null });
 });
 
 app.get('/login_owner', function (req, res) {
-res.render("login_owner", { message: null, formdata: null });
+res.render("login/login_owner", { message: null, formdata: null });
 });
 
 app.get('/reset_password', function (req, res) {
@@ -63,12 +63,12 @@ app.get('/reset_password', function (req, res) {
   let rolesValue = req.query.roles;
   if (loginValue == '') {
     if (rolesValue == "owner") {
-      return res.render("login_owner", { message: "Enter your Username or Email", formdata: null });
+      return res.render("login/login_owner", { message: "Enter your Username or Email", formdata: null });
     } else {
-      return res.render("login", { message: "Enter your Username or Email", formdata: null });
+      return res.render("login/login", { message: "Enter your Username or Email", formdata: null });
     }
   }
-  res.render("forgetpw", { message: null, formdata: { login: loginValue, roles: rolesValue } });
+  res.render("login/forgetpw", { message: null, formdata: { login: loginValue, roles: rolesValue } });
 });
 
 // ตัว show แค่เช็คว่ามีค่ามาแล้วจริง ADMIN เท่านั้นที่ควรดูได้
@@ -80,7 +80,7 @@ app.get('/show', function (req, res) {
       console.log(err.message);
     }
   //   console.log(rows);
-    res.render('show', { data : rows });
+    res.render('login/show', { data : rows });
   });
 });
 
@@ -118,7 +118,7 @@ app.post('/register', function (req, res) {
 
     if (formdata.password !== formdata.cpassword) {
       // ถ้ารหัส กับ ตัวเช็คไม่ตรงกันให้ส่งไปพิมพ์ใหม่
-      return res.render("register", { message: "Passwords do not match!", formdata });
+      return res.render("register/register", { message: "Passwords do not match!", formdata });
     }
 
     let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
@@ -131,7 +131,7 @@ app.post('/register', function (req, res) {
 
         if (row) {
             // If a user with the same username or email is found go back to register
-            return res.render("register", { message: "Username or Email already exists!", formdata });
+            return res.render("register/register", { message: "Username or Email already exists!", formdata });
 
         }
 
@@ -164,7 +164,7 @@ app.post('/register_owner', function (req, res) {
 
   if (formdata.password !== formdata.cpassword) {
     // ถ้ารหัส กับ ตัวเช็คไม่ตรงกันให้ส่งไปพิมพ์ใหม่
-    return res.render("register_owner", { message: "Passwords do not match!", formdata });
+    return res.render("register/register_owner", { message: "Passwords do not match!", formdata });
   }
 
   let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
@@ -177,7 +177,7 @@ app.post('/register_owner', function (req, res) {
 
       if (row) {
           // If a user with the same username or email is found go back to register_owner
-          return res.render("register_owner", { message: "Username or Email already exists!", formdata });
+          return res.render("register/register_owner", { message: "Username or Email already exists!", formdata });
 
       }
 
@@ -204,11 +204,11 @@ app.post('/login', async (req, res) => {
   db.get(sql, [login, login], async (err, user) => { 
     if (err) {
       console.error(err);
-      return res.render("login", { message: "Database error", formdata: { login } });
+      return res.render("login/login", { message: "Database error", formdata: { login } });
     }
 
     if (!user) {
-      return res.render("login", { message: "Renter account not found ", formdata: { login } });
+      return res.render("login/login", { message: "Renter account not found ", formdata: { login } });
     }
 
     try {
@@ -221,11 +221,11 @@ app.post('/login', async (req, res) => {
         }
         res.redirect('/protected'); // Redirect to protected route
       } else {
-        res.render('login', { message: 'Password incorrect', formdata: { login } }); // Render login.ejs with error
+        res.render('login/login', { message: 'Password incorrect', formdata: { login } }); // Render login.ejs with error
       }
     } catch (bcryptErr) {
       console.error(bcryptErr);
-      return res.render("login", { message: "Authentication error", formdata: { login } });
+      return res.render("login/login", { message: "Authentication error", formdata: { login } });
     }
   });
 });
@@ -237,11 +237,11 @@ app.post('/login_owner', async (req, res) => {
   db.get(sql, [login, login], async (err, owner) => {
     if (err) {
       console.error(err);
-      return res.render("login_owner", { message: "Database error", formdata: { login } });
+      return res.render("login/login_owner", { message: "Database error", formdata: { login } });
     }
 
     if (!owner) {
-      return res.render("login_owner", { message: "Owner account not found ", formdata: { login } });
+      return res.render("login/login_owner", { message: "Owner account not found ", formdata: { login } });
     }
 
     try {
@@ -254,11 +254,11 @@ app.post('/login_owner', async (req, res) => {
         }
         res.redirect('/protected_owner'); // Redirect to protected route
       } else {
-        res.render("login_owner", { message: 'Password incorrect', formdata: { login } }); // Render login.ejs with error
+        res.render("login/login_owner", { message: 'Password incorrect', formdata: { login } }); // Render login.ejs with error
       }
     } catch (bcryptErr) {
       console.error(bcryptErr);
-      return res.render("login_owner", { message: "Authentication error", formdata: { login } });
+      return res.render("login/login_owner", { message: "Authentication error", formdata: { login } });
     }
   });
 });
@@ -268,7 +268,7 @@ app.post('/reset_password', async function (req, res) {
   let { login, roles, password, cpassword } = req.body;
 
   if (password !== cpassword) {
-    return res.render("forgetpw", { message: "Passwords do not match!", formdata: { login, roles } });
+    return res.render("login/forgetpw", { message: "Passwords do not match!", formdata: { login, roles } });
   }
 
   let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
@@ -302,7 +302,8 @@ app.post('/reset_password', async function (req, res) {
 
 // แสดงหน้า Reserve Date
 app.get('/reserve', (req, res) => {
-  res.render('reserve');
+  const username = req.session.user
+  res.render('user/reserve', {username: username} );
 });
 
 // เพิ่มข้อมูลการจองลงในฐานข้อมูล
@@ -342,7 +343,7 @@ app.get("/admin", function (req, res) {
           return;
       }
       
-      res.render("adminpanel", { rentals: rows , username: username });
+      res.render("admin/adminpanel", { rentals: rows , username: username });
   });
 });
 
