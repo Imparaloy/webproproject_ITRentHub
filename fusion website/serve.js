@@ -9,7 +9,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let db = new sqlite3.Database("itrentalhub_null.db", (err) => {
+let db = new sqlite3.Database("itrentalhub.db", (err) => {
     if (err) {
         return console.error(err.message);
     }
@@ -21,6 +21,8 @@ app.get("/admin", function (req, res) {
     let sql = `
     SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Approved AS status
     FROM rental_data`;
+
+    const username = req.session.user
     
     db.all(sql, [], (err, rows) => {
         if (err) {
@@ -29,7 +31,7 @@ app.get("/admin", function (req, res) {
             return;
         }
         
-        res.render("adminpanel", { rentals: rows });
+        res.render("adminpanel", { rentals: rows , username: username });
     });
 });
 

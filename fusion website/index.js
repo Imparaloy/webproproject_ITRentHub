@@ -300,18 +300,6 @@ app.post('/reset_password', async function (req, res) {
 //-------reserve user-------
 
 
-// // สร้างตาราง reservations หากยังไม่มี
-// db.run(`CREATE TABLE IF NOT EXISTS reservations (
-//   Reservation_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-//   Rental_ID INTEGER NOT NULL,
-//   Name TEXT NOT NULL,
-//   Phone TEXT NOT NULL,
-//   Date TEXT NOT NULL,
-//   Time TEXT NOT NULL,
-//   Created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//   FOREIGN KEY (Rental_ID) REFERENCES rental_data (Rental_ID)
-// )`);
-
 // แสดงหน้า Reserve Date
 app.get('/reserve', (req, res) => {
   res.render('reserve');
@@ -337,6 +325,40 @@ app.get('/reserve', (req, res) => {
 });
 
 //------end reserve user------
+
+
+// admin
+app.get("/admin", function (req, res) {
+  let sql = `
+  SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Approved AS status
+  FROM rental_data`;
+
+  const username = req.session.user
+  
+  db.all(sql, [], (err, rows) => {
+      if (err) {
+          console.log(err.message);
+          res.status(500).send("Database error!");
+          return;
+      }
+      
+      res.render("adminpanel", { rentals: rows , username: username });
+  });
+});
+
+app.post("/update-status", (req, res) => {
+  const { rentalId, status } = req.body;
+  
+  let sql = `UPDATE rental_data SET Approved = ? WHERE Rental_ID = ?`;
+  db.run(sql, [status, rentalId], function (err) {
+      if (err) {
+          return res.status(500).send("Database update error!");
+      }
+      res.redirect("/admin");
+  });
+});
+
+//---- end admin ----
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

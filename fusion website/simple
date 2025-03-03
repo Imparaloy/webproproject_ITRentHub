@@ -18,9 +18,9 @@ VALUES
 INSERT INTO rental_data (Rental_ID, User_ID, Rental_Name, Type, Description, Phone_number, Line_ID, Location, Photo)
 VALUES 
 ('R001', 'U001', 'Sunny Apartment', 'Apartment', 'A cozy apartment in the city center.', '1234567890', 'sunny_apt', '123 Main St, City', 'sunny.jpg'),
-('R002', 'U002', 'Green Villa', 'Villa', 'A spacious villa with a garden.', '2345678901', 'green_villa', '456 Elm St, City', 'green.jpg'),
-('R003', 'U003', 'Blue House', 'House', 'A modern house near the beach.', '3456789012', 'blue_house', '789 Beach Rd, City', 'blue.jpg'),
-('R004', 'U004', 'Red Condo', 'Condo', 'A luxurious condo with a great view.', '4567890123', 'red_condo', '101 Skyline Ave, City', 'red.jpg');
+('R002', 'U002', 'Green Dormitory', 'Dormitory', 'A spacious Dormitory with a garden.', '2345678901', 'green_Dormitory', '456 Elm St, City', 'green.jpg'),
+('R003', 'U003', 'Blue Dormitory', 'Dormitory', 'A modern Dormitory near the beach.', '3456789012', 'blue_Dormitory', '789 Beach Rd, City', 'blue.jpg'),
+('R004', 'U004', 'Red Apartment', 'Apartment', 'A luxurious Apartment with a great view.', '4567890123', 'red_Apartment', '101 Skyline Ave, City', 'red.jpg');
 
 -- ตาราง rental_price
 INSERT INTO rental_price (Rental_ID, rental_price, advance_payment, electric_price, water_price, service_price, phone_price, internet_price)
@@ -33,10 +33,33 @@ VALUES
 -- ตาราง review
 INSERT INTO review (Rental_ID, User_ID, Rating, Comment)
 VALUES 
+-- รีวิวสำหรับ R001
 ('R001', 'U001', 4.5, 'Great place to live, very convenient location.'),
-('R002', 'U002', 4.7, 'Beautiful villa with a lovely garden.'),
-('R003', 'U003', 4.6, 'Amazing house close to the beach.'),
-('R004', 'U004', 4.8, 'Luxurious condo with stunning views.');
+('R001', 'U002', 4.3, 'Clean and well-maintained apartment.'),
+('R001', 'U003', 4.7, 'Friendly staff and good facilities.'),
+('R001', 'U004', 4.6, 'Close to public transportation and shops.'),
+('R001', 'U005', 4.4, 'Quiet and peaceful environment.'),
+
+-- รีวิวสำหรับ R002
+('R002', 'U001', 4.7, 'Beautiful Dormitory with a lovely garden.'),
+('R002', 'U002', 4.8, 'Spacious rooms and great amenities.'),
+('R002', 'U003', 4.6, 'Perfect for students, close to campus.'),
+('R002', 'U004', 4.5, 'Affordable and comfortable.'),
+('R002', 'U005', 4.9, 'Highly recommended for long stays.'),
+
+-- รีวิวสำหรับ R003
+('R003', 'U001', 4.6, 'Amazing Dormitory close to the beach.'),
+('R003', 'U002', 4.5, 'Great view and relaxing atmosphere.'),
+('R003', 'U003', 4.7, 'Clean rooms and friendly environment.'),
+('R003', 'U004', 4.8, 'Perfect for beach lovers.'),
+('R003', 'U005', 4.4, 'Affordable price for the location.'),
+
+-- รีวิวสำหรับ R004
+('R004', 'U001', 4.8, 'Luxurious Apartment with stunning views.'),
+('R004', 'U002', 4.9, 'Top-notch facilities and services.'),
+('R004', 'U003', 4.7, 'Modern design and comfortable living.'),
+('R004', 'U004', 4.6, 'Great for families and professionals.'),
+('R004', 'U005', 4.5, 'Excellent security and maintenance.');
 
 -- ตาราง room_data
 INSERT INTO room_data (Rental_ID, Room_ID, Room_Name, Room_Type, Size, Monthly_Rental, Room_Status, Number_Available_Room)
