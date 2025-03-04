@@ -113,7 +113,11 @@
                             <td><%= rm.Size %> sq.m.</td>
                             <td><%= rm.Monthly_Rental %> THB</td>
                             <td><%= rm.Number_Available_Room %> Room</td>
-                            <td><span class="status available">Available</span></td>
+                            <td>
+                                <span class="status <%= rm.Room_Status == 1 ? 'not-available' : 'available' %>">
+                                    <%= rm.Room_Status == 1 ? 'Not Available' : 'Available' %>
+                                </span>
+                            </td>
                             <td><button class="reserve-btn">reserve</button></td>
                         </tr>
                     <% }) %>
@@ -151,14 +155,25 @@
         <h3>Guest Review</h3>
         <div class="review-header">
             <div class="score">
-                <span class="score-value">10.0</span>
+                <span class="score-value"><%= averageRating %></span>
                 <span class="score-text">score</span>
             </div>
             <button class="write-review-btn">write review</button>
         </div>
         <div class="review-list">
-            <div class="review-box"></div>
-            <div class="review-box"></div>
+            <% reviews.forEach(review => { %>
+                <div class="review-box">
+                    <div class="review-user">
+                        <%= review.User_Name %>:
+                    </div>
+                    <div class="review-content">
+                        "<%= review.Comment %>"
+                    </div>
+                    <div class="review-score">
+                        score: <%= review.Rating %>.0
+                    </div>
+                </div>
+            <% }) %>
         </div>
     </section>
 
