@@ -337,12 +337,12 @@ app.get('/reserve', (req, res) => {
 
 
 // admin
-app.get("home/admin", function (req, res) {
+app.get("/admin", function (req, res) {
   let sql = `
   SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Approved AS status
   FROM rental_data`;
 
-  const username = req.session.user
+  const username = req.session.user;
   
   db.all(sql, [], (err, rows) => {
       if (err) {
@@ -370,8 +370,8 @@ app.post("/update-status", (req, res) => {
 //---- end admin ----
 
 //---- home ----
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ตัว show แค่เช็คว่ามีค่ามาแล้วจริง ADMIN เท่านั้นที่ควรดูได้
 app.get('/home', function (req, res) {
@@ -506,7 +506,7 @@ app.get('/Show_data', function (req, res) {
                         const description = mainRows[0].Description.replace(/\n/g, '<br>');
                         let images = mainRows[0].Gallery ? mainRows[0].Gallery.split(",") : [];
 
-                        res.render("../home/Show_data", { 
+                        res.render("home/Show_data", { 
                             data: mainRows, 
                             images: images, 
                             description: description, 
