@@ -65,7 +65,26 @@ app.get('/home', function (req, res) {
     });
   });
 
-  app.get('/Show_data', function (req, res) {
+  app.get('/search', (req, res) => {
+    const searchTerm = req.query.q;
+    const sql = `
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+        FROM rental_data r
+        JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+        WHERE r.Rental_Name LIKE '%${searchTerm}%'
+    `;
+
+    db.all(sql, (err, rows) => {
+        if (err) {
+            console.log(err.message);
+            res.status(500).send("Database error!");
+            return;
+        }
+        res.json(rows); // Send results as JSON
+    });
+});
+
+app.get('/Show_data', function (req, res) {
     let rentalId = req.query.Rental_ID;
 
     // Query หลักสำหรับข้อมูล rental, price, review, facility
@@ -106,20 +125,53 @@ app.get('/home', function (req, res) {
                     return;
                 }
 
-                const description = mainRows[0].Description.replace(/\n/g, '<br>');
-                let images = mainRows[0].Gallery ? mainRows[0].Gallery.split(",") : [];
+                // ดึงค่าเฉลี่ยของ Rating
+                let averageRatingSql = `
+                    SELECT AVG(Rating) AS averageRating
+                    FROM review
+                    WHERE Rental_ID = ${rentalId}
+                `;
+                db.get(averageRatingSql, (err, averageRatingRow) => {
+                    if (err) {
+                        console.log(err.message);
+                        res.status(500).send("Database error!");
+                        return;
+                    }
 
-                res.render("Show_data", { 
-                    data: mainRows, 
-                    images: images, 
-                    description: description, 
-                    rooms: roomRows,
-                    facility: facilityRow // ส่งข้อมูล facility ไปยัง template
+                    // ดึงข้อมูล reviews พร้อม User_Name
+                    let reviewsSql = `
+                        SELECT r.*, a.User_Name
+                        FROM review r
+                        LEFT JOIN account a ON r.User_ID = a.User_ID
+                        WHERE r.Rental_ID = ${rentalId}
+                    `;
+                    db.all(reviewsSql, (err, reviews) => {
+                        if (err) {
+                            console.log(err.message);
+                            res.status(500).send("Database error!");
+                            return;
+                        }
+
+                        const description = mainRows[0].Description.replace(/\n/g, '<br>');
+                        let images = mainRows[0].Gallery ? mainRows[0].Gallery.split(",") : [];
+
+                        res.render("Show_data", { 
+                            data: mainRows, 
+                            images: images, 
+                            description: description, 
+                            rooms: roomRows,
+                            facility: facilityRow,
+                            averageRating: averageRatingRow.averageRating ? averageRatingRow.averageRating.toFixed(1) : 'N/A',
+                            reviews: reviews // ส่งข้อมูล reviews พร้อม User_Name ไปยัง template
+                        });
+
+                        console.log("Main Rows:", mainRows);
+                        console.log("Room Rows:", roomRows);
+                        console.log("Facility Row:", facilityRow);
+                        console.log("Average Rating:", averageRatingRow);
+                        console.log("Reviews:", reviews);
+                    });
                 });
-
-                console.log("Main Rows:", mainRows);
-                console.log("Room Rows:", roomRows);
-                console.log("Facility Row:", facilityRow);
             });
         });
     });
