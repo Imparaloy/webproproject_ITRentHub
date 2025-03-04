@@ -45,42 +45,93 @@ app.get('/home', function (req, res) {
         ORDER BY avg_Rating DESC
         LIMIT 4;
     `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด และเลี้ยงสัตว์ได้
-    // all มีผลกลับมา run ไม่มีผลกลับมา
+    const query4 = `
+    SELECT name, name AS display_name  -- Use 'name' instead of 'column_name'
+    FROM pragma_table_info('facility')
+    WHERE name NOT IN ('Rental_ID')
+    `;
+
     db.all(query, (err, rows) => {
-      if (err) {
-        console.log(err.message);
-      }
-      db.all(query2, (err, topRatedRentals) => {
         if (err) {
             console.log(err.message);
         }
-        db.all(query3, (err, topRatedPetrentals) => {
+        db.all(query2, (err, topRatedRentals) => {
             if (err) {
                 console.log(err.message);
             }
-    //   console.log(rows);
-            res.render('home', { data : rows, topRatedRentals: topRatedRentals, topRatedPetrentals: topRatedPetrentals});
-          });
-       });
+            db.all(query3, (err, topRatedPetrentals) => {
+                if (err) {
+                    console.log(err.message);
+                }
+                db.all(query4, (err, facilities) => {
+                    if (err) {
+                        console.log(err.message);
+                    }
+                    // Make sure you are passing 'facilities' here:
+                    res.render('home', {
+                        data: rows,
+                        topRatedRentals: topRatedRentals,
+                        topRatedPetrentals: topRatedPetrentals,
+                        facilities: facilities 
+                    });
+                });
+            });
+        });
     });
-  });
+});
+
+app.get('/Apartment', function (req, res) {
+    const query = `
+        SELECT r.*, rp.Rental_price
+        FROM rental_data r
+        JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+    `;
+    const query4 = `
+        SELECT name, name AS display_name
+        FROM pragma_table_info('facility')
+        WHERE name NOT IN ('Rental_ID')
+    `;
+
+    db.all(query, (err, rows) => {
+        if (err) {
+            console.log(err.message);
+        }
+        db.all(query4, (err, facilities) => {
+            if (err) {
+                console.log(err.message);
+            }
+            res.render('Apartment', {
+                data: rows,
+                facilities: facilities
+            });
+        });
+    });
+});
 
   app.get('/search', (req, res) => {
     const searchTerm = req.query.q;
-    const sql = `
+    const facilities = req.query.facilities;
+    let sql = `
         SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+        LEFT JOIN facility f ON r.Rental_ID = f.Rental_ID
         WHERE r.Rental_Name LIKE '%${searchTerm}%'
     `;
 
+    if (facilities) {
+        const facilityList = facilities.split(',');
+        facilityList.forEach(facility => {
+            sql += ` AND f.${facility} = 1`;
+        });
+    }
+
     db.all(sql, (err, rows) => {
         if (err) {
-            console.log(err.message);
-            res.status(500).send("Database error!");
-            return;
+            console.error(err.message);
+            return res.status(500).json({ error: err.message });
         }
-        res.json(rows); // Send results as JSON
+        res.json(rows);
     });
 });
 
