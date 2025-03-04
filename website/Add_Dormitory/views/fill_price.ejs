@@ -1,0 +1,55 @@
+<%- include("head.ejs") %>
+
+<body>
+    <div class="container">
+        <%- include("sidebar.ejs") %>
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Card Section -->
+            <section class="card">
+                <h2>Add Dormitory</h2>
+                    <p>add dormitory price</p>
+                <form action="/insert_DormPrice" method="GET">
+                    <label>1. Advance payment :</label>
+                    <input type="text" name="Advance_payment" autocomplete="off" required placeholder="Int Only">
+                    <label>2. Electric price :</label>
+                    <input type="text" name="Electric_price" autocomplete="off" required placeholder="Number Only">
+                    <label>3. Water price :</label>
+                    <input type="text" name="Water_price" autocomplete="off" required placeholder="Number Only">
+                    <label>4. Service fee :</label>
+                    <input type="text" name="Service_price" autocomplete="off" required placeholder="Number Only">
+                    <label>5. Phone :</label>
+                    <input type="text" name="Phone_price" autocomplete="off" required placeholder="Number Only">
+                    <label>6. Internet :</label>
+                    <input type="text" name="Internet_price" autocomplete="off" required placeholder="Number Only">
+                    <button type="submit" value="Submit" id="submit">Submit</button>
+                </form>    
+        </main>
+    </div>
+
+    <style> 
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            margin-left: 15%;
+            text-align: left;
+        }
+
+        input {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 80%;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 5px 5px;
+            font-size: 16px;
+            width: 20%;
+            max-width: 20%;
+        }
+    </style>
+</body>
+</html>

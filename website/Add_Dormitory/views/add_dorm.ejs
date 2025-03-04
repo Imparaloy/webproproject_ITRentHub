@@ -1,0 +1,43 @@
+<%- include("head.ejs") %>
+
+<body>
+    <div class="container">
+        <%- include("sidebar.ejs") %>
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Card Section -->
+            <section class="card">
+                <form action="/insert_DormType" method="get">
+                    <h2>Add Dormitory</h2>
+                    <p>Select Property Type</p>
+                    <button class="property-btn" name="Rental_Type" value="Dormitory">Dormitory</button>
+                    <button class="property-btn" name="Rental_Type" value="Apartment">Apartment</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <style>
+        a {
+            text-decoration: none;
+        }
+        
+        .property-btn {
+            display: block;
+            width: 80%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            background-color: white;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .property-btn:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</body>
+</html>

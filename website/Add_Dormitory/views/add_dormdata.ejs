@@ -1,0 +1,63 @@
+<%- include("head.ejs") %>
+
+<body>
+    <div class="container">
+        <%- include("sidebar.ejs") %>
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Card Section -->
+            <section class="card">
+                <h2>Add Dormitory</h2>
+                <p>Please complete dormitory</p>
+                <a href="/fill_dormdata">
+                    <button class="property-btn">
+                        <h3>Dormitory Data</h3>
+                        <p>Please fill in the dormitory data First.</p>
+                    </button>
+                </a>
+                <a href="/fill_price">
+                    <button class="property-btn">
+                        <h3>Price</h3>
+                        <p>Please fill in the price.</p>
+                    </button>
+                </a>
+                <a href="/fill_dormfac">
+                    <button class="property-btn">
+                        <h3>Dormitory Facility</h3>
+                        <p>Please fill in the dormitory facility.</p>
+                    </button>
+                </a>
+                <a href="/fill_roomdata">
+                    <button class="property-btn">
+                        <h3>Room Data</h3>
+                        <p>Please fill in the room data.</p>
+                    </button>
+                </a>
+            </section>
+        </main>
+    </div>
+
+    <style>
+        a {
+            text-decoration: none;
+        }
+        
+        .property-btn {
+            display: block;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            background-color: white;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .property-btn:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</body>
+</html>
