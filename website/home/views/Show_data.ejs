@@ -29,7 +29,7 @@
     
         <div class="tabs">
             <p>Gallery</p>
-            <p>Location</p>
+            <a href="<%=data[0].Location%>"><p>Location</p></a>
         </div>
     
         <div class="gallery">
@@ -170,7 +170,7 @@
                         "<%= review.Comment %>"
                     </div>
                     <div class="review-score">
-                        score: <%= review.Rating %>.0
+                        score: <%= review.Rating %>
                     </div>
                 </div>
             <% }) %>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITRentHub - Home</title>
+    <title>ITRentHub - Apartment</title>
     <link rel="stylesheet" href="home_styles.css">
 </head>
 <body>
@@ -11,18 +11,14 @@
         <span class="logo">ITRentHub</span>
         <div class="nav-links">
             <a href="#">Home</a>
-            <a href="/Apartment">Apartment</a>
+            <a href="#">Apartment</a>
             <a href="#">About Us</a>
         </div>
         <a href="#" class="login">Log in</a>
     </nav>
-
-    <section class="hero">
-        <h1>ITRentHub</h1>
-        <p>Lorem ipsum dolor sit amet consectetur.<br>Tellus ultricies ut et phasellus a purus.<br>Neque ac nisi sit velit et morbi ipsum</p>
-        <button class="learn-more">learn more</button>
+    <section class="headerr">
+        <h1>Apartment</h1>
     </section>
-
     <div class="search-container">
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search...">
@@ -49,9 +45,9 @@
     </div>
 
     <section class="apartments">
-        <h2>Recommend apartment</h2>
+        <h2>Apartment List</h2>
         <div class="apartment-list">
-            <% topRatedRentals.forEach(r => { %>
+            <% data.forEach(r => { %>
                 <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
                     <div class="apartment">
                         <div class="image-placeholder"><img src="/home_img/<%= r.Photo %>"></div>
@@ -65,32 +61,6 @@
         </div>
     </section>
 
-    <section class="apartments">
-        <h2>Pet friendly apartment</h2>
-        <div class="apartment-list">
-            <% topRatedPetrentals.forEach(r => { %>
-            <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
-                <div class="apartment">
-                    <div class="image-placeholder"><img src="/home_img/<%= r.Photo %>"></div>
-                    <div class="info">
-                        <p class="name"><%= r.Rental_Name %></p>
-                        <p class="price"><%= r.Rental_price %> THB/month</p>
-                    </div>
-                </div>
-            </a>
-            <% }); %>
-        </div>
-    </section>
-
-    <section class="why-us">
-        <h2>Why Us.</h2>
-        <div class="reasons">
-            <div class="reason"></div>
-            <div class="reason"></div>
-            <div class="reason"></div>
-        </div>
-    </section>
-
     <footer>
         &copy; ITRentHub 2025
     </footer>
@@ -101,8 +71,10 @@
         const searchResults = document.getElementById('searchResults');
         const searchResultsList = document.getElementById('searchResultsList');
         const sortIcon = document.getElementById('sortIcon');
-        const facilityList = document.getElementById('facilityList');
+        const facilityPopup = document.getElementById('facilityPopup');
         const facilityItems = document.querySelectorAll('.facility-item');
+        const closePopup = document.getElementById('closePopup');
+        const resetFilter = document.getElementById('resetFilter');
 
         let selectedFacilities = [];
 
