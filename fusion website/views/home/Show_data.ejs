@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail <%=data[0].Rental_Name%></title>
+    <link rel="stylesheet" href="Show_data_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <span class="logo">ITRentHub</span>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Apartment</a>
+            <a href="#">About Us</a>
+        </div>
+        <a href="#" class="login">Log in</a>
+    </nav>
+
+    <section class="apartment-detail">
+        <div class="header">
+            <h1><%=data[0].Rental_Name%></h1>
+            <div class="rental-rate">
+                <p>rental rate :</p>
+                <h2><%=data[0].Rental_price%> <span>THB/Month</span></h2>
+            </div>
+        </div>
+    
+        <div class="tabs">
+            <p>Gallery</p>
+            <p>Location</p>
+        </div>
+    
+        <div class="gallery">
+            <div class="main-image-container">
+                <img src="/home_img/<%= images[0] %>" class="main-image" id="mainImage" alt="Main Image">
+                <button class="arrow left-arrow">&#8249;</button>
+                <button class="arrow right-arrow">&#8250;</button>
+            </div>
+            <div class="thumbnail-row">
+                <% images.forEach((img, index) => { %>
+                    <img src="/home_img/<%= img %>" class="thumbnail" onclick="changeImage('/home_img/<%= img %>')" alt="Thumbnail <%= index + 1 %>">
+                <% }); %>
+            </div>
+        </div>
+    
+        <div class="container">
+            <div class="detail-section">
+                <h3>Detail :</h3>
+                <div class="detail-text">
+                    <%- description %>
+                </div>
+            </div>
+            <div class="text-section">
+                <div class="text-box">
+                    <h3>Additional Costs</h3>
+                    <div class="cost-item">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Advance Payment</span>
+                        <p><%=data[0].Advance_payment%> THB</p>
+                    </div>
+                    <div class="cost-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>Electricity</span>
+                        <p><%=data[0].Electric_price%> THB/Unit</p>
+                    </div>
+                    <div class="cost-item">
+                        <i class="fas fa-tint"></i>
+                        <span>Water</span>
+                        <p><%=data[0].Water_price%> THB/Unit</p>
+                    </div>
+                    <div class="cost-item">
+                        <i class="fas fa-concierge-bell"></i>
+                        <span>Service Fee</span>
+                        <p><%=data[0].Service_price%> THB/Month</p>
+                    </div>
+                    <div class="cost-item">
+                        <i class="fas fa-phone"></i>
+                        <span>Phone</span>
+                        <p><%=data[0].Phone_price%> THB/Month</p>
+                    </div>
+                    <div class="cost-item">
+                        <i class="fas fa-wifi"></i>
+                        <span>Internet</span>
+                        <p><%=data[0].Internet_price%> THB/Month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="room">
+        <h3>Room Type :</h3>
+        <div class="room-type">
+            <table class="room-table">
+                <thead>
+                    <tr>
+                        <th>Room</th>
+                        <th>Room Type</th>
+                        <th>Size</th>
+                        <th>Monthly Rental <br>(Contract 1 year)</th>
+                        <th>Number Available Room</th>
+                        <th>Room Status</th>
+                        <th>Action</th>  <!-- คอลัมน์ใหม่สำหรับปุ่ม reserve -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <% rooms.forEach(rm => { %>
+                        <tr>
+                            <td><%= rm.Room_Name %></td>
+                            <td><%= rm.Room_Type %></td>
+                            <td><%= rm.Size %> sq.m.</td>
+                            <td><%= rm.Monthly_Rental %> THB</td>
+                            <td><%= rm.Number_Available_Room %> Room</td>
+                            <td>
+                                <span class="status <%= rm.Room_Status == 1 ? 'not-available' : 'available' %>">
+                                    <%= rm.Room_Status == 1 ? 'Not Available' : 'Available' %>
+                                </span>
+                            </td>
+                            <td><button class="reserve-btn">reserve</button></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <section class="room">
+        <h3>Amenities :</h3>
+        <div class="amenities-container">
+            <span class="amenity <%= facility.Air_Conditioner == 1 ? 'active' : '' %>">Air Conditioner</span>
+            <span class="amenity <%= facility.Furnished == 1 ? 'active' : '' %>">Furnished</span>
+            <span class="amenity <%= facility.Water_Heater == 1 ? 'active' : '' %>">Water Heater</span>
+            <span class="amenity <%= facility.Fan == 1 ? 'active' : '' %>">Fan</span>
+            <span class="amenity <%= facility.Refrigerator == 1 ? 'active' : '' %>">Refrigerator</span>
+            <span class="amenity <%= facility.Parking == 1 ? 'active' : '' %>">Parking</span>
+            <span class="amenity <%= facility.Bicycle_Parking == 1 ? 'active' : '' %>">Bicycle Parking</span>
+            <span class="amenity <%= facility.Lift == 1 ? 'active' : '' %>">Lift</span>
+            <span class="amenity <%= facility.Pool == 1 ? 'active' : '' %>">Pool</span>
+            <span class="amenity <%= facility.Fitness == 1 ? 'active' : '' %>">Fitness</span>
+            <span class="amenity <%= facility.Security_keycard == 1 ? 'active' : '' %>">Security keycard</span>
+            <span class="amenity <%= facility.Security_fingerprint == 1 ? 'active' : '' %>">Security finger print</span>
+            <span class="amenity <%= facility.CCTV == 1 ? 'active' : '' %>">CCTV</span>
+            <span class="amenity <%= facility.Security == 1 ? 'active' : '' %>">Security</span>
+            <span class="amenity <%= facility.In_Room_WIFI == 1 ? 'active' : '' %>">In-room WIFI</span>
+            <span class="amenity <%= facility.Pets == 1 ? 'active' : '' %>">Pets</span>
+            <span class="amenity <%= facility.Smoking == 1 ? 'active' : '' %>">Smoking</span>
+            <span class="amenity <%= facility.Laundry == 1 ? 'active' : '' %>">Laundry</span>
+            <span class="amenity <%= facility.Kitchen_Stove == 1 ? 'active' : '' %>">Kitchen Stove</span>
+        </div>
+    </section>
+
+    <section class="guest-review">
+        <h3>Guest Review</h3>
+        <div class="review-header">
+            <div class="score">
+                <span class="score-value"><%= averageRating %></span>
+                <span class="score-text">score</span>
+            </div>
+            <button class="write-review-btn">write review</button>
+        </div>
+        <div class="review-list">
+            <% reviews.forEach(review => { %>
+                <div class="review-box">
+                    <div class="review-user">
+                        <%= review.User_Name %>:
+                    </div>
+                    <div class="review-content">
+                        "<%= review.Comment %>"
+                    </div>
+                    <div class="review-score">
+                        score: <%= review.Rating %>.0
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </section>
+
+    <footer>
+        &copy; ITRentHub 2025
+    </footer>
+</body>
+<script>
+    const mainImage = document.getElementById("mainImage");
+    const thumbnails = document.querySelectorAll(".thumbnail");
+    const images = <%- JSON.stringify(images) %>;
+    console.log(images);
+    let currentIndex = 0;
+
+    function changeImage(src) {
+        mainImage.src = src;
+        thumbnails.forEach((thumb, index) => {
+            thumb.classList.remove("active");
+            if (thumb.src.includes(src)) {
+                currentIndex = index;
+                thumb.classList.add("active");
+            }
+        });
+    }
+
+    function changeImageByArrow(direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) currentIndex = images.length - 1;
+        if (currentIndex >= images.length) currentIndex = 0;
+        mainImage.src = "/home_img/" + images[currentIndex]; // แก้ไขตรงนี้
+        updateActiveThumbnail();
+    }
+
+    function updateActiveThumbnail() {
+        thumbnails.forEach((thumb, index) => {
+            thumb.classList.remove("active");
+            if (index === currentIndex) {
+                thumb.classList.add("active");
+            }
+        });
+    }
+
+    document.querySelector(".left-arrow").onclick = () => changeImageByArrow(-1);
+    document.querySelector(".right-arrow").onclick = () => changeImageByArrow(1);
+
+    changeImage("/home_img/" + images[0]);
+</script>
+</html>
