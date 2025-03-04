@@ -40,7 +40,7 @@
         <h2>Recommend apartment</h2>
         <div class="apartment-list">
             <% topRatedRentals.forEach(r => { %>
-                <a href="home/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
+                <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
                     <div class="apartment">
                         <div class="image-placeholder"><img src="/home_img/<%= r.Photo %>"></div>
                         <div class="info">
@@ -57,7 +57,7 @@
         <h2>Pet friendly apartment</h2>
         <div class="apartment-list">
             <% topRatedPetrentals.forEach(r => { %>
-            <a href="home/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
+            <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
                 <div class="apartment">
                     <div class="image-placeholder"><img src="/home_img/<%= r.Photo %>"></div>
                     <div class="info">
@@ -104,7 +104,7 @@
                         data.forEach(r => {
                             const apartmentDiv = document.createElement('div');
                             apartmentDiv.innerHTML = `
-                                <a href="home/Show_data?Rental_ID=${r.Rental_ID}" class="clickable-div">
+                                <a href="/Show_data?Rental_ID=${r.Rental_ID}" class="clickable-div">
                                     <div class="apartment">
                                         <div class="image-placeholder"><img src="/home_img/${r.Photo}"></div>
                                         <div class="info">
