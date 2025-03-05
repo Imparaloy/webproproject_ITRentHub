@@ -125,7 +125,8 @@ app.get('/home', function (req, res) {
                         data: rows,
                         topRatedRentals: topRatedRentals,
                         topRatedPetrentals: topRatedPetrentals,
-                        facilities: facilities 
+                        facilities: facilities,
+                        user: req.session.user //เก็บ login session
                     });
                 });
             });
@@ -155,7 +156,8 @@ app.get('/Apartment', function (req, res) {
             }
             res.render('Apartment', {
                 data: rows,
-                facilities: facilities
+                facilities: facilities,
+                user: req.session.user //เก็บ login session
             });
         });
     });
@@ -266,7 +268,8 @@ app.get('/Show_data', function (req, res) {
                             rooms: roomRows,
                             facility: facilityRow,
                             averageRating: averageRatingRow.averageRating ? averageRatingRow.averageRating.toFixed(1) : 'N/A',
-                            reviews: reviews // ส่งข้อมูล reviews พร้อม User_Name ไปยัง template
+                            reviews: reviews, // ส่งข้อมูล reviews พร้อม User_Name ไปยัง template
+                            user: req.session.user //เก็บ login session
                         });
 
                         console.log("Main Rows:", mainRows);
@@ -393,6 +396,18 @@ app.post('/reset_password', async function (req, res) {
           console.log("Password updated successfully");
           res.redirect(`/login${row.Roles === 'owner' ? '_owner' : ''}`);
       });
+  });
+});
+
+// Logout
+app.post('/logout', (req, res) => { 
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      res.status(500).send('Logout failed');
+    } else {
+      res.redirect('/login_owner');
+    }
   });
 });
 // >>>>>>>>>>>>>>>>> จบโค้ด regis_login >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

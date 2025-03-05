@@ -14,7 +14,11 @@
             <a href="/Apartment">Apartment</a>
             <a href="#">About Us</a>
         </div>
-        <a href="#" class="login">Log in</a>
+        <% if (user) { %>
+            <a href="/logout" class="login">ออกจากระบบ</a>
+        <% } else { %>
+            <a href="/login" class="login">เข้าสู่ระบบ</a>
+        <% } %>
     </nav>
 
     <section class="hero">
