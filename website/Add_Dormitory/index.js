@@ -496,3 +496,32 @@ app.get('/insert_RoomData', (req, res) => {
         res.redirect("/fill_roomdata");
     });
 });
+
+app.get('/insert_RentalPrice', (req, res) => {
+  db.get('SELECT MIN(Monthly_Rental) AS min_value, MAX(Monthly_Rental) AS max_value FROM room_data WHERE Rental_ID = ?'
+    , [req.session.rental_id], (err, row) => {
+    if (err) {
+        return res.status(500).json({ error: err.message });
+    }
+    if (row) {
+      // คำนวณค่า min และ max * 12
+      const minTransformed = row.min_value * 12;
+      const maxTransformed = row.max_value * 12;
+
+      // รวมค่าเป็นข้อความ "min - max"
+      const formattedText = `${minTransformed} - ${maxTransformed}`;
+
+      db.run('UPDATE rental_price SET Rental_price = ? WHERE Rental_ID = ?',
+          [formattedText, req.session.rental_id],
+          function (err) {
+              if (err) {
+                  console.error('Error updating table_target:', err.message);
+              } else {
+                  console.log(`Updated table_target with value: ${formattedText}`);
+                  res.redirect("/add_dormdata");
+              }
+          }
+      );
+    }  
+  });
+});
