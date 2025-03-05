@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="point-rating">
-                            <h3>คะแนน :</h3>
+                            <h3>คะแนนเฉลี่ย :</h3>
                             <% if (avg_rate && avg_rate.length > 0 && avg_rate[0].Rating !== null) { %>
                                 <div class="rating-value"> <%= avg_rate[0].Rating.toFixed(1) %></div>
                             <% } else { %>
@@ -92,7 +92,7 @@
                                         "<%= review.Comment %>"
                                     </div>
                                     <div class="review-score">
-                                        score: <%= review.Rating %>.0
+                                        ให้คะแนน: <%= review.Rating %>.0
                                     </div>
                                 </div>
                             <% }); %>
