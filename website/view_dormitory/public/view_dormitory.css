@@ -107,17 +107,24 @@ h1 {
     display: flex;
     justify-content: space-between;
     margin-bottom: 40px;
+    flex-wrap: wrap;
 }
 
 .guest-reviews, .point-rating {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
 .stars {
     color: white;
     font-size: 24px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.stars i {
+    margin-right: 5px;
 }
 
 .rating-value {
@@ -130,19 +137,42 @@ h1 {
     margin-bottom: 20px;
 }
 
-.review-cards {
+.review-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 }
 
-.review-card {
+.review-box {
     background-color: white;
     border-radius: 10px;
-    height: 80px;
-    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-user {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.review-content {
+    margin-bottom: 10px;
+}
+
+.review-score {
+    text-align: right;
 }
 
 h3 {
     font-weight: normal;
+}
+
+@media (max-width: 692px) { 
+    .guest-reviews {  
+        flex-direction: column; 
+    }
+    .rating-section {
+        gap: 20px;
+    }
 }
