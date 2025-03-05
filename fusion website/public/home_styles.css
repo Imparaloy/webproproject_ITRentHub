@@ -101,6 +101,22 @@ body {
     transform: scale(1.1);
 }
 
+.search-container {
+    position: relative;
+}
+
+#searchResults {
+    position: relative; /* เปลี่ยนเป็น relative */
+    top: 0; /* ลบ top: 100% */
+    left: 0;
+    width: 90%;
+    z-index: 10;
+}
+
+.apartments:nth-child(3) { /* เลือก Recommend apartment */
+    margin-top: 20px; /* เพิ่ม margin-top */
+}
+
 @media (max-width: 768px) {
     .sort-icon .icon {
         width: 20px;
@@ -164,6 +180,12 @@ body {
 .price {
     font-size: 1rem;
     color: #333;
+}
+
+.clickable-div {
+    text-decoration: none;
+    color: inherit;  
+    display: block;
 }
 
 .why-us {

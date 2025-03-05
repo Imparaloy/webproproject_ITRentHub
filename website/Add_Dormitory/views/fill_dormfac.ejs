@@ -1,0 +1,135 @@
+<%- include("head.ejs") %>
+
+<body>
+    <div class="container">
+        <%- include("sidebar.ejs") %>
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Card Section -->
+            <section class="card">
+                <h2>Add Dormitory</h2>
+                <p>add dormitory facility</p>
+                <form class="facility" action="/insert_DormFac" method="get">
+                    <input type="hidden" name="value" id="formValue">
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Air_Conditioner">Air Conditioner</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Furnished">Furnished</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Water_Heater">Water Heater</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Fan">Fan</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Refrigerator">Refrigerator</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Parking">Parking</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Bicycle_Parking">Bicycle Parking</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Lift">Lift</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Pool">Pool</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Fitness">Fitness</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Security_keycard">Security keycard</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Security_finger_print">Security finger print</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="cctv">CCTV</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Security">Security</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="In_Room_WIFI">In Room WIFI</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Pets">Pets</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Smoking">Smoking</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Laundry">Laundry</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Kitchen_Stove">Kitchen Stove</span>
+                    <div class="button-container">
+                    <button type="submit" id="submit">Submit</button>
+                    </div>
+                </form>
+        </main>
+    </div>
+    <script>
+        document.getElementById("submit").addEventListener("click", function (event) {
+            event.preventDefault(); // ป้องกันการ submit ทันที
+
+            let amenities = document.querySelectorAll(".amenity");
+            let formData = {};
+
+            amenities.forEach(span => {
+                formData[span.getAttribute("data-key")] = span.getAttribute("data-value");
+            });
+
+            let queryString = new URLSearchParams({ value: JSON.stringify(formData) }).toString();
+            
+            // Redirect เพื่อส่งข้อมูลแบบ GET
+            window.location.href = "/insert_DormFac?" + queryString;
+        })
+        function ChangeColor(element) {
+            var value = element.getAttribute("data-value");
+            if (value == "0") {
+                element.style.backgroundColor = "#3652AD";
+                element.style.color = "white";
+                element.setAttribute("data-value", "1");
+                document.getElementById("formValue").value = "1";
+            }
+            else if (value == "1") {
+                element.style.backgroundColor = "#e9e9ed";
+                element.style.color = "black";
+                element.setAttribute("data-value", "0");
+                document.getElementById("formValue").value = "0";
+            }
+        }
+    </script>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .button-container {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            margin-top: 10px;
+            margin: 10px;
+            padding: 15px 20px;
+            font-size: 16px;
+        }
+        .amenity {
+            cursor: pointer;
+            margin-top: 10px;
+            margin: 10px;
+            padding: 15px 15px;
+            font-size: 16px;
+            background-color: #e9e9ed;
+            border: 1px solid;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+
+        @media screen and (min-width:1000px) {
+            .facility {
+                text-align: center;
+                display: grid;
+                grid-template-columns: auto auto auto auto;
+                row-gap: 5px;
+                margin-top: 10px;
+            }
+        }
+        @media screen and (max-width:1000px) and (min-width:700px) {
+            .facility {
+                text-align: center;
+                display: grid;
+                grid-template-columns: auto auto auto;
+                row-gap: 5px;
+            }
+        }
+        @media screen and (max-width:700px) and (min-width:400px) {
+            .facility {
+                text-align: center;
+                display: grid;
+                grid-template-columns: auto auto;
+                row-gap: 5px;
+            }
+        }
+        @media screen and (max-width:400px) {
+            .facility {
+                text-align: center;
+                display: grid;
+                grid-template-columns: auto;
+                row-gap: 5px;
+            }
+        }
+    </style>
+</body>
+</html>
