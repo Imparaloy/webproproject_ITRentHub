@@ -100,7 +100,7 @@ app.get('/view_dormitory', (req, res) => {
   if (req.session.user && req.session.roles == "owner") {
     const rental_id = req.query.rental_id; //รับ "/view_dormitory?rental_id=<%= item.Rental_ID %>" จาก show_own_rental
     if (!rental_id) { //ถ้าไม่มี rental_id ให้ส่งกลับไปหน้าเลือกดูหอพัก
-      res.redirect('show_own_rental')
+      return res.redirect('show_own_rental');
     }
     db.all('SELECT * FROM review JOIN account USING (User_ID) WHERE Rental_ID = ?', [rental_id], (err, reviews) => {
       if (err) {
