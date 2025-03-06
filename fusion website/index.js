@@ -8,10 +8,6 @@ const session = require('express-session'); //ใช้ session เก็บข�
 const multer = require("multer");
 const app = express();
 
-const bcrypt = require("bcryptjs"); // ใช้ hash รหัส
-const bodyParser = require("body-parser"); // ใช้สำหรับส่งข้อมูลไป post
-const session = require('express-session'); //ใช้ session เก็บข้อมูล cookie
-
 // Connect to SQLite database
 let db = new sqlite3.Database('itrentalhub.db', (err) => {    
   if (err) {
@@ -57,9 +53,17 @@ app.get('/register', function (req, res) {
     res.render("register", { message: null, formdata: null });
 });
 
+app.get('/register_owner', function (req, res) {
+  res.render("register_owner", { message: null, formdata: null });
+});
+
 app.get('/login', function (req, res) {
     res.render("login", { message: null, formdata: null });
 });
+
+app.get('/login_owner', function (req, res) {
+  res.render("login_owner", { message: null, formdata: null });
+  });
 
 app.get('/reset_password', function (req, res) {
     let loginValue = req.query.login || '';
@@ -81,6 +85,13 @@ app.get('/protected', (req, res) => {
     res.send(`Welcome ${req.session.roles}, ${req.session.user.User_Name}! This is a protected route.`);
   } else {
     res.send('Please log in.');
+  }
+});
+app.get('/protected_owner', (req, res) => {
+  if (req.session.user && req.session.roles == "owner") {
+    res.send(`Welcome OWNER prepare to get your RENT, ${req.session.user.User_Name}! This is a protected route.`);
+  } else {
+    res.send('Please log in AS OWNER.');
   }
 });
 // ====== END OF WHAT YOU SHOULD DELETE ================}
@@ -422,9 +433,6 @@ app.post('/logout', (req, res) => {
 });
 // >>>>>>>>>>>>>>>>> จบโค้ด regis_login >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-app.listen(port, () => {
-    console.log(`Starting node.js at port ${port}`);
-  });
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Home File>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<Start Add Domitory File<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -451,38 +459,8 @@ app.use(session({
     },
 }));
 
-// Starting the server
-app.listen(port, () => {
-   console.log("Server started.");
- });
- app.get('/register', function (req, res) {
-    res.render("register", { message: null, formdata: null });
-});
+// >>>>>>>>>>>>>>>> 1. Path >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-app.get('/register_owner', function (req, res) {
-  res.render("register_owner", { message: null, formdata: null });
-});
-
-app.get('/login', function (req, res) {
-  res.render("login", { message: null, formdata: null });
-});
-
-app.get('/login_owner', function (req, res) {
-res.render("login_owner", { message: null, formdata: null });
-});
-
-app.get('/reset_password', function (req, res) {
-  let loginValue = req.query.login || '';
-  let rolesValue = req.query.roles;
-  if (loginValue == '') {
-    if (rolesValue == "owner") {
-      return res.render("login_owner", { message: "Enter your Username or Email", formdata: null });
-    } else {
-      return res.render("login", { message: "Enter your Username or Email", formdata: null });
-    }
-  }
-  res.render("forgetpw", { message: null, formdata: { login: loginValue, roles: rolesValue } });
-});
 
 // ตัว show แค่เช็คว่ามีค่ามาแล้วจริง ADMIN เท่านั้นที่ควรดูได้
 app.get('/show', function (req, res) {
@@ -497,24 +475,6 @@ app.get('/show', function (req, res) {
   });
 });
 
-// {==== JUST FOR TEST DELETE WHEN GO TO REAL USE ==========================================
-// เช็คว่า Login สำเร็จไหม
-app.get('/protected', (req, res) => {
-  if (req.session.user) { //ใช้เพื่อเช็คว่า login แล้ว
-    res.send(`Welcome ${req.session.roles}, ${req.session.user.User_Name}! This is a protected route.`);
-  } else {
-    res.send('Please log in.');
-  }
-});
-
-app.get('/protected_owner', (req, res) => {
-  if (req.session.user && req.session.roles == "owner") {
-    res.send(`Welcome OWNER prepare to get your RENT, ${req.session.user.User_Name}! This is a protected route.`);
-  } else {
-    res.send('Please log in AS OWNER.');
-  }
-});
-// ====== END OF WHAT YOU SHOULD DELETE ================}
 
 //-------------โซนทำงาน Backend------------------------
 //Insert Normal User to DB
