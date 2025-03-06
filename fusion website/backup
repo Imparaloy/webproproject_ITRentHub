@@ -1,0 +1,64 @@
+// >>>>>>>>>>>>>>>>>>>>>>>>>Start Reserve File>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+// แสดงหน้า Reserve Date
+app.get('/reserve', (req, res) => {
+  const username = req.session.user
+  res.render('user/reserve', {username: username} );
+});
+
+// เพิ่มข้อมูลการจองลงในฐานข้อมูล
+app.post('/reserve', (req, res) => {
+  const { rental_id, name, phone, date, time } = req.body;
+  
+  db.run(`INSERT INTO reservations (Rental_ID, Name, Phone, Date, Time) VALUES (?, ?, ?, ?, ?)`,
+      [rental_id, name, phone, date, time],
+      function (err) {
+          if (err) {
+              console.error(err.message);
+              return res.status(500).json({ error: 'Database error' });
+          }
+          res.json({ success: true, message: 'Reservation added successfully' });
+      });
+});
+
+app.get('/reserve', (req, res) => {
+  res.render('reserve', { script: "js/reserve.js" });
+});
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>End Reserve File>>>>>>>>>>>>>>>>>>>>>>>>>
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>Start AdminPanle File>>>>>>>>>>>>>>>>>>>>>>>>>
+
+// admin
+app.get("/admin", function (req, res) {
+  let sql = `
+  SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Approved AS status
+  FROM rental_data`;
+
+  const username = req.session.user;
+  
+  db.all(sql, [], (err, rows) => {
+      if (err) {
+          console.log(err.message);
+          res.status(500).send("Database error!");
+          return;
+      }
+      
+      res.render("admin/adminpanel", { rentals: rows , username: username });
+  });
+});
+
+app.post("/update-status", (req, res) => {
+  const { rentalId, status } = req.body;
+  
+  let sql = `UPDATE rental_data SET Approved = ? WHERE Rental_ID = ?`;
+  db.run(sql, [status, rentalId], function (err) {
+      if (err) {
+          return res.status(500).send("Database update error!");
+      }
+      res.redirect("admin/adminpanel");
+  });
+});
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>End AdminPanle File>>>>>>>>>>>>>>>>>>>>>>>>>

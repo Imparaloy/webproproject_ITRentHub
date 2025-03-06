@@ -6,7 +6,9 @@ let db = new sqlite3.Database('itrentalhub.db', (err) => {
     }
     console.log('Connected to the SQlite database.');
   });
-  
+
+
+
 db.close((err) => {
     if (err) {
         return console.error(err.message);
