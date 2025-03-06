@@ -9,7 +9,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-let db = new sqlite3.Database("itrentalhub.db", (err) => {
+let db = new sqlite3.Database("itrentalhub copy.db", (err) => {
     if (err) {
         return console.error(err.message);
     }
