@@ -58,7 +58,7 @@ app.get('/register_owner', function (req, res) {
 });
 
 app.get('/login', function (req, res) {
-    res.render("login", { message: null, formdata: null });
+    res.render("login/login", { message: null, formdata: null });
 });
 
 app.get('/login_owner', function (req, res) {
