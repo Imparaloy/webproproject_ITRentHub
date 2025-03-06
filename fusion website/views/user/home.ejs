@@ -4,22 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITRentHub - Home</title>
-    <link rel="stylesheet" href="home_styles.css">
-</head>
-<body>
-    <nav class="navbar">
-        <span class="logo">ITRentHub</span>
-        <div class="nav-links">
-            <a href="/home">หน้าแรก</a>
-            <a href="/Apartment">อพาร์ทเมนท์</a>
-            <a href="#">เกี่ยวกับเรา</a>
-        </div>
-        <% if (user) { %>
-            <a href="/logout" class="login">ออกจากระบบ</a>
-        <% } else { %>
-            <a href="/login" class="login">เข้าสู่ระบบ</a>
-        <% } %>
-        </nav>
+    <%- include("header(nav).ejs") %>
 
         <section class="hero"></section>
         <h1>ITRentHub</h1>

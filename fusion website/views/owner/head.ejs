@@ -72,11 +72,13 @@
     </style>
 
     <header class="top-bar">
-        <span>Welcome, Username</span>
+        <span>ยินดีตอนรับคุณ, Username</span>
         <div class="top-right">
             <span class="notification-icon">🔔</span>
             <div class="back_btn">
-                <button class="logout-btn">Log out</button>
+                <form action="/logout" method="post">
+                    <button type="submit" class="logout-btn">ออกจากระบบ</button>
+                </form>
             </div>
         </div>
     </header>

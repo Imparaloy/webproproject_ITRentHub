@@ -420,7 +420,7 @@ app.post('/login', async (req, res) => {
           // Set a long-lived cookie if "rememberme" is checked
           req.session.cookie.maxAge = 1 * 24 * 60 * 60 * 1000; // 1 days
         }
-        res.redirect('/protected'); // Redirect to protected route
+        res.redirect('/home'); // Redirect to protected route
       } else {
         res.render('login/login', { message: 'รหัสผ่านไม่ถูกต้อง', formdata: { login } }); // Render login.ejs with error
       }
@@ -501,13 +501,13 @@ app.post('/reset_password', async function (req, res) {
 });
 
 // Logout
-app.post('/logout', (req, res) => { 
+app.post('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error('Error destroying session:', err);
       res.status(500).send('Logout failed');
     } else {
-      res.redirect('/login_owner');
+      res.redirect('/home');
     }
   });
 });
