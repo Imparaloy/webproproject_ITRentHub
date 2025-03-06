@@ -50,11 +50,11 @@ app.get("/", (req, res) => {
 });
 
 app.get('/register', function (req, res) {
-    res.render("register", { message: null, formdata: null });
+    res.render("register/register", { message: null, formdata: null });
 });
 
 app.get('/register_owner', function (req, res) {
-  res.render("register_owner", { message: null, formdata: null });
+  res.render("register/register_owner", { message: null, formdata: null });
 });
 
 app.get('/login', function (req, res) {
@@ -62,7 +62,7 @@ app.get('/login', function (req, res) {
 });
 
 app.get('/login_owner', function (req, res) {
-  res.render("login_owner", { message: null, formdata: null });
+  res.render("login/login_owner", { message: null, formdata: null });
   });
 
 app.get('/reset_password', function (req, res) {
@@ -70,12 +70,12 @@ app.get('/reset_password', function (req, res) {
     let rolesValue = req.query.roles;
     if (loginValue == '') {
       if (rolesValue == "owner") {
-        return res.render("login_owner", { message: "Enter your Username or Email", formdata: null });
+        return res.render("login/login_owner", { message: "โปรดใส่ชื่อผู้ใช้หรืออีเมลก่อน", formdata: null });
       } else {
-        return res.render("login", { message: "Enter your Username or Email", formdata: null });
+        return res.render("login/login", { message: "โปรดใส่ชื่อผู้ใช้หรืออีเมลก่อน", formdata: null });
       }
     }
-    res.render("forgetpw", { message: null, formdata: { login: loginValue, roles: rolesValue } });
+    res.render("login/forgetpw", { message: null, formdata: { login: loginValue, roles: rolesValue } });
 });
 
 // {==== JUST FOR TEST DELETE WHEN GO TO REAL USE ==========================================
@@ -142,7 +142,7 @@ app.get('/home', function (req, res) {
                         console.log(err.message);
                     }
                     // Make sure you are passing 'facilities' here:
-                    res.render('home', {
+                    res.render('user/home', {
                         data: rows,
                         topRatedRentals: topRatedRentals,
                         topRatedPetrentals: topRatedPetrentals,
@@ -175,7 +175,7 @@ app.get('/Apartment', function (req, res) {
             if (err) {
                 console.log(err.message);
             }
-            res.render('Apartment', {
+            res.render('user/Apartment', {
                 data: rows,
                 facilities: facilities,
                 user: req.session.user //เก็บ login session
@@ -282,7 +282,7 @@ app.get('/Show_data', function (req, res) {
                         const description = mainRows[0].Description.replace(/\n/g, '<br>');
                         let images = mainRows[0].Gallery ? mainRows[0].Gallery.split(",") : [];
 
-                        res.render("Show_data", { 
+                        res.render("user/Show_data", { 
                             data: mainRows, 
                             images: images, 
                             description: description, 
@@ -320,7 +320,7 @@ app.post('/register', function (req, res) {
 
     if (formdata.password !== formdata.cpassword) {
       // ถ้ารหัส กับ ตัวเช็คไม่ตรงกันให้ส่งไปพิมพ์ใหม่
-      return res.render("register", { message: "Passwords do not match!", formdata });
+      return res.render("register/register", { message: "รหัสผ่านไม่ตรงกัน!", formdata });
     }
 
     let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
@@ -333,7 +333,7 @@ app.post('/register', function (req, res) {
 
         if (row) {
             // If a user with the same username or email is found go back to register
-            return res.render("register", { message: "Username or Email already exists!", formdata });
+            return res.render("register/register", { message: "มีชื่อผู้ใช้หรืออีเมลลงทะเบียนไว้ก่อนแล้ว!", formdata });
 
         }
 
@@ -352,6 +352,52 @@ app.post('/register', function (req, res) {
     });
 });
 
+// Insert Owner data to DB
+app.post('/register_owner', function (req, res) {
+  let formdata = {
+      username: req.body.username,
+      password: req.body.password,
+      cpassword: req.body.cpassword,
+      email: req.body.email,
+      phone: req.body.phone,
+      roles: req.body.roles
+  };
+  // console.log(formdata);
+
+  if (formdata.password !== formdata.cpassword) {
+    // ถ้ารหัส กับ ตัวเช็คไม่ตรงกันให้ส่งไปพิมพ์ใหม่
+    return res.render("register/register_owner", { message: "รหัสผ่านไม่ตรงกัน!", formdata });
+  }
+
+  let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
+
+  db.get(checkSql, [formdata.username, formdata.email], (err, row) => {
+      if (err) {
+          console.error("Database error:", err);
+          return res.status(500).send("Internal Server Error"); // Return server error
+      }
+
+      if (row) {
+          // If a user with the same username or email is found go back to register_owner
+          return res.render("register/register_owner", { message: "มีชื่อผู้ใช้หรืออีเมลลงทะเบียนไว้ก่อนแล้ว!", formdata });
+
+      }
+
+      bcrypt.hash(formdata.password, 10, (err, hashedPassword) => { // hash password
+          if (err) throw err;
+          
+          let sql = `INSERT INTO account (User_Name, Email, Password, Phone_Number, Roles)
+          VALUES (?, ?, ?, ?, ?)`;
+      
+          db.run(sql, [formdata.username, formdata.email, hashedPassword, formdata.phone, formdata.roles], function (err, result) {
+              if (err) throw err;
+              console.log("a record inserted");
+              res.redirect('show');
+          });
+      });
+  });
+});
+
 //Login Normal User
 app.post('/login', async (req, res) => {
   const { login, password, rememberme } = req.body;
@@ -359,11 +405,11 @@ app.post('/login', async (req, res) => {
   db.get(sql, [login, login], async (err, user) => { 
     if (err) {
       console.error(err);
-      return res.render("login", { message: "Database error", formdata: { login } });
+      return res.render("login/login", { message: "ฐานข้อมูลขัดข้อง", formdata: { login } });
     }
 
     if (!user) {
-      return res.render("login", { message: "Renter account not found ", formdata: { login } });
+      return res.render("login/login", { message: "ไม่พบบัญชีผู้เช่า", formdata: { login } });
     }
 
     try {
@@ -376,11 +422,45 @@ app.post('/login', async (req, res) => {
         }
         res.redirect('/protected'); // Redirect to protected route
       } else {
-        res.render('login', { message: 'Password incorrect', formdata: { login } }); // Render login.ejs with error
+        res.render('login/login', { message: 'รหัสผ่านไม่ถูกต้อง', formdata: { login } }); // Render login.ejs with error
       }
     } catch (bcryptErr) {
       console.error(bcryptErr);
-      return res.render("login", { message: "Authentication error", formdata: { login } });
+      return res.render("login/login", { message: "การยืนยันตัวตนขัดข้อง", formdata: { login } });
+    }
+  });
+});
+
+//Login Owner
+app.post('/login_owner', async (req, res) => {
+  const { login, password, rememberme } = req.body;
+  const sql = "SELECT * FROM account WHERE (User_Name = ? OR Email = ?) AND Roles = 'owner'";
+  db.get(sql, [login, login], async (err, owner) => {
+    if (err) {
+      console.error(err);
+      return res.render("login/login_owner", { message: "ฐานข้อมูลขัดข้อง", formdata: { login } });
+    }
+
+    if (!owner) {
+      return res.render("login/login_owner", { message: "ไม่พบบัญชีเจ้าของหอพัก", formdata: { login } });
+    }
+
+    try {
+      if (await bcrypt.compare(password, owner.Password)) {
+        req.session.user = owner;
+        req.session.roles = owner.Roles; // Store roles in session
+        if (rememberme) {
+          // Set a long-lived cookie if "rememberme" is checked
+          req.session.cookie.maxAge = 1 * 24 * 60 * 60 * 1000; // 1 days
+
+        }
+        res.redirect('/protected_owner'); // Redirect to protected route
+      } else {
+        res.render("login/login_owner", { message: 'รหัสผ่านไม่ถูกต้อง', formdata: { login } }); // Render login.ejs with error
+      }
+    } catch (bcryptErr) {
+      console.error(bcryptErr);
+      return res.render("login/login_owner", { message: "การยืนยันตัวตนขัดข้อง", formdata: { login } });
     }
   });
 });
@@ -390,7 +470,7 @@ app.post('/reset_password', async function (req, res) {
   let { login, roles, password, cpassword } = req.body;
 
   if (password !== cpassword) {
-    return res.render("forgetpw", { message: "Passwords do not match!", formdata: { login, roles } });
+    return res.render("login/forgetpw", { message: "รหัสผ่านไม่ตรงกัน!", formdata: { login, roles } });
   }
 
   let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
@@ -401,8 +481,8 @@ app.post('/reset_password', async function (req, res) {
       }
 
       if (!row) {
-        return res.render(`login${roles === 'owner' ? '_owner' : ''}`,
-          { message: "No account with this Username or Email", formdata: { login } });
+        return res.render(`login/login${roles === 'owner' ? '_owner' : ''}`,
+          { message: "ไม่มีบัญชีชื่อผู้ใช้หรืออีเมลนี้", formdata: { login } });
       }
 
       let hashedPassword = await bcrypt.hash(password, 10); // Hash the new password
@@ -471,206 +551,13 @@ app.get('/show', function (req, res) {
       console.log(err.message);
     }
   //   console.log(rows);
-    res.render('show', { data : rows });
+    res.render('admin/show_account', { data : rows });
   });
 });
 
 
 //-------------โซนทำงาน Backend------------------------
-//Insert Normal User to DB
-app.post('/register', function (req, res) {
-    let formdata = {
-        username: req.body.username,
-        password: req.body.password,
-        cpassword: req.body.cpassword,
-        email: req.body.email,
-        phone: req.body.phone,
-        roles: req.body.roles
-    };
-    // console.log(formdata);
 
-    if (formdata.password !== formdata.cpassword) {
-      // ถ้ารหัส กับ ตัวเช็คไม่ตรงกันให้ส่งไปพิมพ์ใหม่
-      return res.render("register", { message: "Passwords do not match!", formdata });
-    }
-
-    let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
-
-    db.get(checkSql, [formdata.username, formdata.email], (err, row) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).send("Internal Server Error"); // Return server error
-        }
-
-        if (row) {
-            // If a user with the same username or email is found go back to register
-            return res.render("register", { message: "Username or Email already exists!", formdata });
-
-        }
-
-        bcrypt.hash(formdata.password, 10, (err, hashedPassword) => { // hash password
-            if (err) throw err;
-            
-            let sql = `INSERT INTO account (User_Name, Email, Password, Phone_Number, Roles)
-            VALUES (?, ?, ?, ?, ?)`;
-        
-            db.run(sql, [formdata.username, formdata.email, hashedPassword, formdata.phone, formdata.roles], function (err, result) {
-                if (err) throw err;
-                console.log("a record inserted");
-                res.redirect('show');
-            });
-        });
-    });
-});
-
-// Insert Owner data to DB
-app.post('/register_owner', function (req, res) {
-  let formdata = {
-      username: req.body.username,
-      password: req.body.password,
-      cpassword: req.body.cpassword,
-      email: req.body.email,
-      phone: req.body.phone,
-      roles: req.body.roles
-  };
-  // console.log(formdata);
-
-  if (formdata.password !== formdata.cpassword) {
-    // ถ้ารหัส กับ ตัวเช็คไม่ตรงกันให้ส่งไปพิมพ์ใหม่
-    return res.render("register_owner", { message: "Passwords do not match!", formdata });
-  }
-
-  let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
-
-  db.get(checkSql, [formdata.username, formdata.email], (err, row) => {
-      if (err) {
-          console.error("Database error:", err);
-          return res.status(500).send("Internal Server Error"); // Return server error
-      }
-
-      if (row) {
-          // If a user with the same username or email is found go back to register_owner
-          return res.render("register_owner", { message: "Username or Email already exists!", formdata });
-
-      }
-
-      bcrypt.hash(formdata.password, 10, (err, hashedPassword) => { // hash password
-          if (err) throw err;
-          
-          let sql = `INSERT INTO account (User_Name, Email, Password, Phone_Number, Roles)
-          VALUES (?, ?, ?, ?, ?)`;
-      
-          db.run(sql, [formdata.username, formdata.email, hashedPassword, formdata.phone, formdata.roles], function (err, result) {
-              if (err) throw err;
-              console.log("a record inserted");
-              res.redirect('show');
-          });
-      });
-  });
-});
-
-
-//Login Normal User
-app.post('/login', async (req, res) => {
-  const { login, password, rememberme } = req.body;
-  const sql = "SELECT * FROM account WHERE (User_Name = ? OR Email = ?) AND Roles = 'user'";
-  db.get(sql, [login, login], async (err, user) => { 
-    if (err) {
-      console.error(err);
-      return res.render("login", { message: "Database error", formdata: { login } });
-    }
-
-    if (!user) {
-      return res.render("login", { message: "Renter account not found ", formdata: { login } });
-    }
-
-    try {
-      if (await bcrypt.compare(password, user.Password)) {
-        req.session.user = user;
-        req.session.roles = user.Roles; // Store roles in session
-        if (rememberme) {
-          // Set a long-lived cookie if "rememberme" is checked
-          req.session.cookie.maxAge = 1 * 24 * 60 * 60 * 1000; // 1 days
-        }
-        res.redirect('/protected'); // Redirect to protected route
-      } else {
-        res.render('login', { message: 'Password incorrect', formdata: { login } }); // Render login.ejs with error
-      }
-    } catch (bcryptErr) {
-      console.error(bcryptErr);
-      return res.render("login", { message: "Authentication error", formdata: { login } });
-    }
-  });
-});
-
-//Login Owner
-app.post('/login_owner', async (req, res) => {
-  const { login, password, rememberme } = req.body;
-  const sql = "SELECT * FROM account WHERE (User_Name = ? OR Email = ?) AND Roles = 'owner'";
-  db.get(sql, [login, login], async (err, owner) => {
-    if (err) {
-      console.error(err);
-      return res.render("login_owner", { message: "Database error", formdata: { login } });
-    }
-
-    if (!owner) {
-      return res.render("login_owner", { message: "Owner account not found ", formdata: { login } });
-    }
-
-    try {
-      if (await bcrypt.compare(password, owner.Password)) {
-        req.session.user = owner;
-        req.session.roles = owner.Roles; // Store roles in session
-        if (rememberme) {
-          // Set a long-lived cookie if "rememberme" is checked
-          req.session.cookie.maxAge = 1 * 24 * 60 * 60 * 1000; // 1 days
-
-        }
-        res.redirect('/protected_owner'); // Redirect to protected route
-      } else {
-        res.render("login_owner", { message: 'Password incorrect', formdata: { login } }); // Render login.ejs with error
-      }
-    } catch (bcryptErr) {
-      console.error(bcryptErr);
-      return res.render("login_owner", { message: "Authentication error", formdata: { login } });
-    }
-  });
-});
-
-// Reset password
-app.post('/reset_password', async function (req, res) {
-  let { login, roles, password, cpassword } = req.body;
-
-  if (password !== cpassword) {
-    return res.render("forgetpw", { message: "Passwords do not match!", formdata: { login, roles } });
-  }
-
-  let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
-  db.get(checkSql, [login, login], async (err, row) => {
-      if (err) {
-          console.error("Database error:", err);
-          return res.status(500).send("Internal Server Error");
-      }
-
-      if (!row) {
-        return res.render(`login${roles === 'owner' ? '_owner' : ''}`,
-          { message: "No account with this Username or Email", formdata: { login } });
-      }
-
-      let hashedPassword = await bcrypt.hash(password, 10); // Hash the new password
-
-      let updateSql = `UPDATE account SET Password = ? WHERE (User_Name = ? OR Email = ?)`;
-      db.run(updateSql, [hashedPassword, login, login], function (err) {
-          if (err) {
-              console.error("Database error:", err);
-              return res.status(500).send("Internal Server Error");
-          }
-
-          console.log("Password updated successfully");
-          res.redirect(`/login${row.Roles === 'owner' ? '_owner' : ''}`);
-      });
-  });
-});
 app.get('/head', function (req, res) {
     res.render('head');
 });
@@ -912,7 +799,7 @@ app.post('/reserve', (req, res) => {
               console.error(err.message);
               return res.status(500).json({ error: 'Database error' });
           }
-          res.json({ success: true, message: 'Reservation added successfully' });
+          res.json({ success: true, message: 'เพิ่มการจองเรียบร้อยแล้ว' });
       });
 });
 
