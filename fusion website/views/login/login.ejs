@@ -9,31 +9,31 @@
 <body>
     <div class="wrapper">
     <div class="container" style="margin: auto;">
-        <h1>ITRentHub</h1>
-        <p>Login as Renter</p>
+        <h1>ไอทีเรนท์ฮับ</h1>
+        <p>เข้าสู่ระบบในฐานะผู้เช่า</p>
 
         <% if (message) { %>
             <p style="color: red; font-weight: bold;"><%= message %></p>
         <% } %>
 
         <form action="/login" method="POST">
-            <label for="login">Username or Email</label>
+            <label for="login">ชื่อผู้ใช้หรืออีเมล</label>
             <input type="text" id="login" name="login" value="<%= formdata?.login || '' %>" required>
 
-            <label for="password">Password</label>
+            <label for="password">รหัสผ่าน</label>
             <input type="password" id="password" name="password" required>
 
             <div class="remember-me-container">
                 <input type="checkbox" id="rememberme" name="rememberme">
-                <label for="rememberme">Remember me</label>
+                <label for="rememberme">จดจำฉัน</label>
             </div>
 
-            <input type="hidden" id="roles" name="roles" value="user"> <!-- Assigns role as 'user' -->
+            <input type="hidden" id="roles" name="roles" value="user"> <!-- กำหนดบทบาทเป็น 'user' -->
 
-            <button type="submit" class="btn">Login</button>
+            <button type="submit" class="btn">เข้าสู่ระบบ</button>
         </form>
-        <p class="bottom-text">Don't have an account? <a href="/register">Sign up now</a></p>
-        <p class="bottom-text"><a href="#" onclick="redirectToForgetPassword()">forget password</a></p>
+        <p class="bottom-text">ยังไม่มีบัญชี? <a href="/register">สมัครสมาชิก</a></p>
+        <p class="bottom-text"><a href="#" onclick="redirectToForgetPassword()">ลืมรหัสผ่าน</a></p>
     </div>
     <a href="/login_owner"><button class="dormitory-owner-btn" style="display: block; margin: auto; margin-top: 20px;">Dormitory Owner</button></a>
     </div>

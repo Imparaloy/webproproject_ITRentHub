@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITRentHub - Apartment</title>
+    <link rel="stylesheet" href="home_styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <span class="logo">ITRentHub</span>
+        <div class="nav-links">
+            <a href="/home">หน้าหลัก</a>
+            <a href="/Apartment">อพาร์ทเมนท์</a>
+            <a href="#">เกี่ยวกับเรา</a>
+        </div>
+        <% if (user) { %>
+            <a href="/logout" class="login">ออกจากระบบ</a>
+        <% } else { %>
+            <a href="/login" class="login">เข้าสู่ระบบ</a>
+        <% } %>
+        </nav>
+        <section class="headerr">
+        <h1>อพาร์ทเมนท์</h1>
+        </section>
+        <div class="search-container"></div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="ค้นหา...">
+            <button class="sort-icon" id="sortIcon"><img src="/home_img/sort.png" alt="sort" class="icon"></button>
+            <div class="facility-popup" id="facilityPopup" style="display: none;">
+            <h2>เรียงลำดับ</h2>
+            <div class="facility-list">
+                <% facilities.forEach(f => { %>
+                <div class="facility-item" data-facility="<%= f.name %>"> <%= f.display_name %></div>
+                <% }); %>
+            </div>
+            <div class="popup-buttons"></div>
+                <button id="resetFilter">รีเซ็ตตัวกรอง</button>
+                <button id="closePopup">ปิด</button>
+            </div>
+            </div>
+            <button class="search-button" id="searchButton">ค้นหา</button>
+        </div>
+        <section class="apartments" id="searchResults" style="display: none;">
+            <h2>ผลการค้นหา</h2>
+            <div class="apartment-list" id="searchResultsList">
+            </div>
+        </section>
+        </div>
+
+        <section class="apartments">
+        <h2>รายการอพาร์ทเมนท์</h2>
+        <div class="apartment-list">
+            <% data.forEach(r => { %>
+            <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
+                <div class="apartment">
+                <div class="image-placeholder"><img src="/home_img/<%= r.Photo %>"></div>
+                <div class="info">
+                    <p class="name"><%= r.Rental_Name %></p>
+                    <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
+                </div>
+                </div>
+            </a>
+            <% }); %>
+        </div>
+        </section>
+
+    <footer>
+        &copy; ITRentHub 2025
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsList = document.getElementById('searchResultsList');
+        const sortIcon = document.getElementById('sortIcon');
+        const facilityPopup = document.getElementById('facilityPopup');
+        const facilityItems = document.querySelectorAll('.facility-item');
+        const closePopup = document.getElementById('closePopup');
+        const resetFilter = document.getElementById('resetFilter');
+
+        let selectedFacilities = [];
+
+        sortIcon.addEventListener('click', () => {
+            facilityPopup.style.display = facilityPopup.style.display === 'block' ? 'none' : 'block';
+        });
+
+        closePopup.addEventListener('click', () => {
+            facilityPopup.style.display = 'none';
+        });
+
+        resetFilter.addEventListener('click', () => {
+            selectedFacilities = [];
+            facilityItems.forEach(item => {
+                item.classList.remove('selected');
+            });
+        });
+
+        facilityItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const facility = item.dataset.facility;
+                const index = selectedFacilities.indexOf(facility);
+                if (index === -1) {
+                    selectedFacilities.push(facility);
+                    item.classList.add('selected');
+                } else {
+                    selectedFacilities.splice(index, 1);
+                    item.classList.remove('selected');
+                }
+            });
+        });
+
+        searchButton.addEventListener('click', () => {
+            const searchTerm = searchInput.value;
+            const facilities = selectedFacilities.join(',');
+            fetch(`/search?q=${searchTerm}&facilities=${facilities}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    searchResultsList.innerHTML = '';
+                    if (data && data.length > 0) {
+                        data.forEach(r => {
+                            const apartmentDiv = document.createElement('div');
+                            apartmentDiv.innerHTML = `
+                                <a href="/Show_data?Rental_ID=${r.Rental_ID}" class="clickable-div">
+                                    <div class="apartment">
+                                        <div class="image-placeholder"><img src="/home_img/${r.Photo}"></div>
+                                        <div class="info">
+                                            <p class="name">${r.Rental_Name}</p>
+                                            <p class="price">${r.Rental_price} THB/month</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            `;
+                            searchResultsList.appendChild(apartmentDiv);
+                        });
+                        searchResults.style.display = 'block';
+                    } else {
+                        searchResultsList.innerHTML = '<p>No results found.</p>';
+                        searchResults.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    searchResultsList.innerHTML = '<p>An error occurred.</p>';
+                    searchResults.style.display = 'block';
+                });
+        });
+    </script>
+</body>
+</html>

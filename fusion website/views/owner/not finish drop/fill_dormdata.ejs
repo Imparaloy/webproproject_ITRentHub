@@ -1,0 +1,96 @@
+<%- include("head.ejs") %>
+
+<body>
+    <div class="container">
+        <%- include("sidebar.ejs") %>
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Card Section -->
+            <section class="card">
+                <h2>Add Dormitory</h2>
+                    <p>add dormitory data</p>
+                <form action="/insert_DormData" method="post" enctype="multipart/form-data">
+                    <label>1. What is name of dormitory</label>
+                    <input type="text" name="Rental_Name" autocomplete="off" required placeholder="Please fill this">
+                    <label>2. Rented to Man/Woman?</label>
+                    <select name="Gender" id="Type">
+                        <option value="Man">Man</option>
+                        <option value="Woman">Woman</option>
+                        <option value="Mix">Mix</option>
+                    </select>
+                    <label>3. Description About Dormitory</label>
+                    <textarea name="Description" autocomplete="off" required placeholder="Please fill this"></textarea>
+                    <label>4. Contact</label>
+                    <div class="contact">
+                        <div>
+                            <label>Telephone Number</label>
+                            <input type="text" name="Phone_number" autocomplete="off" required placeholder="Please fill this">
+                        </div>
+                        <div>
+                            <label>Line ID</label>
+                            <input type="text" name="Line_ID" autocomplete="off" required placeholder="Please fill this">
+                        </div>
+                    </div>
+                    <label>5. Add google map</label>
+                    <input type="text" name="Location" autocomplete="off" required placeholder="Please fill this">
+                    <label>6. Add cover image (1 Image Only)</label>
+                    <input type="file" name="Photo" accept="image/*" required>
+                    <label>7. Add image</label>
+                    <input type="file" name="Gallery" accept="image/*" required multiple>
+                    <button type="submit" value="Submit" id="submit">Submit</button>
+                </form>    
+        </main>
+    </div>
+
+    <style> 
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            margin-left: 15%;
+            text-align: left;
+        }
+        .contact {
+            display: flex;
+            flex-direction: row;
+            margin-top: 10px;
+            margin-left: 10%;
+            width: 60%;
+        }
+        input {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 80%;
+            font-size: 16px;
+        }
+        textarea {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 80%;
+            height: 100px;
+            padding: 12px 20px;
+            box-sizing: border-box;
+            border: 1px solid black;
+            border-radius: 4px;
+            resize: none;
+            font-size: 16px;
+        }
+
+        select {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            width: 80%;
+            padding: 5px 5px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 5px 5px;
+            font-size: 16px;
+            width: 20%;
+            max-width: 20%;
+        }
+    </style>
+</body>
+</html>

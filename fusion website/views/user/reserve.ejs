@@ -130,30 +130,29 @@
     <nav class="navbar">
         <span class="logo">ITRentHub</span>
         <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/apartment">Apartment</a>
-            <a href="/about">About Us</a>
-            <a href="/admin">Admin Panel</a>
+            <a href="/">หน้าหลัก</a>
+            <a href="/apartment">อพาร์ทเมนท์</a>
+            <a href="/about">เกี่ยวกับเรา</a>
         </div>
         <span class="username"><%= username %></span>
-    </nav>
+        </nav>
 
-    <h2>Reserve Date</h2>
-    <form id="reserveForm">
-        <label for="name">Name:</label>
+        <h2>จองวันที่</h2>
+        <form id="reserveForm"></form>
+        <label for="name">ชื่อ:</label>
         <input type="text" id="name" name="name" required><br>
 
-        <label for="phone">Phone:</label>
+        <label for="phone">โทรศัพท์:</label>
         <input type="text" id="phone" name="phone" required><br>
 
-        <label for="date">Date:</label>
+        <label for="date">วันที่:</label>
         <input type="date" id="date" name="date" required><br>
 
-        <label for="time">Time:</label>
+        <label for="time">เวลา:</label>
         <input type="time" id="time" name="time" required><br>
 
-        <button type="submit">Send</button>
-    </form>
+        <button type="submit">ส่ง</button>
+        </form>
     <footer>
         &copy; ITRentHub 2025
     </footer>

@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owner Login</title>
-    <%- include("../register/regis_style") %>
+    <title>User Login</title>
+    <%- include("regis_style") %>
 </head>
 <body>
     <div class="wrapper">
     <div class="container" style="margin: auto;">
         <h1>ITRentHub</h1>
-        <p>เข้าสู่ระบบในฐานะเจ้าของหอพัก</p>
+        <p>Login as Renter</p>
 
         <% if (message) { %>
             <p style="color: red; font-weight: bold;"><%= message %></p>
         <% } %>
 
-        <form action="/login_owner" method="POST">
-            <label for="login">ชื่อผู้ใช้หรืออีเมล</label>
+        <form action="/login" method="POST">
+            <label for="login">Username or Email</label>
             <input type="text" id="login" name="login" value="<%= formdata?.login || '' %>" required>
 
-            <label for="password">รหัสผ่าน</label>
+            <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
 
             <div class="remember-me-container">
                 <input type="checkbox" id="rememberme" name="rememberme">
-                <label for="rememberme">จดจำฉัน</label>
+                <label for="rememberme">Remember me</label>
             </div>
 
-            <input type="hidden" id="roles" name="roles" value="owner"> <!-- Assigns role as 'owner' -->
+            <input type="hidden" id="roles" name="roles" value="user"> <!-- Assigns role as 'user' -->
 
-            <button type="submit" class="btn">เข้าสู่ระบบ</button>
+            <button type="submit" class="btn">Login</button>
         </form>
-        <p class="bottom-text">ยังไม่มีบัญชี? <a href="/register_owner">สมัครสมาชิก</a></p>
-        <p class="bottom-text"><a href="#" onclick="redirectToForgetPassword()">ลืมรหัสผ่าน</a></p>
+        <p class="bottom-text">Don't have an account? <a href="/register">Sign up now</a></p>
+        <p class="bottom-text"><a href="#" onclick="redirectToForgetPassword()">forget password</a></p>
     </div>
-    <a href="/login"><button class="dormitory-owner-btn" style="display: block; margin: auto; margin-top: 20px;">Renter</button></a>
+    <a href="/login_owner"><button class="dormitory-owner-btn" style="display: block; margin: auto; margin-top: 20px;">Dormitory Owner</button></a>
     </div>
 
     <script>

@@ -4,39 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration</title>
-    <%- include("../register/regis_style") %>
+    <%- include("regis_style") %>
 </head>
 <body>
 
     <div class="container">
         <h1>ITRentHub</h1>
-        <p>สมัครสมาชิก</p>
+        <p>Sign up Account</p>
 
         <% if (message) { %>
             <p style="color: red; font-weight: bold;"><%= message %></p>
         <% } %>
 
         <form action="/register" method="POST">
-            <label for="username">ชื่อผู้ใช้</label>
+            <label for="username">Username</label>
             <input type="text" id="username" name="username" value="<%= formdata?.username || '' %>" required>
 
-            <label for="email">อีเมล</label>
+            <label for="email">Email</label>
             <input type="text" id="email" name="email" value="<%= formdata?.email || '' %>" required>
 
-            <label for="phone">เบอร์โทรศัพท์</label>
+            <label for="phone">Phone Number</label>
             <input type="text" id="phone" name="phone" value="<%= formdata?.phone || '' %>" required>
 
-            <label for="password">รหัสผ่าน</label>
+            <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
 
-            <label for="cpassword">ยืนยันรหัสผ่าน</label>
+            <label for="cpassword">Confirm Password</label>
             <input type="password" id="cpassword" name="cpassword" required>
 
             <input type="hidden" name="roles" value="user"> <!-- Assigns role as 'user' -->
 
-            <button type="submit" class="btn">สมัครสมาชิก</button>
+            <button type="submit" class="btn">sign up</button>
         </form>
-        <p class="bottom-text">มีบัญชีอยู่แล้ว? <a href="/login">เข้าสู่ระบบที่นี่</a></p>
+        <p class="bottom-text">Already have an account? <a href="/login">Enter here</a></p>
     </div>
 </body>
 </html>

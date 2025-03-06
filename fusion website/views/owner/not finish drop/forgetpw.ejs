@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
-    <%- include("../register/regis_style") %>
+    <%- include("regis_style") %>
 </head>
 <body>
 
     <div class="container">
-        <h1>รีเซ็ตรหัสผ่าน</h1>
+        <h1>Reset Password</h1>
         <h2 style="font-weight: 400; margin-top: 0px;">
-            บัญชี: <%= formdata?.login%>
+            Account: <%= formdata?.login%>
         </h2>
 
         <% if (message) { %>
@@ -19,18 +19,18 @@
         <% } %>
 
         <form action="/reset_password" method="POST">
-            <label for="password">รหัสผ่านใหม่</label>
+            <label for="password">New Password</label>
             <input type="password" id="password" name="password" required>
 
-            <label for="cpassword">ยืนยันรหัสผ่าน</label>
+            <label for="cpassword">Confirm Password</label>
             <input type="password" id="cpassword" name="cpassword" required>
 
             <input type="hidden" id="login" name="login" value="<%= formdata?.login%>">
             <input type="hidden" id="roles" name="roles" value="<%= formdata?.roles%>">
 
-            <button type="submit" class="btn">ยืนยัน</button>
+            <button type="submit" class="btn">Confirm</button>
         </form>
-        <p class="bottom-text"><a href="/login<%= formdata?.roles == 'owner' ? '_owner' : '' %>">กลับไปที่หน้าเข้าสู่ระบบ</a></p>
+        <p class="bottom-text"><a href="/login<%= formdata?.roles == 'owner' ? '_owner' : '' %>">Back to Login</a></p>
     </div>
 </body>
 </html>
