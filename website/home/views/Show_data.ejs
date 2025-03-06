@@ -162,7 +162,7 @@
                 <span class="score-value"><%= averageRating %></span>
                 <span class="score-text">score</span>
             </div>
-            <button class="write-review-btn">write review</button>
+            <a href="/write_review?Rental_ID=<%= rentalId %>"><button class="write-review-btn">write review</button></a>
         </div>
         <div class="review-list">
             <% reviews.forEach(review => { %>

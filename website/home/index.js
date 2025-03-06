@@ -73,7 +73,23 @@ app.get('/protected', (req, res) => {
   }
 });
 // ====== END OF WHAT YOU SHOULD DELETE ================}
-// >>>>>>>>>>>>>>>>>> จบโค้ด login เก่า >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// >>>>>>>>>>>>>>>>>> จบโค้ดจาก login >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+app.get('/write_review', function (req, res) {
+    if (req.query.Rental_ID && req.session.user) {
+        const query = `SELECT * FROM rental_data WHERE Rental_ID = ?`;
+        db.all(query, [req.query.Rental_ID], (err, rows) => {
+            if (err) {
+                console.log(err.message);
+            } else {
+                res.render('review', { rental: rows[0], user: req.session.user});
+            }
+        });
+      } else {
+        res.redirect("login");
+      }
+    // res.render('review');
+});
 
 
 app.get('/home', function (req, res) {
@@ -269,7 +285,8 @@ app.get('/Show_data', function (req, res) {
                             facility: facilityRow,
                             averageRating: averageRatingRow.averageRating ? averageRatingRow.averageRating.toFixed(1) : 'N/A',
                             reviews: reviews, // ส่งข้อมูล reviews พร้อม User_Name ไปยัง template
-                            user: req.session.user //เก็บ login session
+                            user: req.session.user, //เก็บ login session
+                            rentalId: req.query.Rental_ID
                         });
 
                         console.log("Main Rows:", mainRows);
@@ -411,6 +428,93 @@ app.post('/logout', (req, res) => {
   });
 });
 // >>>>>>>>>>>>>>>>> จบโค้ด regis_login >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+app.post('/write_review', function (req, res) {
+    let formdata = {
+        rentalId: req.body.rentalId,
+        userId: req.session.user.User_ID,
+        rating: req.body.rating,
+        comment: req.body.review
+    };
+    // console.log(formdata);
+    let checkSql = `SELECT * FROM review WHERE Rental_ID = ? AND User_ID = ?`;
+
+    db.get(checkSql, [formdata.rentalId, formdata.userId], (err, row) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).send("Internal Server Error"); // Return server error
+        }
+        if (row) {
+            let updateSql = `UPDATE review SET Rating = ?, Comment = ? WHERE (Rental_ID = ? AND User_ID = ?)`;
+            db.run(updateSql, [formdata.rating, formdata.comment, formdata.rentalId, formdata.userId], (err, row) => {
+                if (err) {
+                    console.error("Database error:", err);
+                    return res.status(500).send("Internal Server Error"); // Return server error
+                } else {
+                    console.log("a record inserted");
+                    res.redirect('home');
+                }
+            });
+        } else {
+            let sql = `INSERT INTO review (Rental_ID, User_ID, Rating, Comment) VALUES (?, ?, ?, ?)`;
+            db.run(sql, [formdata.rentalId, formdata.userId, formdata.rating, formdata.comment], (err, row) => {
+                if (err) {
+                    console.error("Database error:", err);
+                    return res.status(500).send("Internal Server Error"); // Return server error
+                } else {
+                    console.log("a record inserted");
+                    res.redirect('home');
+                }
+            });
+        }
+    });
+});
+
+app.post('/register', function (req, res) {
+    let formdata = {
+        username: req.body.username,
+        password: req.body.password,
+        cpassword: req.body.cpassword,
+        email: req.body.email,
+        phone: req.body.phone,
+        roles: req.body.roles
+    };
+    // console.log(formdata);
+
+    if (formdata.password !== formdata.cpassword) {
+      // ถ้ารหัส กับ ตัวเช็คไม่ตรงกันให้ส่งไปพิมพ์ใหม่
+      return res.render("register", { message: "Passwords do not match!", formdata });
+    }
+
+    let checkSql = `SELECT * FROM account WHERE User_Name = ? OR Email = ?`;
+
+    db.get(checkSql, [formdata.username, formdata.email], (err, row) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).send("Internal Server Error"); // Return server error
+        }
+
+        if (row) {
+            // If a user with the same username or email is found go back to register
+            return res.render("register", { message: "Username or Email already exists!", formdata });
+
+        }
+
+        bcrypt.hash(formdata.password, 10, (err, hashedPassword) => { // hash password
+            if (err) throw err;
+            
+            let sql = `INSERT INTO account (User_Name, Email, Password, Phone_Number, Roles)
+            VALUES (?, ?, ?, ?, ?)`;
+        
+            db.run(sql, [formdata.username, formdata.email, hashedPassword, formdata.phone, formdata.roles], function (err, result) {
+                if (err) throw err;
+                console.log("a record inserted");
+                res.redirect('show');
+            });
+        });
+    });
+});
+
 
 app.listen(port, () => {
     console.log(`Starting node.js at port ${port}`);
