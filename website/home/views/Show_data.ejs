@@ -15,11 +15,7 @@
             <a href="/Apartment">Apartment</a>
             <a href="#">About Us</a>
         </div>
-        <% if (user) { %>
-            <a href="/logout" class="login">ออกจากระบบ</a>
-        <% } else { %>
-            <a href="/login" class="login">เข้าสู่ระบบ</a>
-        <% } %>
+        <a href="#" class="login">Log in</a>
     </nav>
 
     <section class="apartment-detail">
@@ -162,7 +158,7 @@
                 <span class="score-value"><%= averageRating %></span>
                 <span class="score-text">score</span>
             </div>
-            <a href="/write_review?Rental_ID=<%= rentalId %>"><button class="write-review-btn">write review</button></a>
+            <button class="write-review-btn">write review</button>
         </div>
         <div class="review-list">
             <% reviews.forEach(review => { %>
