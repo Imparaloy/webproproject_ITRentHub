@@ -16,6 +16,14 @@ body {
     margin: 1rem;
 }
 
+.navbar button {
+    font-size: 16px;
+    font-family: 'Sarabun', sans-serif;
+    border: none;
+    background-color: #d1d5db;
+    padding: 0px;
+}
+
 button {
     font-family: 'Sarabun', sans-serif;
 }

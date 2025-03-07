@@ -17,7 +17,9 @@
             <a href="#">เกี่ยวกับเรา</a>
         </div>
         <% if (user) { %>
-            <a href="/logout" class="login">ออกจากระบบ</a>
+            <form action="/logout" method="post">
+                <button type="submit" class="login">ออกจากระบบ</button>
+            </form>
         <% } else { %>
             <a href="/login" class="login">เข้าสู่ระบบ</a>
         <% } %>
@@ -119,11 +121,15 @@
                     <td><%= rm.Monthly_Rental %> บาท</td>
                     <td><%= rm.Number_Available_Room %> ห้อง</td>
                     <td>
-                    <span class="status <%= rm.Room_Status == 1 ? 'not-available' : 'available' %>">
-                        <%= rm.Room_Status == 1 ? 'ไม่ว่าง' : 'ว่าง' %>
+                    <span class="status <%= rm.Room_Status == 1 ? 'available' : 'not-available' %>">
+                        <%= rm.Room_Status == 1 ? 'ว่าง' : 'ไม่ว่าง' %>
                     </span>
                     </td>
-                    <td><button class="reserve-btn">จอง</button></td>
+                    <td>
+                        <a href="/reserve">
+                            <button class="reserve-btn">จอง</button>
+                        </a>
+                    </td>
                 </tr>
                 <% }) %>
             </tbody>

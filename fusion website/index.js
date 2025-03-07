@@ -833,12 +833,14 @@ app.get('/insert_RentalPrice', (req, res) => {
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Add Domitory File>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>Start Reserve File>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
 // แสดงหน้า Reserve Date
 app.get('/reserve', (req, res) => {
-  const username = req.session.user
-  res.render('user/reserve', {username: username} );
+  if (req.session.user) {
+    res.render('user/reserve', {username: req.session.user} );
+  } else {
+    res.render("login/login", { message: "โปรดเข้าระบบก่อนจะจองห้อง", formdata: null });
+  }
+  
 });
 
 // เพิ่มข้อมูลการจองลงในฐานข้อมูล
@@ -856,9 +858,9 @@ app.post('/reserve', (req, res) => {
       });
 });
 
-app.get('/reserve', (req, res) => {
-  res.render('user/reserve', { script: "js/reserve.js" });
-});
+// app.get('/reserve', (req, res) => {
+//   res.render('user/reserve', { script: "js/reserve.js" });
+// });
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Reserve File>>>>>>>>>>>>>>>>>>>>>>>>>
 
