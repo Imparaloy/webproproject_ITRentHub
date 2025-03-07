@@ -8,8 +8,13 @@
 
         <section class="hero">
         <h1>ITRentHub</h1>
-        <p>Lorem ipsum dolor sit amet consectetur.<br>Tellus ultricies ut et phasellus a purus.<br>Neque ac nisi sit velit et morbi ipsum</p>
-        <button class="learn-more">เรียนรู้เพิ่มเติม</button>
+        <p>ยินดีต้อนรับสู่ IT RentHub แพลตฟอร์มเช่าหอพักที่ตอบโจทย์ทุกความต้องการของคุณ!
+            <br>เรามี หอพักให้เลือกมากกว่า 30 แห่ง พร้อมข้อมูลครบถ้วนทั้งรายละเอียด ที่อยู่ ค่าใช้จ่าย และ สิ่งอำนวยความสะดวก ที่ช่วยให้คุณตัดสินใจได้ง่ายขึ้น
+            <br>และสำหรับเจ้าของหอพัก เรามีระบบจัดการที่ใช้งานง่าย ช่วยให้คุณบริหารจัดการการจองได้อย่างมีประสิทธิภาพ
+            <br>
+            <br>IT RentHub — สะดวก ง่าย และครบครันเรื่องการเช่าหอพัก!
+        </p>
+        <a href="#why-us"><button class="learn-more">เรียนรู้เพิ่มเติม</button></a>
         </section>
 
         <div class="search-container">
@@ -20,7 +25,7 @@
             <h2>จัดเรียง</h2>
             <div class="facility-list">
                 <% facilities.forEach(f => { %>
-                <div class="facility-item" data-facility="<%= f.name %>"> <%= f.display_name %></div>
+                <div class="facility-item" data-facility="<%= f.name %>"><%= f.display_name %></div>
                 <% }); %>
             </div>
             <div class="popup-buttons">
@@ -43,7 +48,7 @@
             <% topRatedRentals.forEach(r => { %>
             <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
                 <div class="apartment">
-                <div class="image-placeholder"><img src="/home_img/<%= r.Photo %>"></div>
+                <div class="image-placeholder"><img src="<%= r.Photo %>"></div>
                 <div class="info">
                     <p class="name"><%= r.Rental_Name %></p>
                     <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
@@ -60,7 +65,7 @@
             <% topRatedPetrentals.forEach(r => { %>
             <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
             <div class="apartment">
-                <div class="image-placeholder"><img src="/uploads/<%= r.Photo %>"></div>
+                <div class="image-placeholder"><img src="<%= r.Photo %>"></div>
                 <div class="info">
                 <p class="name"><%= r.Rental_Name %></p>
                 <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
@@ -71,12 +76,29 @@
         </div>
         </section>
 
-        <section class="why-us">
+        <section class="why-us" id="why-us">
         <h2>ทำไมต้องเลือกเรา</h2>
-        <div class="reasons">
-            <div class="reason"></div>
-            <div class="reason"></div>
-            <div class="reason"></div>
+        <div class="card-container">
+            <div class="card">
+                <img src="/home_img/skyline.png" alt="User Icon" class="card-icon">
+                <h3>ตัวเลือกมากมาย</h3>
+                <p>เว็ปของเรามีหอพักให้ได้เลือกเข้าชมมากกว่า 30 หอพัก</p>
+            </div>
+            <div class="card">
+                <img src="/home_img/data.png" alt="Code Icon" class="card-icon">
+                <h3>ข้อมูลครบถ้วน</h3>
+                <p>นำเสนอข้อมูลหอพักอย่างครบถ้วนทั้งรายละเอียด ที่อยู่ ค่าใช้จ่าย และ สิ่งอํานวยความสะดวก</p>
+            </div>
+            <div class="card">
+                <img src="/home_img/database.png" alt="Folder Icon" class="card-icon">
+                <h3>จัดการง่ายสำหรับเจ้าของ</h3>
+                <p>ช่วยเจ้าของหอพักจัดการการจองได้อย่างมีประสิทธิภาพ</p>
+            </div>
+            <div class="card">
+                <img src="/home_img/filter.png" alt="Presentation Icon" class="card-icon">
+                <h3>คัดกรองสดวกสบาย</h3>
+                <p>เพิ่มความสดวกสบายด้วยระบบคัดกรองที่มีให้เลือกมากกว่า 19 รายการ</p>
+            </div>
         </div>
         </section>
 
@@ -142,7 +164,7 @@
                             apartmentDiv.innerHTML = `
                                 <a href="/Show_data?Rental_ID=${r.Rental_ID}" class="clickable-div">
                                     <div class="apartment">
-                                        <div class="image-placeholder"><img src="/home_img/${r.Photo}"></div>
+                                        <div class="image-placeholder"><img src="${r.Photo}"></div>
                                         <div class="info">
                                             <p class="name">${r.Rental_Name}</p>
                                             <p class="price">${r.Rental_price} THB/month</p>

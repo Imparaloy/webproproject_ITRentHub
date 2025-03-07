@@ -1,7 +1,7 @@
 body {
     background-color: white;
     color: #1a202c;
-    font-family: Arial, sans-serif;
+    font-family: 'Sarabun', sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -14,6 +14,10 @@ body {
     padding: 1rem;
     border-radius: 50px;
     margin: 1rem;
+}
+
+button {
+    font-family: 'Sarabun', sans-serif;
 }
 
 .logo {
