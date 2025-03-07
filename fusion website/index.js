@@ -98,6 +98,20 @@ app.get('/protected_owner', (req, res) => {
 });
 // ====== END OF WHAT YOU SHOULD DELETE ================}
 // >>>>>>>>>>>>>>>>>> จบโค้ด login เก่า >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+app.get('/write_review', function (req, res) {
+    if (req.query.Rental_ID && req.session.user) {
+        const query = `SELECT * FROM rental_data WHERE Rental_ID = ?`;
+        db.all(query, [req.query.Rental_ID], (err, rows) => {
+            if (err) {
+                console.log(err.message);
+            } else {
+                res.render('user/review', { rental: rows[0], user: req.session.user});
+            }
+        });
+      } else {
+        res.render("login/login", { message: "โปรดเข้าระบบก่อนเขียนรีวิว", formdata: null });
+      }
+});
 
 app.get('/home', function (req, res) {
     const query = 'SELECT * FROM rental_data';
@@ -292,7 +306,8 @@ app.get('/Show_data', function (req, res) {
                             facility: facilityRow,
                             averageRating: averageRatingRow.averageRating ? averageRatingRow.averageRating.toFixed(1) : 'N/A',
                             reviews: reviews, // ส่งข้อมูล reviews พร้อม User_Name ไปยัง template
-                            user: req.session.user //เก็บ login session
+                            user: req.session.user, //เก็บ login session
+                            rentalId: req.query.Rental_ID
                         });
 
                         console.log("Main Rows:", mainRows);
@@ -304,6 +319,48 @@ app.get('/Show_data', function (req, res) {
                 });
             });
         });
+    });
+});
+
+//Write Review
+app.post('/write_review', function (req, res) {
+    let formdata = {
+        rentalId: req.body.rentalId,
+        userId: req.session.user.User_ID,
+        rating: req.body.rating,
+        comment: req.body.review
+    };
+    // console.log(formdata);
+    let checkSql = `SELECT * FROM review WHERE Rental_ID = ? AND User_ID = ?`;
+
+    db.get(checkSql, [formdata.rentalId, formdata.userId], (err, row) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).send("Internal Server Error"); // Return server error
+        }
+        if (row) {
+            let updateSql = `UPDATE review SET Rating = ?, Comment = ? WHERE (Rental_ID = ? AND User_ID = ?)`;
+            db.run(updateSql, [formdata.rating, formdata.comment, formdata.rentalId, formdata.userId], (err, row) => {
+                if (err) {
+                    console.error("Database error:", err);
+                    return res.status(500).send("Internal Server Error"); // Return server error
+                } else {
+                    console.log("a record inserted");
+                    res.redirect('home');
+                }
+            });
+        } else {
+            let sql = `INSERT INTO review (Rental_ID, User_ID, Rating, Comment) VALUES (?, ?, ?, ?)`;
+            db.run(sql, [formdata.rentalId, formdata.userId, formdata.rating, formdata.comment], (err, row) => {
+                if (err) {
+                    console.error("Database error:", err);
+                    return res.status(500).send("Internal Server Error"); // Return server error
+                } else {
+                    console.log("a record inserted");
+                    res.redirect('home');
+                }
+            });
+        }
     });
 });
 
@@ -348,7 +405,7 @@ app.post('/register', function (req, res) {
             db.run(sql, [formdata.username, formdata.email, hashedPassword, formdata.phone, formdata.roles], function (err, result) {
                 if (err) throw err;
                 console.log("a record inserted");
-                res.redirect('show');
+                res.redirect('login');
             });
         });
     });
@@ -518,28 +575,11 @@ app.post('/logout', (req, res) => {
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Home File>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<Start Add Domitory File<<<<<<<<<<<<<<<<<<<<<<<<<
+// Upload img to uploads folder
 const upload = multer({ storage: storage }).fields([
   { name: "Photo", maxCount: 1 }, // รับได้แค่ 1 รูป
   { name: "Gallery", maxCount: 50 }, // รับได้สูงสุด 50 รูป
 ]);
-// static resourse & templating engine
-app.use(express.static('public'));
-// Set EJS as templating engine
-app.set('view engine', 'ejs');
-
-// Middleware ใช้สำหรับส่งข้อมูลไป post
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
-app.use(session({
-    secret: 'h0pETh!slS$tOngE#ough', // Change this to a strong, random key
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 1 * 60 * 60 * 1000 // 1 Hour
-    },
-}));
 
 // >>>>>>>>>>>>>>>> 1. Path >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

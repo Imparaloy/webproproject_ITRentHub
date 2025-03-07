@@ -34,7 +34,7 @@
         
         <div class="tabs">
             <p>แกลเลอรี่</p>
-            <a href="<%=data[0].Location%>"><p>ที่ตั้ง</p></a>
+            <a href="<%=data[0].Location%>"><p>ตำแหน่งที่ตั้ง</p></a>
         </div>
         
         <div class="gallery">
@@ -163,7 +163,9 @@
             <span class="score-value"><%= averageRating %></span>
             <span class="score-text">คะแนน</span>
             </div>
-            <button class="write-review-btn">เขียนรีวิว</button>
+            <a href="/write_review?Rental_ID=<%= rentalId %>">
+                <button class="write-review-btn">เขียนรีวิว</button>
+            </a>
         </div>
         <div class="review-list">
             <% reviews.forEach(review => { %>
