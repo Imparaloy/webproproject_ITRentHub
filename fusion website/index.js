@@ -96,6 +96,24 @@ app.get('/protected_owner', (req, res) => {
     res.send('Please log in AS OWNER.');
   }
 });
+
+// ตัว show ว่า owner มีที่เช่าอะไรบ้าง ***ผมใช้แทน select_dormitory ไปก่อน***
+app.get('/show_own_rental', function (req, res) {
+  let owner = req.session.user //ต้องมี session (ต้อง login owner ก่อน)
+  if (!owner) {
+    res.send('Please log in AS OWNER.');
+  } else {
+    const query = 'SELECT * FROM rental_data WHERE Owner_ID = ?';
+    // all มีผลกลับมา run ไม่มีผลกลับมา
+    db.all(query, owner.User_ID, (err, rows) => {
+      if (err) {
+        console.log(err.message);
+      }
+    //   console.log(rows);
+      res.render('owner/show_own_rental', { data : rows, owner : owner });
+    });
+  }
+});
 // ====== END OF WHAT YOU SHOULD DELETE ================}
 // >>>>>>>>>>>>>>>>>> จบโค้ด login เก่า >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 app.get('/write_review', function (req, res) {
@@ -608,7 +626,7 @@ app.get('/select_dorm', function (req, res) {
     res.render('owner/select_dorm', { owner: req.session.user });
 });
 
-app.get('/view_dorm', function (req, res) {
+app.get('/view_dorm', function (req, res) { //ไม่ได้ใช้
     res.render('owner/view_dorm', { owner: req.session.user });
 });
 
@@ -829,6 +847,38 @@ app.get('/insert_RentalPrice', (req, res) => {
       );
     }  
   });
+});
+
+//เปิดหน้า view_dormitory ถ้า login เป็น owner
+app.get('/view_dormitory', (req, res) => {
+  if (req.session.user && req.session.roles == "owner") {
+    const rental_id = req.query.rental_id; //รับ "/view_dormitory?rental_id=<%= item.Rental_ID %>" จาก show_own_rental
+    if (!rental_id) { //ถ้าไม่มี rental_id ให้ส่งกลับไปหน้าเลือกดูหอพัก
+      return res.redirect('show_own_rental');
+    }
+    const sql = `SELECT * FROM review JOIN account USING (User_ID) WHERE Rental_ID = ?`
+    db.all(sql, [rental_id], (err, reviews) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).send("Internal Server Error Can't Get Review");
+      }
+      db.all('SELECT AVG(Rating) AS Rating FROM review WHERE Rental_ID = ?', [rental_id], (err, rating) => {
+        if (err) {
+          console.error("Database error:", err);
+          return res.status(500).send("Internal Server Error Can't Get AVG(Rating)");
+        }
+        db.all('SELECT Rental_Name FROM rental_data WHERE Rental_ID = ?', [rental_id], (err, name) => {
+          if (err) {
+            console.error("Database error:", err);
+            return res.status(500).send("Internal Server Error Can't Get AVG(Rating)");
+          }
+          res.render("owner/view_dormitory", { owner: req.session.user, rental: name[0], reviews: reviews, avg_rate: rating});
+        });
+      });
+    });
+  } else {
+    res.send('Please log in AS OWNER.');
+  }
 });
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Add Domitory File>>>>>>>>>>>>>>>>>>>>>>>>>
 

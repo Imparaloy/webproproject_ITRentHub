@@ -1,49 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบจัดการหอพัก</title>
-    <link rel="stylesheet" href="view_dormitory.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-</head>
-<body>
-    <div class="container">
-        <!-- Left Sidebar -->
-        <aside class="sidebar">
-            <nav>
-                <ul>
-                    <li><a href="#">Select dormitory</a></li>
-                    <li><a href="#">Add dormitory</a></li>
-                    <li><a href="#" class="active">View dormitory</a></li>
-                    <li><a href="#">Chat dormitory</a></li>
-                    <li><a href="#">reserve date</a></li>
-                </ul>
-            </nav>
-        </aside>
+<%- include("headernav.ejs") %>
 
         <!-- Main Content -->
         <div class="main-content">
             <!-- Header -->
-            <header>
-                <h1>ยินดีตอนรับคุณ, <%= owner.User_Name %></h1>
-                <div class="header-right">
-                    <button class="notification-btn" aria-label="Notifications">
-                        <i class="fas fa-bell"></i>
-                    </button>
-                    <form action="/logout" method="post">
-                        <button type="submit" class="logout-btn">ออกจากระบบ</button>
-                    </form>
-                </div>
-            </header>
+            <%- include("headtoppart.ejs") %>
 
-            <!-- Main Section -->
             <!-- Main Section -->
             <main>
                 <section class="content-box">
-                    <h2>ตรวบสอบหอพัก</h2>
+                    <h2 class="title">ตรวบสอบหอพัก</h2>
+                    <h2><%= rental.Rental_Name %></h2>
                     
                     <div class="rating-section">
                         <div class="guest-reviews">
@@ -92,7 +58,7 @@
                                         "<%= review.Comment %>"
                                     </div>
                                     <div class="review-score">
-                                        ให้คะแนน: <%= review.Rating %>.0
+                                        ให้คะแนน: <%= review.Rating %>
                                     </div>
                                 </div>
                             <% }); %>
