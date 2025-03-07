@@ -32,6 +32,8 @@ app.set('view engine', 'ejs');
 // Middleware ใช้สำหรับส่งข้อมูลไป post
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use("/uploads", express.static("uploads"));
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -518,7 +520,7 @@ app.post('/logout', (req, res) => {
 // <<<<<<<<<<<<<<<<<<<<<<<<<Start Add Domitory File<<<<<<<<<<<<<<<<<<<<<<<<<
 const upload = multer({ storage: storage }).fields([
   { name: "Photo", maxCount: 1 }, // รับได้แค่ 1 รูป
-  { name: "Gallery", maxCount: 6 }, // รับได้สูงสุด 5 รูป
+  { name: "Gallery", maxCount: 50 }, // รับได้สูงสุด 50 รูป
 ]);
 // static resourse & templating engine
 app.use(express.static('public'));
@@ -557,49 +559,47 @@ app.get('/show', function (req, res) {
 
 
 //-------------โซนทำงาน Backend------------------------
-
-app.get('/head', function (req, res) {
-    res.render('head');
-});
+// CODE Sunja
 app.get('/select_data', function (req, res) {
-    res.render('select_dorm');
+    res.render('owner/select_dormitory', { owner: req.session.user });
 });
 
 app.get('/select_dorm', function (req, res) {
-    res.render('select_dorm');
+    res.render('owner/select_dorm', { owner: req.session.user });
 });
 
 app.get('/view_dorm', function (req, res) {
-    res.render('view_dorm');
+    res.render('owner/view_dorm', { owner: req.session.user });
 });
 
 app.get('/chat_dorm', function (req, res) {
-    res.render('chat_dorm');
+    res.render('owner/chat_dorm', { owner: req.session.user });
 });
 
 app.get('/reserve_dorm', function (req, res) {
-    res.render('reserve_dorm');
+    res.render('owner/reserve_dorm', { owner: req.session.user });
 });
 
+// Start Adding Dorm to DB
 app.get('/add_dorm', function (req, res) {
-    res.render('add_dorm');
+    res.render('owner/add_dorm', { owner: req.session.user });
 });
 
 app.get('/insert_DormType', (req, res) => {
     req.session.Rental_Type = req.query.Rental_Type;
     req.session.save();
     console.log("Rental Type:", req.session.Rental_Type);
-    res.render("add_dormdata")
+    res.render('owner/add_dormdata', { owner: req.session.user })
  });
 
 app.get('/add_dormdata', function (req, res) {
-    res.render('add_dormdata');
+    res.render('owner/add_dormdata', { owner: req.session.user });
 });
 
 app.get('/fill_dormdata', function (req, res) {
-    res.render('fill_dormdata');
+    res.render('owner/fill_dormdata', { owner: req.session.user });
 });
-app.use("/uploads", express.static("uploads"));
+
 
 app.post("/insert_DormData", (req, res) => {
   upload(req, res, (err) => {
@@ -648,26 +648,37 @@ app.post("/insert_DormData", (req, res) => {
 });
 
 app.get('/fill_price', function (req, res) {
-    res.render('fill_price');
+    res.render('owner/fill_price', { owner: req.session.user });
 });
 
 app.get('/insert_DormPrice', (req, res) => {
     const query = `INSERT INTO rental_price (Rental_ID, Advance_payment, Electric_price, 
     Water_price, Service_price, Phone_price, Internet_price)
-    VALUES(${req.session.rental_id}, ${req.query.Advance_payment}, 
-    ${req.query.Electric_price}, ${req.query.Water_price}, 
-    ${req.query.Service_price}, ${req.query.Phone_price}, ${req.query.Internet_price}); `;
-    db.run(query, (err, rows) => {
+    VALUES( ?, ?, ?, ?, ?, ?, ?); `;
+
+    const price = [
+      req.session.rental_id,
+      req.query.Advance_payment || 0,
+      req.query.Electric_price || 0,
+      req.query.Water_price || 0,
+      req.query.Service_price || 0,
+      req.query.Phone_price || 0,
+      req.query.Internet_price || 0
+    ];
+
+    db.run(query, price, (err, rows) => {
         if (err) {
+            console.log("Price Error rentalid=" + req.session.rental_id);
             console.log(err.message);
             console.log("Please Insert DormData First");
         }
+        console.log("Successfully Insert PRICE");
         res.redirect("/add_dormdata");
     });
 });
 
 app.get('/fill_dormfac', function (req, res) {
-    res.render('fill_dormfac');
+    res.render('owner/fill_dormfac', { owner: req.session.user });
 });
 
 app.get('/insert_DormFac', (req, res) => {
@@ -728,12 +739,12 @@ app.get('/fill_roomdata', function (req, res) {
         console.log(err.message);
       }
       console.log(rows);
-      res.render('fill_roomdata', { data : rows });
+      res.render('owner/fill_roomdata', { owner: req.session.user, data : rows });
     });
 });
 
 app.get('/add_roomdata', function (req, res) {
-  res.render('add_roomdata');
+  res.render('owner/add_roomdata', { owner: req.session.user });
 });
 
 app.get('/insert_RoomData', (req, res) => {
@@ -743,7 +754,9 @@ app.get('/insert_RoomData', (req, res) => {
     , ${req.query.Monthly_Rental}, ${req.query.Room_Status}, ${req.query.Number_Available_Room});`;
     db.run(query, (err, rows) => {
         if (err) {
-            console.log(err.message);
+          console.log("Room Error rentalid=" + req.session.rental_id);
+          console.log(err.message);
+          console.log("Please Insert DormData First");
         }
         res.redirect("/fill_roomdata");
     });
@@ -756,9 +769,9 @@ app.get('/insert_RentalPrice', (req, res) => {
         return res.status(500).json({ error: err.message });
     }
     if (row) {
-      // คำนวณค่า min และ max * 12
-      const minTransformed = row.min_value * 12;
-      const maxTransformed = row.max_value * 12;
+      // คำนวณค่า min และ max
+      const minTransformed = row.min_value;
+      const maxTransformed = row.max_value;
 
       // รวมค่าเป็นข้อความ "min - max"
       const formattedText = `${minTransformed} - ${maxTransformed}`;
@@ -804,7 +817,7 @@ app.post('/reserve', (req, res) => {
 });
 
 app.get('/reserve', (req, res) => {
-  res.render('reserve', { script: "js/reserve.js" });
+  res.render('user/reserve', { script: "js/reserve.js" });
 });
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Reserve File>>>>>>>>>>>>>>>>>>>>>>>>>

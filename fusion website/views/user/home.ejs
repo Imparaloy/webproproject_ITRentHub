@@ -6,7 +6,7 @@
     <title>ITRentHub - Home</title>
     <%- include("header(nav).ejs") %>
 
-        <section class="hero"></section>
+        <section class="hero">
         <h1>ITRentHub</h1>
         <p>Lorem ipsum dolor sit amet consectetur.<br>Tellus ultricies ut et phasellus a purus.<br>Neque ac nisi sit velit et morbi ipsum</p>
         <button class="learn-more">เรียนรู้เพิ่มเติม</button>
@@ -60,7 +60,7 @@
             <% topRatedPetrentals.forEach(r => { %>
             <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
             <div class="apartment">
-                <div class="image-placeholder"><img src="/home_img/<%= r.Photo %>"></div>
+                <div class="image-placeholder"><img src="/uploads/<%= r.Photo %>"></div>
                 <div class="info">
                 <p class="name"><%= r.Rental_Name %></p>
                 <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
