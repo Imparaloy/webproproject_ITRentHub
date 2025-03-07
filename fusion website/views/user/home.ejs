@@ -24,8 +24,19 @@
             <div class="facility-popup" id="facilityPopup" style="display: none;">
             <h2>จัดเรียง</h2>
             <div class="facility-list">
-                <% facilities.forEach(f => { %>
-                <div class="facility-item" data-facility="<%= f.name %>"><%= f.display_name %></div>
+                <% 
+                    const thaiNames = [
+                        "เครื่องปรับอากาศ", "เฟอร์นิเจอร์ครบ", "เครื่องทำน้ำอุ่น",
+                        "พัดลม", "ตู้เย็น", "ที่จอดรถ",
+                        "ที่จอดจักรยาน", "ลิฟต์", "สระว่ายน้ำ",
+                        "ฟิตเนส", "คีย์การ์ดรักษาความปลอดภัย", "ลายนิ้วมือรักษาความปลอดภัย",
+                        "กล้องวงจรปิด", "รักษาความปลอดภัย", "WIFI ในห้อง",
+                        "สัตว์เลี้ยง", "สูบบุหรี่", "ซักรีด",
+                        "เตาในครัว"
+                    ];
+                %>
+                <% facilities.forEach((f, index) => { %>
+                    <div class="facility-item" data-facility="<%= f.name %>"><%= thaiNames[index] %></div>
                 <% }); %>
             </div>
             <div class="popup-buttons">
