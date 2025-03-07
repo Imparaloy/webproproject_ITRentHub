@@ -7,37 +7,37 @@
         <main class="content">
             <!-- Card Section -->
             <section class="card">
-                <h2>Add Dormitory</h2>
-                    <p>add dormitory data</p>
+                <h2>การเพิ่มหอพัก</h2>
+                <p>กรอกข้อมูลของหอพัก</p>
                 <form action="/insert_DormData" method="post" enctype="multipart/form-data">
-                    <label>1. What is name of dormitory</label>
-                    <input type="text" name="Rental_Name" autocomplete="off" required placeholder="Please fill this">
-                    <label>2. Rented to Man/Woman?</label>
+                    <label>1. ชื่อของหอพัก</label>
+                    <input type="text" name="Rental_Name" autocomplete="off" required placeholder="กรุณากรอกข้อความ">
+                    <label>2. หอพักสำหรับผู้เช่าเพศไหน</label>
                     <select name="Gender" id="Type">
-                        <option value="Man">Man</option>
-                        <option value="Woman">Woman</option>
-                        <option value="Mix">Mix</option>
+                        <option value="Man">ผู้ชาย</option>
+                        <option value="Woman">ผู้หญิง</option>
+                        <option value="Mix">ได้ทั้งผู้ชายและผู้หญิง</option>
                     </select>
-                    <label>3. Description About Dormitory</label>
-                    <textarea name="Description" autocomplete="off" required placeholder="Please fill this"></textarea>
-                    <label>4. Contact</label>
+                    <label>3. คำอธิบายของหอพัก</label>
+                    <textarea name="Description" autocomplete="off" required placeholder="กรุณากรอกข้อความ"></textarea>
+                    <label>4. ช่องทางติดต่อ</label>
                     <div class="contact">
                         <div>
-                            <label>Telephone Number</label>
-                            <input type="text" name="Phone_number" autocomplete="off" required placeholder="Please fill this">
+                            <label>เบอร์โทรศัพท์</label>
+                            <input type="text" name="Phone_number" autocomplete="off" required placeholder="กรุณากรอกข้อความ">
                         </div>
                         <div>
-                            <label>Line ID</label>
-                            <input type="text" name="Line_ID" autocomplete="off" required placeholder="Please fill this">
+                            <label>ไอดีไลน์</label>
+                            <input type="text" name="Line_ID" autocomplete="off" required placeholder="กรุณากรอกข้อความ">
                         </div>
                     </div>
-                    <label>5. Add google map</label>
-                    <input type="text" name="Location" autocomplete="off" required placeholder="Please fill this">
-                    <label>6. Add cover image (1 Image Only)</label>
+                    <label>5. ที่ตั้งของหอพัก</label>
+                    <input type="text" name="Location" autocomplete="off" required placeholder="กรุณากรอกข้อความ">
+                    <label>6. เพิ่มรูปภาพหน้าปก (เพิ่มแค่ 1 รูปเท่านั้น)</label>
                     <input type="file" name="Photo" accept="image/*" required>
-                    <label>7. Add image</label>
+                    <label>7. เพิ่มรูปภาพหอพัก (ได้สูงสุด 50 รูป)</label>
                     <input type="file" name="Gallery" accept="image/*" required multiple>
-                    <button type="submit" value="Submit" id="submit">Submit</button>
+                    <button type="submit" value="Submit" id="submit">ยืนยัน</button>
                 </form>    
         </main>
     </div>
