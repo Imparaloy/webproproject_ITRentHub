@@ -24,6 +24,11 @@ body {
     padding: 0px;
 }
 
+button {
+    font-family: 'Sarabun', sans-serif;
+}
+
+
 .logo {
     font-weight: bold;
     font-size: 1.25rem;
@@ -34,8 +39,6 @@ body {
     color: black;
     text-decoration: none;
     margin: 0 1rem;
-    min-width: 9%;
-    text-align: center;
 }
 
 .hero {
@@ -46,6 +49,15 @@ body {
 .hero h1 {
     font-size: 2rem;
     font-weight: bold;
+}
+
+.headerr h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.headerr {
+    margin: 2rem 5rem;
 }
 
 .hero p {
@@ -78,6 +90,7 @@ body {
     padding: 0.5rem;
     border-radius: 50px;
     outline: none;
+    font-family: 'Sarabun', sans-serif;
 }
 
 .sort-icon, .search-button {
@@ -86,8 +99,12 @@ body {
     border-radius: 50px;
     cursor: pointer;
     border: none;
+    margin-inline: 10px;
 }
 
+.search-button {
+    margin-inline: 0px;
+}
 
 .sort-icon {
     background: white;
@@ -109,6 +126,45 @@ body {
 
 .sort-icon:hover .icon {
     transform: scale(1.1);
+}
+
+.facility-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center; /* จัดให้ปุ่มอยู่ตรงกลาง */
+}
+
+.facility-list {
+    display: grid; /* เปลี่ยนเป็น grid layout */
+    grid-template-columns: repeat(3, 1fr); /* กำหนด 3 คอลัมน์ */
+    gap: 10px; /* กำหนดระยะห่างระหว่าง items */
+    margin-bottom: 10px; /* เพิ่ม margin ด้านล่าง */
+}
+
+.facility-item {
+    padding: 5px 15px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.facility-item.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+#closePopup, #resetFilter {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 10px;
 }
 
 .search-container {

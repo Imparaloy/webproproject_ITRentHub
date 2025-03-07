@@ -20,7 +20,7 @@
                 <div class="facility-item" data-facility="<%= f.name %>"> <%= f.display_name %></div>
                 <% }); %>
             </div>
-            <div class="popup-buttons"></div>
+            <div class="popup-buttons">
                 <button id="resetFilter">รีเซ็ตตัวกรอง</button>
                 <button id="closePopup">ปิด</button>
             </div>
@@ -40,7 +40,7 @@
             <% data.forEach(r => { %>
             <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
                 <div class="apartment">
-                <div class="image-placeholder"><img src="/home_img/<%= r.Photo %>"></div>
+                <div class="image-placeholder"><img src="<%= r.Photo %>" alt="<%= r.Photo %>"></div>
                 <div class="info">
                     <p class="name"><%= r.Rental_Name %></p>
                     <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
@@ -115,7 +115,7 @@
                             apartmentDiv.innerHTML = `
                                 <a href="/Show_data?Rental_ID=${r.Rental_ID}" class="clickable-div">
                                     <div class="apartment">
-                                        <div class="image-placeholder"><img src="/home_img/${r.Photo}"></div>
+                                        <div class="image-placeholder"><img src="${r.Photo}" alt="${r.Photo}"></div>
                                         <div class="info">
                                             <p class="name">${r.Rental_Name}</p>
                                             <p class="price">${r.Rental_price} THB/month</p>

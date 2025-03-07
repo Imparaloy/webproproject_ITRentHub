@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail <%=data[0].Rental_Name%></title>
-    <link rel="stylesheet" href="Show_data_styles.css">
+    <link rel="stylesheet" href="Show_data_styles copy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
@@ -38,13 +39,13 @@
         
         <div class="gallery">
             <div class="main-image-container">
-            <img src="/home_img/<%= images[0] %>" class="main-image" id="mainImage" alt="Main Image">
+            <img src="<%= images[0] %>" class="main-image" id="mainImage" alt="Main Image">
             <button class="arrow left-arrow">&#8249;</button>
             <button class="arrow right-arrow">&#8250;</button>
             </div>
             <div class="thumbnail-row">
             <% images.forEach((img, index) => { %>
-                <img src="/home_img/<%= img %>" class="thumbnail" onclick="changeImage('/home_img/<%= img %>')" alt="Thumbnail <%= index + 1 %>">
+                <img src="<%= img %>" class="thumbnail" onclick="changeImage('<%= img %>')" alt="Thumbnail <%= index + 1 %>">
             <% }); %>
             </div>
         </div>
@@ -69,7 +70,7 @@
                 <span>ค่าไฟฟ้า</span>
                 <p><%=data[0].Electric_price%> บาท/หน่วย</p>
                 </div>
-                <div class="cost-item"></div>
+                <div class="cost-item">
                 <i class="fas fa-tint"></i>
                 <span>ค่าน้ำ</span>
                 <p><%=data[0].Water_price%> บาท/หน่วย</p>
@@ -193,13 +194,21 @@
     let currentIndex = 0;
 
     function changeImage(src) {
-        mainImage.src = src;
+        const correctsrc = src.replace(/sG/g, 's/G') //ใส่มาเพราะ \ แม่งหาย
+        mainImage.src = correctsrc;
+        mainImage.alt = correctsrc;
         thumbnails.forEach((thumb, index) => {
+            
             thumb.classList.remove("active");
-            if (thumb.src.includes(src)) {
+            
+            if (thumb.correctsrc.includes(correctsrc)) {
+                
                 currentIndex = index;
+                
                 thumb.classList.add("active");
+                
             }
+            
         });
     }
 
@@ -207,7 +216,7 @@
         currentIndex += direction;
         if (currentIndex < 0) currentIndex = images.length - 1;
         if (currentIndex >= images.length) currentIndex = 0;
-        mainImage.src = "/home_img/" + images[currentIndex]; // แก้ไขตรงนี้
+        mainImage.src = images[currentIndex]; // แก้ไขตรงนี้
         updateActiveThumbnail();
     }
 
@@ -223,6 +232,6 @@
     document.querySelector(".left-arrow").onclick = () => changeImageByArrow(-1);
     document.querySelector(".right-arrow").onclick = () => changeImageByArrow(1);
 
-    changeImage("/home_img/" + images[0]);
+    changeImage(images[0]);
 </script>
 </html>
