@@ -7,10 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
         /* --------- Form Container --------- */
         form {
             background-color: #d3d3d3;
@@ -74,14 +70,6 @@
 </head>
 <body>
     <%- include("header(nav).ejs") %>
-    <nav class="navbar">
-        <span class="logo">ITRentHub</span>
-        <div class="nav-links">
-            <a href="/">หน้าหลัก</a>
-            <a href="/apartment">อพาร์ทเมนท์</a>
-        </div>
-        <span class="username"><%= username.User_Name %></span>
-    </nav>
 
     <form id="reserveForm">
         <input type="hidden" name="room_id" value="<%= room.Room_ID %>"> <!-- แก้เป็น room_id -->
