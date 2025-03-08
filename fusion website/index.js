@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session'); //ใช้ session เก็บข้อมูล cookie
 const multer = require("multer");
 const app = express();
+const { v4: uuidv4 } = require('uuid');
 
 // Connect to SQLite database
 let db = new sqlite3.Database('itrentalhub.db', (err) => {    
@@ -17,11 +18,14 @@ let db = new sqlite3.Database('itrentalhub.db', (err) => {
 });
 
 const storage = multer.diskStorage({
-  destination: "./uploads",
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // กำหนดตำแหน่งที่เก็บไฟล์
   },
-});
+  filename: (req, file, cb) => {
+    const uniqueSuffix = uuidv4(); // ใช้ UUID เพื่อให้ชื่อไฟล์ไม่ซ้ำ
+    cb(null, file.fieldname  + uniqueSuffix + path.extname(file.originalname)); // ใช้ path.extname() เพื่อรักษานามสกุลไฟล์เดิม
+  }
+}); 
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<Start Home File<<<<<<<<<<<<<<<<<<<<<<<<<
 // static resourse & templating engine

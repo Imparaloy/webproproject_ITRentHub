@@ -37,7 +37,7 @@
                     <label>6. เพิ่มรูปภาพหน้าปก (เพิ่มแค่ 1 รูปเท่านั้น)</label>
                     <input type="file" name="Photo" accept="image/*" required>
                     <label>7. เพิ่มรูปภาพหอพัก (ได้สูงสุด 50 รูป)</label>
-                    <input type="file" name="Gallery" accept="image/*" required multiple>
+                    <input type="file" name="Gallery" accept="image/*" id="gallery" required multiple>
                     <button class="submit" type="submit" value="Submit" id="submit">Submit</button>
                 </form>
             </section>
@@ -81,5 +81,16 @@
         }
 
     </style>
+
+    <script>
+        const fileInput = document.getElementById('gallery');
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 50) {
+                alert('You can upload a maximum of 50 files.');
+                fileInput.value = ''; // Clear the input field
+            }
+        });
+    </script>
 </body>
 </html>
