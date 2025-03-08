@@ -646,6 +646,7 @@ app.get('/select_dormitory', (req, res) => {
               res.render('owner/no_dormitory', { owner: req.session.user, username: username });
           } else {
               // ถ้ามีหอพักในระบบ
+              console.log(rows)
               console.log('ส่งข้อมูลไปยังหน้า select_dormitory:', { owner: req.session.user, dormitories: rows, username: username });
               res.render('owner/select_dormitory', { owner: req.session.user, dormitories: rows, username: username });
           }

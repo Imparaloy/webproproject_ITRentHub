@@ -5,94 +5,42 @@
         <!-- Header -->
         <%- include("headtoppart.ejs") %>
             <!-- Main Section -->
-            <div class="main-content">
-                <!-- Header -->
-                <%- include("headtoppart.ejs") %>
-                    <!-- Card Section -->
-                        <!-- Main Section -->
                         <main>
                             <section class="content-box">
                                 <h2>เลือกหอพักที่เป็นเจ้าของ</h2>
                                 <div class="dormitory-grid">
                                     <% dormitories.forEach(function(dormitory) { %>
-                                        <div class="dormitory-card">
+                                        <a href="/dormitory/<%= dormitory.id %>" class="dormitory-card">
                                             <div class="dormitory-title">
-                                                <%= dormitory.name %>
+                                                <%= dormitory.Rental_Name %>
                                             </div>
-                                            <p>Owner ID: <%= dormitory.owner_id %>
-                                            </p>
-                                        </div>
-                                        <% }); %>
+                                        </a>
+                                    <% }); %>
+                                </div> 
                                 </div>
                             </section>
                         </main>
             </div>
         </div>
     </div>
-    <style>
-        /* ปรับแต่ง Main */
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-}
-
-/* กล่อง Content */
-.content-box {
-    background-color: #ffffff;
-    border-radius: 20px;
-    padding: 40px;
-    min-width: 70%;
-    max-width: 90%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* ส่วนหัวของกล่อง */
-.content-box h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #333;
-}
-
-/* Grid Layout สำหรับ Dormitory */
+<style>
 .dormitory-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    justify-items: center;
-    padding-top: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
 }
 
-/* การ์ด Dormitory */
 .dormitory-card {
-    background: linear-gradient(135deg, #f9f9f9, #e3e3e3);
-    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
     padding: 20px;
+    border-radius: 10px;
     text-align: center;
-    width: 200px;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-/* Hover Effect */
-.dormitory-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
-}
-
-/* ชื่อ Dormitory */
-.dormitory-title {
-    font-size: 18px;
+    text-decoration: none;
+    color: black;
     font-weight: bold;
-    margin-bottom: 10px;
-    color: #2c3e50;
+    transition: 0.3s;
 }
-
-/* Owner ID */
-.dormitory-card p {
-    font-size: 14px;
-    color: #555;
-}
-
-    </style>
+</style>
