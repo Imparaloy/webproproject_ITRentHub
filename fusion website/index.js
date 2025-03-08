@@ -635,11 +635,31 @@ app.get('/select_dorm', function (req, res) {
 // reserve_dorm ฝั่ง owner
 app.get('/reserve_dorm', function (req, res) {
   if (req.session.user && req.session.roles == "owner") {
-    res.render('owner/reserve_dorm', { owner: req.session.user });
+      const owner_id = req.session.user.id;
+
+      const sql = `
+          SELECT r.Reservation_ID, r.Room_ID, r.Name, r.Phone_Number, r.Date, r.Time 
+          FROM reservations r
+          JOIN room_data rm ON r.Room_ID = rm.Room_ID
+          JOIN rental_data rd ON rm.Rental_ID = rd.Rental_ID
+          WHERE rd.Owner_ID = ?`;
+
+      db.all(sql, [owner_id], (err, rows) => {
+          if (err) return res.status(500).send("Database error: " + err.message);
+
+          if (rows.length > 0) {
+              res.render('owner/reserve_dorm', { owner: req.session.user, reservations: rows });
+          } else {
+              res.render('owner/no_reservation', { owner: req.session.user });
+          }
+      });
+
   } else {
-    res.redirect('/login_owner_first');
+      res.redirect('/login_owner_first');
   }
 });
+
+
 
 // Start Adding Dorm to DB
 app.get('/add_dorm', function (req, res) {
