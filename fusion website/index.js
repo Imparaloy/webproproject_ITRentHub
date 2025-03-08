@@ -138,7 +138,7 @@ app.get('/write_review', function (req, res) {
 app.get('/home', function (req, res) {
     const query = 'SELECT * FROM rental_data';
     const query2 = `
-        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating, r.Approved
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         JOIN review rv ON r.Rental_ID = rv.Rental_ID
@@ -147,7 +147,7 @@ app.get('/home', function (req, res) {
         LIMIT 4;
     `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด
     const query3 = `
-        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating, r.Approved
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         JOIN review rv ON r.Rental_ID = rv.Rental_ID
@@ -1019,6 +1019,256 @@ app.post('/reserve', (req, res) => {
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Reserve File>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>Start AdminPanle File>>>>>>>>>>>>>>>>>>>>>>>>>
+app.get('/home_admin', function (req, res) {
+  const query = 'SELECT * FROM rental_data';
+  const query2 = `
+      SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+      FROM rental_data r
+      JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+      JOIN review rv ON r.Rental_ID = rv.Rental_ID
+      GROUP BY r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+      ORDER BY avg_rating DESC
+      LIMIT 4;
+  `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด
+  const query3 = `
+      SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+      FROM rental_data r
+      JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+      JOIN review rv ON r.Rental_ID = rv.Rental_ID
+      JOIN facility f ON r.Rental_ID = f.Rental_ID
+      WHERE f.Pets = 1
+      GROUP BY r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+      ORDER BY avg_Rating DESC
+      LIMIT 4;
+  `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด และเลี้ยงสัตว์ได้
+  const query4 = `
+  SELECT name, name AS display_name  -- Use 'name' instead of 'column_name'
+  FROM pragma_table_info('facility')
+  WHERE name NOT IN ('Rental_ID')
+  `;
+
+  db.all(query, (err, rows) => {
+      if (err) {
+          console.log(err.message);
+      }
+      db.all(query2, (err, topRatedRentals) => {
+          if (err) {
+              console.log(err.message);
+          }
+          db.all(query3, (err, topRatedPetrentals) => {
+              if (err) {
+                  console.log(err.message);
+              }
+              db.all(query4, (err, facilities) => {
+                  if (err) {
+                      console.log(err.message);
+                  }
+                  // Make sure you are passing 'facilities' here:
+                  res.render('admin/home_admin', {
+                      data: rows,
+                      topRatedRentals: topRatedRentals,
+                      topRatedPetrentals: topRatedPetrentals,
+                      facilities: facilities,
+                      user: req.session.user //เก็บ login session
+                  });
+              });
+          });
+      });
+  });
+});
+
+app.get('/Apartment_admin', function (req, res) {
+  const query = `
+      SELECT r.*, rp.Rental_price
+      FROM rental_data r
+      JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+  `;
+  const query4 = `
+      SELECT name, name AS display_name
+      FROM pragma_table_info('facility')
+      WHERE name NOT IN ('Rental_ID')
+  `;
+
+  db.all(query, (err, rows) => {
+      if (err) {
+          console.log(err.message);
+      }
+      db.all(query4, (err, facilities) => {
+          if (err) {
+              console.log(err.message);
+          }
+          res.render('admin/Apartment_admin', {
+              data: rows,
+              facilities: facilities,
+              user: req.session.user //เก็บ login session
+          });
+      });
+  });
+});
+
+app.get('/search_admin', (req, res) => {
+  const searchTerm = req.query.q;
+  const facilities = req.query.facilities;
+  let sql = `
+      SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+      FROM rental_data r
+      JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+      LEFT JOIN facility f ON r.Rental_ID = f.Rental_ID
+      WHERE r.Rental_Name LIKE '%${searchTerm}%'
+  `;
+
+  if (facilities) {
+      const facilityList = facilities.split(',');
+      facilityList.forEach(facility => {
+          sql += ` AND f.${facility} = 1`;
+      });
+  }
+
+  db.all(sql, (err, rows) => {
+      if (err) {
+          console.error(err.message);
+          return res.status(500).json({ error: err.message });
+      }
+      res.json(rows);
+  });
+});
+
+app.get('/Show_data_admin', function (req, res) {
+  let rentalId = req.query.Rental_ID;
+
+  // Query หลักสำหรับข้อมูล rental, price, review, facility
+  let mainSql = `
+      SELECT * FROM rental_data rd
+      LEFT JOIN rental_price rp ON rd.Rental_ID = rp.Rental_ID
+      LEFT JOIN review rv ON rd.Rental_ID = rv.Rental_ID
+      LEFT JOIN facility fa ON rd.Rental_ID = fa.Rental_ID
+      WHERE rd.Rental_ID = ${rentalId}
+  `;
+
+  // Query สำหรับข้อมูล room_data
+  let roomSql = `
+      SELECT * FROM room_data rm
+      WHERE rm.Rental_ID = ${rentalId}
+  `;
+
+  db.all(mainSql, (err, mainRows) => {
+      if (err) {
+          console.log(err.message);
+          res.status(500).send("Database error!");
+          return;
+      }
+
+      db.all(roomSql, (err, roomRows) => {
+          if (err) {
+              console.log(err.message);
+              res.status(500).send("Database error!");
+              return;
+          }
+
+          // ดึงข้อมูล facility
+          let facilitySql = `SELECT * FROM facility WHERE Rental_ID = ${rentalId}`;
+          db.get(facilitySql, (err, facilityRow) => {
+              if (err) {
+                  console.log(err.message);
+                  res.status(500).send("Database error!");
+                  return;
+              }
+
+              // ดึงค่าเฉลี่ยของ Rating
+              let averageRatingSql = `
+                  SELECT AVG(Rating) AS averageRating
+                  FROM review
+                  WHERE Rental_ID = ${rentalId}
+              `;
+              db.get(averageRatingSql, (err, averageRatingRow) => {
+                  if (err) {
+                      console.log(err.message);
+                      res.status(500).send("Database error!");
+                      return;
+                  }
+
+                  // ดึงข้อมูล reviews พร้อม User_Name
+                  let reviewsSql = `
+                      SELECT r.*, a.User_Name
+                      FROM review r
+                      LEFT JOIN account a ON r.User_ID = a.User_ID
+                      WHERE r.Rental_ID = ${rentalId}
+                  `;
+                  db.all(reviewsSql, (err, reviews) => {
+                      if (err) {
+                          console.log(err.message);
+                          res.status(500).send("Database error!");
+                          return;
+                      }
+
+                      const description = mainRows[0].Description.replace(/\n/g, '<br>');
+                      let images = mainRows[0].Gallery ? mainRows[0].Gallery.split(",") : [];
+
+                      res.render("admin/Show_data_admin", { 
+                          data: mainRows, 
+                          images: images, 
+                          description: description, 
+                          rooms: roomRows,
+                          facility: facilityRow,
+                          averageRating: averageRatingRow.averageRating ? averageRatingRow.averageRating.toFixed(1) : 'N/A',
+                          reviews: reviews, // ส่งข้อมูล reviews พร้อม User_Name ไปยัง template
+                          user: req.session.user, //เก็บ login session
+                          rentalId: req.query.Rental_ID
+                      });
+
+                      console.log("Main Rows:", mainRows);
+                      console.log("Room Rows:", roomRows);
+                      console.log("Facility Row:", facilityRow);
+                      console.log("Average Rating:", averageRatingRow);
+                      console.log("Reviews:", reviews);
+                  });
+              });
+          });
+      });
+  });
+});
+
+//Write Review
+app.post('/write_review_admin', function (req, res) {
+  let formdata = {
+      rentalId: req.body.rentalId,
+      userId: req.session.user.User_ID,
+      rating: req.body.rating,
+      comment: req.body.review
+  };
+  // console.log(formdata);
+  let checkSql = `SELECT * FROM review WHERE Rental_ID = ? AND User_ID = ?`;
+
+  db.get(checkSql, [formdata.rentalId, formdata.userId], (err, row) => {
+      if (err) {
+          console.error("Database error:", err);
+          return res.status(500).send("Internal Server Error"); // Return server error
+      }
+      if (row) {
+          let updateSql = `UPDATE review SET Rating = ?, Comment = ? WHERE (Rental_ID = ? AND User_ID = ?)`;
+          db.run(updateSql, [formdata.rating, formdata.comment, formdata.rentalId, formdata.userId], (err, row) => {
+              if (err) {
+                  console.error("Database error:", err);
+                  return res.status(500).send("Internal Server Error"); // Return server error
+              } else {
+                  console.log("a record inserted");
+                  res.redirect('home');
+              }
+          });
+      } else {
+          let sql = `INSERT INTO review (Rental_ID, User_ID, Rating, Comment) VALUES (?, ?, ?, ?)`;
+          db.run(sql, [formdata.rentalId, formdata.userId, formdata.rating, formdata.comment], (err, row) => {
+              if (err) {
+                  console.error("Database error:", err);
+                  return res.status(500).send("Internal Server Error"); // Return server error
+              } else {
+                  console.log("a record inserted");
+                  res.redirect('home');
+              }
+          });
+      }
+  });
+});
 
 // admin
 app.get("/admin", function (req, res) {

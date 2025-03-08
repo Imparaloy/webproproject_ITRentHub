@@ -49,15 +49,17 @@
         <h2>รายการอพาร์ทเมนท์</h2>
         <div class="apartment-list">
             <% data.forEach(r => { %>
-            <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
+            <% if (r.Approved === 'Approved') { %>
+                <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
                 <div class="apartment">
-                <div class="image-placeholder"><img src="<%= r.Photo %>" alt="<%= r.Photo %>"></div>
-                <div class="info">
+                    <div class="image-placeholder"><img src="<%= r.Photo %>" alt="<%= r.Photo %>"></div>
+                    <div class="info">
                     <p class="name"><%= r.Rental_Name %></p>
                     <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
+                    </div>
                 </div>
-                </div>
-            </a>
+                </a>
+            <% } %>
             <% }); %>
         </div>
         </section>
