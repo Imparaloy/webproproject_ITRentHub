@@ -48,7 +48,7 @@ app.use(session({
 
 // <<<<<<<<<<<<<<<< โค้ดจาก login <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 app.get("/", (req, res) => {
-  res.send("Hello! REST API N");
+  res.redirect("home");
 });
 
 app.get('/register', function (req, res) {
@@ -66,6 +66,10 @@ app.get('/login', function (req, res) {
 app.get('/login_owner', function (req, res) {
   res.render("login/login_owner", { message: null, formdata: null });
   });
+
+app.get('/login_owner_first', function (req, res) {
+  res.render("login/login_owner", { message: "โปรดเข้าระบบในฐานะเจ้าของหอพัก", formdata: null });
+});
 
 app.get('/reset_password', function (req, res) {
     let loginValue = req.query.login || '';
@@ -531,7 +535,7 @@ app.post('/login_owner', async (req, res) => {
           req.session.cookie.maxAge = 1 * 24 * 60 * 60 * 1000; // 1 days
 
         }
-        res.redirect('/protected_owner'); // Redirect to protected route
+        res.redirect('/select_dorm'); // Redirect to select dorm
       } else {
         res.render("login/login_owner", { message: 'รหัสผ่านไม่ถูกต้อง', formdata: { login } }); // Render login.ejs with error
       }
@@ -618,98 +622,122 @@ app.get('/show', function (req, res) {
 
 //-------------โซนทำงาน Backend------------------------
 // CODE Sunja
-app.get('/select_data', function (req, res) {
-    res.render('owner/select_dormitory', { owner: req.session.user });
-});
 
+//ไป select dorm (เปลี่ยนเป็นก็ได้ select_dormitory หรือแก้โค้ด select_dorm ก็ได้)
 app.get('/select_dorm', function (req, res) {
+  if (req.session.user && req.session.roles == "owner") {
     res.render('owner/select_dorm', { owner: req.session.user });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
-app.get('/view_dorm', function (req, res) { //ไม่ได้ใช้
-    res.render('owner/view_dorm', { owner: req.session.user });
-});
-
-app.get('/chat_dorm', function (req, res) {
-    res.render('owner/chat_dorm', { owner: req.session.user });
-});
-
+// reserve_dorm ฝั่ง owner
 app.get('/reserve_dorm', function (req, res) {
+  if (req.session.user && req.session.roles == "owner") {
     res.render('owner/reserve_dorm', { owner: req.session.user });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 // Start Adding Dorm to DB
 app.get('/add_dorm', function (req, res) {
+  if (req.session.user && req.session.roles == "owner") {
     res.render('owner/add_dorm', { owner: req.session.user });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 app.get('/insert_DormType', (req, res) => {
+  if (req.session.user && req.session.roles == "owner") {
     req.session.Rental_Type = req.query.Rental_Type;
     req.session.save();
     console.log("Rental Type:", req.session.Rental_Type);
     res.render('owner/add_dormdata', { owner: req.session.user })
+  } else {
+    res.redirect('/login_owner_first');
+  }
  });
 
 app.get('/add_dormdata', function (req, res) {
+  if (req.session.user && req.session.roles == "owner") {
     res.render('owner/add_dormdata', { owner: req.session.user });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 app.get('/fill_dormdata', function (req, res) {
+  if (req.session.user && req.session.roles == "owner") {
     res.render('owner/fill_dormdata', { owner: req.session.user });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 
 app.post("/insert_DormData", (req, res) => {
-  upload(req, res, (err) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({ error: err.message });
-    }
-
-    // ดึงข้อมูลจาก req.body
-    const { Rental_Name, Gender, Description, Phone_number, Line_ID, Location } = req.body;
-    const Rental_Type = req.session.Rental_Type;
-    const Owner_ID = req.session.user.User_ID;
-
-    // ตรวจสอบไฟล์ที่อัปโหลด
-    const photoPath = req.files["Photo"] ? req.files["Photo"][0].path : "";
-    const galleryPaths = req.files["Gallery"] ? req.files["Gallery"].map((file) => file.path).join(",") : "";
-
-    // สร้าง Query SQL
-    const query = `INSERT INTO rental_data 
-      (Owner_ID, Rental_Name, Type, Gender, Description, Phone_number, Line_ID, Location, Photo, Gallery) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-
-    db.run(query, [Owner_ID, Rental_Name, Rental_Type, Gender, Description, Phone_number, Line_ID, Location, photoPath, galleryPaths], (err) => {
+  if (req.session.user && req.session.roles == "owner") {
+    upload(req, res, (err) => {
       if (err) {
-        console.log(err.message);
-        return res.status(500).json({ error: "Database error" });
+        console.log(err);
+        return res.status(500).json({ error: err.message });
       }
-      db.get("SELECT last_insert_rowid() AS Rental_ID", (err, row) => {
+  
+      // ดึงข้อมูลจาก req.body
+      const { Rental_Name, Gender, Description, Phone_number, Line_ID, Location } = req.body;
+      const Rental_Type = req.session.Rental_Type;
+      const Owner_ID = req.session.user.User_ID;
+  
+      // ตรวจสอบไฟล์ที่อัปโหลด
+      const photoPath = req.files["Photo"] ? req.files["Photo"][0].path : "";
+      const galleryPaths = req.files["Gallery"] ? req.files["Gallery"].map((file) => file.path).join(",") : "";
+  
+      // สร้าง Query SQL
+      const query = `INSERT INTO rental_data 
+        (Owner_ID, Rental_Name, Type, Gender, Description, Phone_number, Line_ID, Location, Photo, Gallery) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  
+      db.run(query, [Owner_ID, Rental_Name, Rental_Type, Gender, Description, Phone_number, Line_ID, Location, photoPath, galleryPaths], (err) => {
         if (err) {
-          console.error("Database error:", err);
-          return res.status(500).send("Database error");
+          console.log(err.message);
+          return res.status(500).json({ error: "Database error" });
         }
-    
-        if (!row) {
-          return res.status(404).send("No rental data found");
-        }
-    
-        req.session.rental_id = row.Rental_ID;
-        req.session.save();
-        console.log("Rental ID set in session:", req.session.rental_id);
-
+        db.get("SELECT last_insert_rowid() AS Rental_ID", (err, row) => {
+          if (err) {
+            console.error("Database error:", err);
+            return res.status(500).send("Database error");
+          }
+      
+          if (!row) {
+            return res.status(404).send("No rental data found");
+          }
+      
+          req.session.rental_id = row.Rental_ID;
+          req.session.save();
+          console.log("Rental ID set in session:", req.session.rental_id);
+  
+        });
+        res.redirect("/add_dormdata");
       });
-      res.redirect("/add_dormdata");
     });
-  });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 app.get('/fill_price', function (req, res) {
+  if (req.session.user && req.session.roles == "owner") {
     res.render('owner/fill_price', { owner: req.session.user });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 app.get('/insert_DormPrice', (req, res) => {
+  if (req.session.user && req.session.roles == "owner") {
     const query = `INSERT INTO rental_price (Rental_ID, Advance_payment, Electric_price, 
     Water_price, Service_price, Phone_price, Internet_price)
     VALUES( ?, ?, ?, ?, ?, ?, ?); `;
@@ -733,10 +761,17 @@ app.get('/insert_DormPrice', (req, res) => {
         console.log("Successfully Insert PRICE");
         res.redirect("/add_dormdata");
     });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 app.get('/fill_dormfac', function (req, res) {
+  if (req.session.user && req.session.roles == "owner") {
     res.render('owner/fill_dormfac', { owner: req.session.user });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 app.get('/insert_DormFac', (req, res) => {
@@ -789,9 +824,10 @@ app.get('/insert_DormFac', (req, res) => {
 });
 
 app.get('/fill_roomdata', function (req, res) {
-  const query = `SELECT Room_Name, Room_Type, Size, Monthly_Rental, 
-  Room_Status, Number_Available_Room FROM room_data 
-  WHERE Rental_ID = ${req.session.rental_id}`;
+  if (req.session.user && req.session.roles == "owner") {
+    const query = `SELECT Room_Name, Room_Type, Size, Monthly_Rental, 
+    Room_Status, Number_Available_Room FROM room_data 
+    WHERE Rental_ID = ${req.session.rental_id}`;
     db.all(query, (err, rows) => {
       if (err) {
         console.log(err.message);
@@ -799,10 +835,17 @@ app.get('/fill_roomdata', function (req, res) {
       console.log(rows);
       res.render('owner/fill_roomdata', { owner: req.session.user, data : rows });
     });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 app.get('/add_roomdata', function (req, res) {
-  res.render('owner/add_roomdata', { owner: req.session.user });
+  if (req.session.user && req.session.roles == "owner") {
+    res.render('owner/add_roomdata', { owner: req.session.user });
+  } else {
+    res.redirect('/login_owner_first');
+  }
 });
 
 app.get('/insert_RoomData', (req, res) => {
@@ -877,7 +920,7 @@ app.get('/view_dormitory', (req, res) => {
       });
     });
   } else {
-    res.send('Please log in AS OWNER.');
+    res.redirect('/login_owner_first');
   }
 });
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Add Domitory File>>>>>>>>>>>>>>>>>>>>>>>>>

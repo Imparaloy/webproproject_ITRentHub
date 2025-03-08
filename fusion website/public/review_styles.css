@@ -1,5 +1,9 @@
-body {
+* {
     font-family: "Sarabun", sans-serif;
+}
+
+body {
+    
     background-color: white;
     display: flex;
     justify-content: center;
