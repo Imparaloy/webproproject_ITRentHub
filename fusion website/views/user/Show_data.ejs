@@ -209,8 +209,7 @@
         thumbnails.forEach((thumb, index) => {
             
             thumb.classList.remove("active");
-            
-            if (thumb.correctsrc.includes(correctsrc)) {
+            if (thumb.src.includes(correctsrc)) {
                 
                 currentIndex = index;
                 

@@ -7,17 +7,17 @@
             <!-- Main Section -->
             <main>
                 <section class="content-box">
-                    <h1 class="title">Select dormitory</h1>
+                    <h1 class="title">เลือกดูหอพัก</h1>
 
                     <div class="dormitory-container">
                         <h2 class="dormitory-name">
                             <%= dormitory.Rental_Name %>
                         </h2>
                         <a href="/view_dormitory?rental_id=<%= dormitory.Rental_ID %>" class="button">
-                            View dormitory data
+                            ดูคะแนนรีวิวหอพัก
                         </a>
                         <a href="/reserve_dorm?rental_id=<%= dormitory.Rental_ID %>" class="button">
-                            Reserve dormitory data
+                            ดูตารางจองหอพัก
                         </a>
                     </div>
 
@@ -76,11 +76,5 @@
         }
 
         /* ปุ่ม back */
-        .back-button {
-            display: block;
-            margin-top: 20px;
-            color: black;
-            text-decoration: none;
-            font-size: 14px;
-        }
+    /* เอาไปอยู่ใน view_dormitory.css ที่อื่นจะได้ได้ใช้ด้วย */
     </style>

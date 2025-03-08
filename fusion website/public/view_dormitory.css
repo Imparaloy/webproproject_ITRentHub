@@ -224,10 +224,23 @@ h3 {
     margin-top: 20px;
 }
 
+.add-btn:hover {
+    background-color: #e0f2ff;
+    color: #4a90e2;
+}
+
 
 .submit:hover {
     background-color: #e0f2ff;
     color: #4a90e2;
+}
+
+/* ปุ่มกดกลับ */
+.back-button {
+    display: block;
+    color: black;
+    text-decoration: none;
+    font-size: 14px;
 }
 
 @media (max-width: 692px) { 

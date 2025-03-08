@@ -7,16 +7,18 @@
             <!-- Main Section -->
             <main>
                 <section class="content-box">
+                    <a href="/dormitory/<%= reservations[0].Rental_ID %>" class="back-button">กลับ</a>
                     <h2>ตารางจองหอพัก</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Reservation ID</th>
-                            <th>Room ID</th>
-                            <th>Name</th>
-                            <th>Phone Number</th>
-                            <th>Date</th>
-                            <th>Time</th>
+                            <th>รหัสการจอง</th>
+                            <th>รหัสห้อง</th>
+                            <th>ชื่อห้อง</th>
+                            <th>ชื่อผู้จอง</th>
+                            <th>เบอร์โทรศัพท์</th>
+                            <th>วันที่</th>
+                            <th>เวลา</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,6 +26,7 @@
                             <tr>
                                 <td><%= reservation.Reservation_ID %></td>
                                 <td><%= reservation.Room_ID %></td>
+                                <td><%= reservation.Room_Name %></td>
                                 <td><%= reservation.Name %></td>
                                 <td><%= reservation.Phone_Number %></td>
                                 <td><%= reservation.Date %></td>

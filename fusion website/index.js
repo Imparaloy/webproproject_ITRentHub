@@ -684,7 +684,7 @@ app.get('/reserve_dorm', function (req, res) {
       const rental_id = req.query.rental_id;
 
       const sql = `
-          SELECT r.Reservation_ID, r.Room_ID, r.Name, r.Phone_Number, r.Date, r.Time 
+          SELECT r.Reservation_ID, r.Room_ID, rm.Room_Name, r.Name, r.Phone_Number, r.Date, r.Time, rd.Rental_ID
           FROM reservations r
           JOIN room_data rm ON r.Room_ID = rm.Room_ID
           JOIN rental_data rd ON rm.Rental_ID = rd.Rental_ID
@@ -696,7 +696,7 @@ app.get('/reserve_dorm', function (req, res) {
           if (rows.length > 0) {
               res.render('owner/reserve_dorm', { owner: req.session.user, reservations: rows });
           } else {
-              res.render('owner/no_reservation', { owner: req.session.user });
+              res.render('owner/no_reservation', { owner: req.session.user, rental: rental_id });
           }
       });
 
@@ -977,12 +977,12 @@ app.get('/view_dormitory', (req, res) => {
           console.error("Database error:", err);
           return res.status(500).send("Internal Server Error Can't Get AVG(Rating)");
         }
-        db.all('SELECT Rental_Name FROM rental_data WHERE Rental_ID = ?', [rental_id], (err, name) => {
+        db.all('SELECT Rental_Name, Rental_ID FROM rental_data WHERE Rental_ID = ?', [rental_id], (err, rent) => {
           if (err) {
             console.error("Database error:", err);
             return res.status(500).send("Internal Server Error Can't Get AVG(Rating)");
           }
-          res.render("owner/view_dormitory", { owner: req.session.user, rental: name[0], reviews: reviews, avg_rate: rating});
+          res.render("owner/view_dormitory", { owner: req.session.user, rental: rent[0], reviews: reviews, avg_rate: rating});
         });
       });
     });

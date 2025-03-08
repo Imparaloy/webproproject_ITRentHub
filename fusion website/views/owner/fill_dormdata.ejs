@@ -12,7 +12,7 @@
 
                 <form class="forming" action="/insert_DormData" method="post" enctype="multipart/form-data">
                     <label>1. ชื่อของหอพัก</label>
-                    <input type="text" name="Rental_Name" autocomplete="off" required placeholder="Please fill this">
+                    <input type="text" name="Rental_Name" autocomplete="off" required placeholder="โปรดกรอกข้อมูล">
                     <label>2. หอพักสำหรับผู้เช่าเพศไหน</label>
                     <select name="Gender" id="Type">
                         <option value="Man">เพศชาย</option>
@@ -20,25 +20,25 @@
                         <option value="Mix">ได้ทั้งเพศชายและเพศหญิง</option>
                     </select>
                     <label>3. คำอธิบายของหอพัก</label>
-                    <textarea name="Description" autocomplete="off" required placeholder="Please fill this"></textarea>
+                    <textarea name="Description" autocomplete="off" required placeholder="โปรดกรอกข้อมูล"></textarea>
                     <label>4. ช่องทางติดต่อ</label>
                     <div class="contact">
                         <div>
                             <label>เบอร์โทรศัพท์</label>
-                            <input type="text" name="Phone_number" autocomplete="off" required placeholder="Please fill this">
+                            <input type="text" name="Phone_number" autocomplete="off" required placeholder="โปรดกรอกข้อมูล">
                         </div>
                         <div>
                             <label>ไอดีไลน์</label>
-                            <input type="text" name="Line_ID" autocomplete="off" required placeholder="Please fill this">
+                            <input type="text" name="Line_ID" autocomplete="off" required placeholder="โปรดกรอกข้อมูล">
                         </div>
                     </div>
                     <label>5. ที่ตั้งของหอพัก</label>
-                    <input type="text" name="Location" autocomplete="off" required placeholder="Please fill this">
+                    <input type="text" name="Location" autocomplete="off" required placeholder="โปรดกรอกข้อมูล">
                     <label>6. เพิ่มรูปภาพหน้าปก (เพิ่มแค่ 1 รูปเท่านั้น)</label>
                     <input type="file" name="Photo" accept="image/*" required>
                     <label>7. เพิ่มรูปภาพหอพัก (ได้สูงสุด 50 รูป)</label>
                     <input type="file" name="Gallery" accept="image/*" id="gallery" required multiple>
-                    <button class="submit" type="submit" value="Submit" id="submit">Submit</button>
+                    <button class="submit" type="submit" value="Submit" id="submit">ยืนยัน</button>
                 </form>
             </section>
         </main>
