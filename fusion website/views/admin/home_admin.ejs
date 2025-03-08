@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITRentHub - Home</title>
+    <%- include("header(nav).ejs") %>
+
+        <section class="hero">
+        <h1>ITRentHub</h1>
+        <p>ยินดีต้อนรับสู่ IT RentHub แพลตฟอร์มเช่าหอพักที่ตอบโจทย์ทุกความต้องการของคุณ!
+            <br>เรามี หอพักให้เลือกมากกว่า 30 แห่ง พร้อมข้อมูลครบถ้วนทั้งรายละเอียด ที่อยู่ ค่าใช้จ่าย และ สิ่งอำนวยความสะดวก ที่ช่วยให้คุณตัดสินใจได้ง่ายขึ้น
+            <br>และสำหรับเจ้าของหอพัก เรามีระบบจัดการที่ใช้งานง่าย ช่วยให้คุณบริหารจัดการการจองได้อย่างมีประสิทธิภาพ
+            <br>
+            <br>IT RentHub — สะดวก ง่าย และครบครันเรื่องการเช่าหอพัก!
+        </p>
+        <a href="#why-us"><button class="learn-more">เรียนรู้เพิ่มเติม</button></a>
+        </section>
+
+        <div class="search-container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="ค้นหา...">
+            <button class="sort-icon" id="sortIcon"><img src="/home_img/sort.png" alt="sort" class="icon"></button>
+            <div class="facility-popup" id="facilityPopup" style="display: none;">
+            <h2>จัดเรียง</h2>
+            <div class="facility-list">
+                <% 
+                    const thaifacilities = [
+                        "เครื่องปรับอากาศ", "เฟอร์นิเจอร์ครบ", "เครื่องทำน้ำอุ่น",
+                        "พัดลม", "ตู้เย็น", "ที่จอดรถ",
+                        "ที่จอดจักรยาน", "ลิฟต์", "สระว่ายน้ำ",
+                        "ฟิตเนส", "ใช้คีย์การ์ด", "แสกนลายนิ้วมือ",
+                        "กล้องวงจรปิด", "รักษาความปลอดภัย", "WIFI ในห้อง",
+                        "สัตว์เลี้ยง", "สูบบุหรี่", "ซักรีด",
+                        "เตาในครัว"
+                    ];
+                %>
+                <% facilities.forEach((f, index) => { %>
+                    <div class="facility-item" data-facility="<%= f.name %>"><%= thaifacilities[index] %></div>
+                <% }); %>
+            </div>
+            <div class="popup-buttons">
+                <button id="resetFilter">รีเซ็ตตัวกรอง</button>
+                <button id="closePopup">ปิด</button>
+            </div>
+            </div>
+            <button class="search-button" id="searchButton">ค้นหา</button>
+        </div>
+        <section class="apartments" id="searchResults" style="display: none;">
+            <h2>ผลการค้นหา</h2>
+            <div class="apartment-list" id="searchResultsList">
+            </div>
+        </section>
+        </div>
+
+        <section class="apartments">
+        <h2>อพาร์ทเมนท์แนะนำ</h2>
+        <div class="apartment-list">
+            <% topRatedRentals.forEach(r => { %>
+            <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
+                <div class="apartment">
+                <div class="image-placeholder"><img src="<%= r.Photo %>"></div>
+                <div class="info">
+                    <p class="name"><%= r.Rental_Name %></p>
+                    <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
+                </div>
+                </div>
+            </a>
+            <% }); %>
+        </div>
+        </section>
+
+        <section class="apartments">
+        <h2>อพาร์ทเมนท์ที่อนุญาตให้เลี้ยงสัตว์</h2>
+        <div class="apartment-list">
+            <% topRatedPetrentals.forEach(r => { %>
+            <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
+            <div class="apartment">
+                <div class="image-placeholder"><img src="<%= r.Photo %>"></div>
+                <div class="info">
+                <p class="name"><%= r.Rental_Name %></p>
+                <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
+                </div>
+            </div>
+            </a>
+            <% }); %>
+        </div>
+        </section>
+
+        <section class="why-us" id="why-us">
+        <h2>ทำไมต้องเลือกเรา</h2>
+        <div class="card-container">
+            <div class="card">
+                <img src="/home_img/skyline.png" alt="User Icon" class="card-icon">
+                <h3>ตัวเลือกมากมาย</h3>
+                <p>เว็ปของเรามีหอพักให้ได้เลือกเข้าชมมากกว่า 30 หอพัก</p>
+            </div>
+            <div class="card">
+                <img src="/home_img/data.png" alt="Code Icon" class="card-icon">
+                <h3>ข้อมูลครบถ้วน</h3>
+                <p>นำเสนอข้อมูลหอพักอย่างครบถ้วนทั้งรายละเอียด ที่อยู่ ค่าใช้จ่าย และ สิ่งอํานวยความสะดวก</p>
+            </div>
+            <div class="card">
+                <img src="/home_img/database.png" alt="Folder Icon" class="card-icon">
+                <h3>จัดการง่ายสำหรับเจ้าของ</h3>
+                <p>ช่วยเจ้าของหอพักจัดการการจองได้อย่างมีประสิทธิภาพ</p>
+            </div>
+            <div class="card">
+                <img src="/home_img/filter.png" alt="Presentation Icon" class="card-icon">
+                <h3>คัดกรองสะดวกสบาย</h3>
+                <p>เพิ่มความสดวกสบายด้วยระบบคัดกรองที่มีให้เลือกมากกว่า 19 รายการ</p>
+            </div>
+        </div>
+        </section>
+
+    <footer>
+        &copy; ITRentHub 2025
+    </footer>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsList = document.getElementById('searchResultsList');
+        const sortIcon = document.getElementById('sortIcon');
+        const facilityList = document.getElementById('facilityList');
+        const facilityItems = document.querySelectorAll('.facility-item');
+
+        let selectedFacilities = [];
+
+        sortIcon.addEventListener('click', () => {
+            facilityPopup.style.display = facilityPopup.style.display === 'block' ? 'none' : 'block';
+        });
+
+        closePopup.addEventListener('click', () => {
+            facilityPopup.style.display = 'none';
+        });
+
+        resetFilter.addEventListener('click', () => {
+            selectedFacilities = [];
+            facilityItems.forEach(item => {
+                item.classList.remove('selected');
+            });
+        });
+
+        facilityItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const facility = item.dataset.facility;
+                const index = selectedFacilities.indexOf(facility);
+                if (index === -1) {
+                    selectedFacilities.push(facility);
+                    item.classList.add('selected');
+                } else {
+                    selectedFacilities.splice(index, 1);
+                    item.classList.remove('selected');
+                }
+            });
+        });
+
+        searchButton.addEventListener('click', () => {
+            const searchTerm = searchInput.value;
+            const facilities = selectedFacilities.join(',');
+            fetch(`/search?q=${searchTerm}&facilities=${facilities}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    searchResultsList.innerHTML = '';
+                    if (data && data.length > 0) {
+                        data.forEach(r => {
+                            const apartmentDiv = document.createElement('div');
+                            apartmentDiv.innerHTML = `
+                                <a href="/Show_data?Rental_ID=${r.Rental_ID}" class="clickable-div">
+                                    <div class="apartment">
+                                        <div class="image-placeholder"><img src="${r.Photo}"></div>
+                                        <div class="info">
+                                            <p class="name">${r.Rental_Name}</p>
+                                            <p class="price">${r.Rental_price} THB/month</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            `;
+                            searchResultsList.appendChild(apartmentDiv);
+                        });
+                        searchResults.style.display = 'block';
+                    } else {
+                        searchResultsList.innerHTML = '<p>No results found.</p>';
+                        searchResults.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    searchResultsList.innerHTML = '<p>An error occurred.</p>';
+                    searchResults.style.display = 'block';
+                });
+        });
+    </script>
+</body>
+</html>

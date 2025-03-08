@@ -1035,7 +1035,7 @@ app.get("/admin", function (req, res) {
           return;
       }
       
-      res.render("admin/adminpanel", { rentals: rows , username: username });
+      res.render("admin/adminpanel", { rentals: rows , username: username, user: req.session.user });
   });
 });
 
