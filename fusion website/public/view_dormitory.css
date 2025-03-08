@@ -41,8 +41,10 @@ body {
     border-radius: 5px;
 }
 
-.sidebar ul li a.active {
-    background-color: #ffffff;
+
+.sidebar ul li :hover {
+    background-color: #e0f2ff;
+    color: #4a90e2;
 }
 
 /* Main Content Styles */
@@ -103,10 +105,19 @@ h1 {
     text-align: center;
 }
 
+.content-box .roomdata {
+    text-align:left;
+    margin-bottom: 0px;
+}
+
 .content-box .title {
     margin-bottom: 10px;
     font-weight: 500;
     font-size: 20px;
+}
+
+.content-box .add-dorm {
+    margin-bottom: 10px;
 }
 
 /* Rating Section Styles */
@@ -174,6 +185,39 @@ h1 {
 
 h3 {
     font-weight: normal;
+}
+
+/* Form Sunja */
+.forming {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 15%;
+    text-align: left;
+}
+
+.submit {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    width: 20%;
+    cursor: pointer;
+    display: flex;
+    justify-self: center;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: auto;
+}
+
+
+
+.submit:hover {
+    background-color: #e0f2ff;
+    color: #4a90e2;
 }
 
 @media (max-width: 692px) { 

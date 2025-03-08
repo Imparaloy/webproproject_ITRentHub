@@ -1,16 +1,15 @@
-<%- include("head.ejs") %>
-
-<body>
-    <div class="container">
-        <%- include("sidebar.ejs") %>
+<%- include("headernav.ejs") %>
+    <div class="main-content">
+        <!-- Header -->
+        <%- include("headtoppart.ejs") %>
         <!-- Main Content -->
-        <main class="content">
+        <main>
             <!-- Card Section -->
-            <section class="card">
-                <h2>Add Dormitory</h2>
-                <p>add dormitory facility</p>
+            <section class="content-box">
+                <h2 class="add-dorm">Add Dormitory</h2>
+                <h2 class="title">add dormitory room</h2>
                 <div class="roomdata">
-                    <h2>RoomData</h2>
+                    <h2 class="roomdata">RoomData</h2>
                     <% data.forEach((item)=>{ %>
                         <div class="room">
                             <div class="row">
@@ -27,22 +26,26 @@
                             </div>
                         </div>
                     <% }); %>      
-                    <a href="/add_roomdata"><button>Add room</button></a>
+                    <a href="/add_roomdata"><button class="addroom">Add room</button></a>
                 </div>
-                <a href="/insert_RentalPrice"><button type="submit" value="Submit" id="submit">Submit</button></a>
+                <a href="/insert_RentalPrice"><button class="submit" type="submit" value="Submit" id="submit">Submit</button></a>
+            </section>
         </main>
     </div>
-
+</div>
     <style>
-        .roomdata {
-            text-align:left
-        }
-        button {
+
+
+        .addroom {
             margin-top: 10px;
-            padding: 5px 5px;
+            padding: 10px;
             font-size: 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 30px;
             width: 20%;
-            max-width: 20%;
+            cursor: pointer;
         }
 
         a {
