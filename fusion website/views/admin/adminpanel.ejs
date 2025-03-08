@@ -113,9 +113,9 @@
                             <form action="/update-status" method="POST">
                                 <input type="hidden" name="rentalId" value="<%= rental.id %>">
                                 <select name="status" onchange="this.form.submit()">
-                                    <option value="Pending" <%= rental.status === 0 ? 'selected' : '' %>>Pending</option>
-                                    <option value="Approved" <%= rental.status === 1 ? 'selected' : '' %>>Approved</option>
-                                    <option value="Rejected" <%= rental.status === 0 ? 'selected' : '' %>>Rejected</option>
+                                    <option value="Pending" <%= rental.status === "Pending" ? 'selected' : '' %>>Pending</option>
+                                    <option value="Approved" <%= rental.status === "Approved"  ? 'selected' : '' %>>Approved</option>
+                                    <option value="Rejected" <%= rental.status === "Rejected" ? 'selected' : '' %>>Rejected</option>
                                 </select>
                             </form>
                         </td>
