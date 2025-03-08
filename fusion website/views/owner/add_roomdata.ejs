@@ -7,20 +7,20 @@
         <main>
             <!-- Card Section -->
             <section class="content-box">
-                <h2 class="add-dorm">Add Dormitory</h2>
-                <h2 class="title">add dormitory data</h2>
+                <h2 class="add-dorm">การเพิ่มหอพัก</h2>
+                <h2 class="title">กรอกข้อมูลของห้องพัก</h2>
                 <form class="forming" action="/insert_RoomData" method="GET">
-                    <label>1. Room Name :</label>
+                    <label>1. ชื่อห้องพักที่ให้เช่า :</label>
                     <input type="text" name="Room_Name" autocomplete="off" required placeholder="Please fill this">
-                    <label>2. Room Type :</label>
+                    <label>2. ประเภทของห้องเช่า :</label>
                     <input type="text" name="Room_Type" autocomplete="off" required placeholder="Please fill this">
-                    <label>3. Size :</label>
+                    <label>3. ขนาดของห้องเช่า :</label>
                     <input type="number" name="Size" autocomplete="off" required placeholder="Number Only">
-                    <label>4. Monthly Rental:</label>
+                    <label>4. ค่าเช่าห้องพักแบบรายเดือน :</label>
                     <input type="number" name="Monthly_Rental" autocomplete="off" required placeholder="Int Only">
                     <!-- <label>5. Room Status :</label> -->
                     <input type="hidden" name="Room_Status" autocomplete="off" value="1">
-                    <label>5. Number Available Room :</label>
+                    <label>5. จำนวนห้องที่ว่างให้เช่า :</label>
                     <input type="number" name="Number_Available_Room" autocomplete="off" required placeholder="Int Only">
                     <button class="submit" type="submit" value="Submit" id="submit">Submit</button>
                 </form>
