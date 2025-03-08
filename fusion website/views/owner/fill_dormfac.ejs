@@ -1,12 +1,14 @@
-<%- include("head.ejs") %>
+<%- include("headernav.ejs") %>
 
-<body>
-    <div class="container">
-        <%- include("sidebar.ejs") %>
-        <!-- Main Content -->
-        <main class="content">
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <%- include("headtoppart.ejs") %>
+        <!-- Main Section -->
+
+        <main>
             <!-- Card Section -->
-            <section class="card">
+            <section class="content-box">
                 <h2>Add Dormitory</h2>
                 <p>add dormitory facility</p>
                 <form class="facility" action="/insert_DormFac" method="get">
@@ -31,11 +33,13 @@
                     <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Laundry">Laundry</span>
                     <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Kitchen_Stove">Kitchen Stove</span>
                     <div class="button-container">
-                    <button type="submit" id="submit">Submit</button>
+                    <button class="submit" type="submit" id="submit">Submit</button>
                     </div>
                 </form>
+            </section>
         </main>
     </div>
+</div>
     <script>
         document.getElementById("submit").addEventListener("click", function (event) {
             event.preventDefault(); // ป้องกันการ submit ทันที
@@ -55,8 +59,8 @@
         function ChangeColor(element) {
             var value = element.getAttribute("data-value");
             if (value == "0") {
-                element.style.backgroundColor = "#3652AD";
-                element.style.color = "white";
+                element.style.backgroundColor = "#4a90e2";
+                element.style.color = "#e0f2ff";
                 element.setAttribute("data-value", "1");
                 document.getElementById("formValue").value = "1";
             }

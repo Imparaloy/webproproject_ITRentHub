@@ -1,0 +1,78 @@
+<%- include("headernav.ejs") %>
+    <div class="main-content">
+        <!-- Header -->
+        <%- include("headtoppart.ejs") %>
+        <!-- Main Content -->
+        <main>
+            <!-- Card Section -->
+            <section class="content-box">
+                <h2 class="add-dorm">Add Dormitory</h2>
+                <h2 class="title">add dormitory room</h2>
+                <div class="roomdata">
+                    <h2>RoomData</h2>
+                    <% data.forEach((item)=>{ %>
+                        <div class="room">
+                            <div class="row">
+                                <span class="label">Room Name : <%=item.Room_Name %></span>
+                                <span class="label">Room Type : <%=item.Room_Type %></span>
+                            </div>
+                            <div class="row">
+                                <span class="label">Size : <%=item.Size %></span>
+                                <span class="label">Monthly Rental (Contract 1 year) : <%=item.Monthly_Rental * 12 %></span>
+                            </div>
+                            <div class="row">
+                                <span class="label">Room Status : <%=item.Room_Status  ? "true" : "false"%></span>
+                                <span class="label">Number Available Room : <%=item.Number_Available_Room %></span>
+                            </div>
+                        </div>
+                    <% }); %>      
+                    <a href="/add_roomdata"><button class="addroom">Add room</button></a>
+                </div>
+                <a href="/insert_RentalPrice"><button class="submit" type="submit" value="Submit" id="submit">Submit</button></a>
+            </section>
+        </main>
+    </div>
+</div>
+    <style>
+        .roomdata {
+            text-align:left
+        }
+
+        .addroom {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            width: 20%;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .room {
+            width: 80%;
+            border: 2px solid black;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px;
+            background-color: #e9e9ed;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</body>
+</html>

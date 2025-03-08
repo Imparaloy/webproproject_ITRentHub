@@ -1,15 +1,16 @@
-<%- include("head.ejs") %>
-
-<body>
-    <div class="container">
-        <%- include("sidebar.ejs") %>
+<%- include("headernav.ejs") %>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <%- include("headtoppart.ejs") %>
         <!-- Main Content -->
-        <main class="content">
+        <main>
             <!-- Card Section -->
-            <section class="card">
-                <h2>Add Dormitory</h2>
-                    <p>add dormitory price</p>
-                <form action="/insert_DormPrice" method="GET">
+            <section class="content-box">
+                <h2 class="add-dorm">Add Dormitory</h2>
+                <h2 class="title">add dormitory price</h2>
+
+                <form class="forming" action="/insert_DormPrice" method="GET">
                     <label>1. Advance payment :</label>
                     <input type="number" name="Advance_payment" autocomplete="off" placeholder="Int Only">
                     <label>2. Electric price :</label>
@@ -22,33 +23,18 @@
                     <input type="number" name="Phone_price" autocomplete="off" placeholder="Number Only">
                     <label>6. Internet :</label>
                     <input type="number" name="Internet_price" autocomplete="off" placeholder="Number Only">
-                    <button type="submit" value="Submit" id="submit">Submit</button>
-                </form>    
+                    <button class="submit" type="submit" value="Submit" id="submit">Submit</button>
+                </form>
+            </section>
         </main>
     </div>
-
+</div>
     <style> 
-        form {
-            display: flex;
-            flex-direction: column;
-            margin-top: 20px;
-            margin-left: 15%;
-            text-align: left;
-        }
-
         input {
             margin-top: 10px;
             margin-bottom: 10px;
             width: 80%;
             font-size: 16px;
-        }
-
-        button {
-            margin-top: 10px;
-            padding: 5px 5px;
-            font-size: 16px;
-            width: 20%;
-            max-width: 20%;
         }
     </style>
 </body>

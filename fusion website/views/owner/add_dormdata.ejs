@@ -1,14 +1,15 @@
-<%- include("head.ejs") %>
-
-<body>
-    <div class="container">
-        <%- include("sidebar.ejs") %>
+<%- include("headernav.ejs") %>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <%- include("headtoppart.ejs") %>
         <!-- Main Content -->
-        <main class="content">
+        <main>
             <!-- Card Section -->
-            <section class="card">
-                <h2>Add Dormitory</h2>
-                <p>Please complete dormitory</p>
+            <section class="content-box">
+                <h2 class="add-dorm">การเพิ่มหอพัก</h2>
+                <h2 class="title">Please complete dormitory</h2>
                 <a href="/fill_dormdata">
                     <button class="property-btn">
                         <h3>Dormitory Data</h3>
@@ -36,7 +37,7 @@
             </section>
         </main>
     </div>
-
+</div>
     <style>
         a {
             text-decoration: none;
@@ -56,7 +57,8 @@
         }
 
         .property-btn:hover {
-            background-color: #e0e0e0;
+            background-color: #e0f2ff;
+            color: #4a90e2;
         }
     </style>
 </body>

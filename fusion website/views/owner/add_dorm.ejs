@@ -1,22 +1,25 @@
-<%- include("head.ejs") %>
+<%- include("headernav.ejs") %>
 
-<body>
-    <div class="container">
-        <%- include("sidebar.ejs") %>
-        <!-- Main Content -->
-        <main class="content">
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <%- include("headtoppart.ejs") %>
+        <!-- Main Section -->
+
+        <main>
             <!-- Card Section -->
-            <section class="card">
+            <section class="content-box">
+                <h2 class="add-dorm">เพิ่มหอพัก</h2>
+                <h2 class="title">เลือกประเภทของหอพัก</h2>
                 <form action="/insert_DormType" method="get">
-                    <h2>Add Dormitory</h2>
-                    <p>Select Property Type</p>
-                    <button class="property-btn" name="Rental_Type" value="Dormitory">Dormitory</button>
-                    <button class="property-btn" name="Rental_Type" value="Apartment">Apartment</button>
+                    
+                    <button class="property-btn" name="Rental_Type" value="Dormitory">หอพัก</button>
+                    <button class="property-btn" name="Rental_Type" value="Apartment">อพาร์ทเมนท์</button>
                 </form>
             </section>
         </main>
     </div>
-
+</div>
     <style>
         a {
             text-decoration: none;
@@ -36,7 +39,8 @@
         }
 
         .property-btn:hover {
-            background-color: #e0e0e0;
+            background-color: #e0f2ff;
+            color: #4a90e2;
         }
     </style>
 </body>
