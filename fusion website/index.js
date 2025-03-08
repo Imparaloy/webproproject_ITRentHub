@@ -427,7 +427,7 @@ app.post('/register', function (req, res) {
             db.run(sql, [formdata.username, formdata.email, hashedPassword, formdata.phone, formdata.roles], function (err, result) {
                 if (err) throw err;
                 console.log("a record inserted");
-                res.redirect('login');
+                res.redirect('/login');
             });
         });
     });
@@ -473,7 +473,7 @@ app.post('/register_owner', function (req, res) {
           db.run(sql, [formdata.username, formdata.email, hashedPassword, formdata.phone, formdata.roles], function (err, result) {
               if (err) throw err;
               console.log("a record inserted");
-              res.redirect('show');
+              res.redirect('/login_owner');
           });
       });
   });
@@ -814,6 +814,7 @@ app.get('/insert_DormFac', (req, res) => {
               console.error("Error inserting data:", err.message);
               return res.status(500).send("Database error!");
           }
+          console.log("Successfully Insert Facilities");
           res.redirect("/add_dormdata"); // Redirect หลังจากเพิ่มข้อมูล
       });
 

@@ -74,6 +74,14 @@
 </head>
 <body>
     <%- include("header(nav).ejs") %>
+    <nav class="navbar">
+        <span class="logo">ITRentHub</span>
+        <div class="nav-links">
+            <a href="/">หน้าหลัก</a>
+            <a href="/apartment">อพาร์ทเมนท์</a>
+        </div>
+        <span class="username"><%= username.User_Name %></span>
+    </nav>
 
     <form id="reserveForm">
         <input type="hidden" name="room_id" value="<%= room.Room_ID %>"> <!-- แก้เป็น room_id -->
