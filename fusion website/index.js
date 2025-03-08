@@ -535,7 +535,7 @@ app.post('/login_owner', async (req, res) => {
           req.session.cookie.maxAge = 1 * 24 * 60 * 60 * 1000; // 1 days
 
         }
-        res.redirect('/select_dorm'); // Redirect to select dorm
+        res.redirect('/select_dormitory'); // Redirect to select dorm
       } else {
         res.render("login/login_owner", { message: 'รหัสผ่านไม่ถูกต้อง', formdata: { login } }); // Render login.ejs with error
       }
@@ -624,11 +624,35 @@ app.get('/show', function (req, res) {
 // CODE Sunja
 
 //ไป select dorm (เปลี่ยนเป็นก็ได้ select_dormitory หรือแก้โค้ด select_dorm ก็ได้)
-app.get('/select_dorm', function (req, res) {
+app.get('/select_dormitory', (req, res) => {
   if (req.session.user && req.session.roles == "owner") {
-    res.render('owner/select_dorm', { owner: req.session.user });
+      const userId = req.session.user.User_ID; // ดึง user ID จาก session
+
+      const query = `SELECT * FROM rental_data WHERE Owner_ID = ?`;
+      const username = req.session.user.User_Name;
+
+      db.all(query, [userId], (err, rows) => {
+          if (err) {
+              console.error("Database error:", err);
+              return res.status(500).send('Database error');
+          }
+
+          // Log ข้อมูลที่ได้จากฐานข้อมูล
+          console.log('ข้อมูลหอพักที่ดึงมา:', rows);
+
+          if (rows.length === 0) {
+              // ถ้าไม่มีหอพักในระบบ
+              console.log('ส่งข้อมูลไปยังหน้า no_dormitory:', { owner: req.session.user, username: username });
+              res.render('owner/no_dormitory', { owner: req.session.user, username: username });
+          } else {
+              // ถ้ามีหอพักในระบบ
+              console.log('ส่งข้อมูลไปยังหน้า select_dormitory:', { owner: req.session.user, dormitories: rows, username: username });
+              res.render('owner/select_dormitory', { owner: req.session.user, dormitories: rows, username: username });
+          }
+      });
+
   } else {
-    res.redirect('/login_owner_first');
+      res.redirect('/login_owner_first');
   }
 });
 

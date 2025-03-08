@@ -126,8 +126,6 @@ app.get('/dormitory/:userId', (req, res) => {
           res.render('owner/select_dormitory', { username: username, dormitories: rows });
       }
   });
-
-  db.close();
 });
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Select Dormitory File>>>>>>>>>>>>>>>>>>>>>>>>>
 
