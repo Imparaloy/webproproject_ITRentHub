@@ -885,32 +885,48 @@ app.get('/view_dormitory', (req, res) => {
 // >>>>>>>>>>>>>>>>>>>>>>>>>Start Reserve File>>>>>>>>>>>>>>>>>>>>>>>>>
 // แสดงหน้า Reserve Date
 app.get('/reserve', (req, res) => {
-  if (req.session.user) {
-    res.render('user/reserve', {username: req.session.user} );
-  } else {
-    res.render("login/login", { message: "โปรดเข้าระบบก่อนจะจองห้อง", formdata: null });
-  }
-  
-});
+  const roomId = req.query.room_id; // หรือ rental_id ตามที่คุณใช้
+  const username = req.session.user ? req.session.user.User_Name : 'Guest';
+  // ดึงข้อมูลห้องหรือหอพักจากฐานข้อมูล
+  const query = `SELECT * FROM room_data WHERE Room_ID = ?`; // หรือ rental_data
+  db.get(query, [roomId], (err, room) => {
+      if (err) {
+          console.error(err.message);
+          return res.status(500).send('Database error');
+      }
 
-// เพิ่มข้อมูลการจองลงในฐานข้อมูล
-app.post('/reserve', (req, res) => {
-  const { rental_id, name, phone, date, time } = req.body;
-  
-  db.run(`INSERT INTO reservations (Rental_ID, Name, Phone, Date, Time) VALUES (?, ?, ?, ?, ?)`,
-      [rental_id, name, phone, date, time],
-      function (err) {
-          if (err) {
-              console.error(err.message);
-              return res.status(500).json({ error: 'Database error' });
-          }
-          res.json({ success: true, message: 'เพิ่มการจองเรียบร้อยแล้ว' });
+      if (!room) {
+          return res.status(404).send('Room not found');
+      }
+
+      // ส่งข้อมูลไปยังหน้า Reserve
+      res.render('user/reserve', { 
+          user: req.session.user, //เก็บ login session, 
+          room: room // ส่งข้อมูลห้องผ่านตัวแปร room
       });
+  });
 });
 
-// app.get('/reserve', (req, res) => {
-//   res.render('user/reserve', { script: "js/reserve.js" });
-// });
+app.post('/reserve', (req, res) => {
+  const { room_id, name, phone, date, time } = req.body;
+
+  // ตรวจสอบว่าผู้ใช้ล็อกอินหรือไม่
+  if (!req.session.user) {
+      return res.status(401).json({ error: 'กรุณาเข้าสู่ระบบก่อนจอง' });
+  }
+  // เพิ่มข้อมูลการจองลงในฐานข้อมูล
+  const query = `
+      INSERT INTO reservations (Room_ID, Name, Phone_Number, Date, Time)
+      VALUES (?, ?, ?, ?, ?)
+  `;
+  db.run(query, [room_id, name, phone, date, time], function(err) {
+      if (err) {
+          console.error(err.message);
+          return res.status(500).json({ error: 'Database error' });
+      }
+      res.json({ success: true, message: 'เพิ่มการจองเรียบร้อยแล้ว' });
+  });
+});
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Reserve File>>>>>>>>>>>>>>>>>>>>>>>>>
 

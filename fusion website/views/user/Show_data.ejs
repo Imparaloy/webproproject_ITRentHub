@@ -125,9 +125,11 @@
                     </span>
                     </td>
                     <td>
-                        <a href="/reserve">
-                            <button class="reserve-btn">จอง</button>
-                        </a>
+                        <% if (rm.Room_Status == 1) { %>
+                            <button class="reserve-btn" data-room-id="<%= rm.Room_ID %>">จอง</button>
+                        <% } else { %>
+                            <button class="reserve-btn" disabled>จอง</button>
+                        <% } %>
                     </td>
                 </tr>
                 <% }) %>
@@ -235,6 +237,14 @@
             }
         });
     }
+
+    //ปุ่มจอง
+    document.querySelectorAll('.reserve-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const roomId = this.getAttribute('data-room-id');
+            window.location.href = `/reserve?room_id=${roomId}`;
+        });
+    });
 
     document.querySelector(".left-arrow").onclick = () => changeImageByArrow(-1);
     document.querySelector(".right-arrow").onclick = () => changeImageByArrow(1);
