@@ -657,19 +657,36 @@ app.get('/select_dormitory', (req, res) => {
   }
 });
 
+// Route แสดงข้อมูลหอพักแต่ละแห่ง
+app.get("/dormitory/:id", (req, res) => {
+    // const userId = req.session.user.User_ID;
+    const query = `SELECT * FROM rental_data WHERE Rental_ID = ?`;
+    db.get(query, [req.params.id], (err, dormitory) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).send("Database error");
+      }
+      if (dormitory) {
+        res.render("owner/detail_dormitory", { owner: req.session.user,  username: req.session.user, dormitory });
+      } else {
+        res.status(404).send("Dormitory not found");
+      }
+    });
+});
+
 // reserve_dorm ฝั่ง owner
 app.get('/reserve_dorm', function (req, res) {
   if (req.session.user && req.session.roles == "owner") {
-      const owner_id = req.session.user.id;
+      const rental_id = req.query.rental_id;
 
       const sql = `
           SELECT r.Reservation_ID, r.Room_ID, r.Name, r.Phone_Number, r.Date, r.Time 
           FROM reservations r
           JOIN room_data rm ON r.Room_ID = rm.Room_ID
           JOIN rental_data rd ON rm.Rental_ID = rd.Rental_ID
-          WHERE rd.Owner_ID = ?`;
+          WHERE rd.Rental_ID = ?`;
 
-      db.all(sql, [owner_id], (err, rows) => {
+      db.all(sql, [rental_id], (err, rows) => {
           if (err) return res.status(500).send("Database error: " + err.message);
 
           if (rows.length > 0) {

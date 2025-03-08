@@ -1,0 +1,86 @@
+<%- include("headernav.ejs") %>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <%- include("headtoppart.ejs") %>
+            <!-- Main Section -->
+            <main>
+                <section class="content-box">
+                    <h1 class="title">Select dormitory</h1>
+
+                    <div class="dormitory-container">
+                        <h2 class="dormitory-name">
+                            <%= dormitory.Rental_Name %>
+                        </h2>
+                        <a href="/view_dormitory?rental_id=<%= dormitory.Rental_ID %>" class="button">
+                            View dormitory data
+                        </a>
+                        <a href="/reserve_dorm?rental_id=<%= dormitory.Rental_ID %>" class="button">
+                            Reserve dormitory data
+                        </a>
+                    </div>
+
+                    <a href="/" class="back-button">back</a>
+                </section>
+            </main>
+    </div>
+
+    <style>
+        /* ตั้งค่ากลางหน้า */
+
+        /* ตั้งค่าหัวข้อ */
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* ตั้งค่ากล่องข้อมูลหอพัก */
+        .dormitory-container {
+            text-align: center;
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        /* ตั้งค่าชื่อหอพัก */
+        .dormitory-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* ตั้งค่าปุ่ม */
+        .button {
+            display: block;
+            background: white;
+            border: 2px solid black;
+            padding: 12px;
+            border-radius: 50px;
+            width: 100%;
+            text-align: center;
+            margin: 10px 0;
+            text-decoration: none;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #f0f0f0;
+        }
+
+        /* ปุ่ม back */
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            color: black;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
