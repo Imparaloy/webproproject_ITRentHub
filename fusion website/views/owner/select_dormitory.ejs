@@ -5,29 +5,29 @@
         <!-- Header -->
         <%- include("headtoppart.ejs") %>
             <!-- Main Section -->
-
-            <main>
-                <!-- Card Section -->
-                <div class="main-content">
-                    <!-- Main Section -->
-                    <main>
-                        <section class="content-box">
-                            <h2>เลือกหอพักที่เป็นเจ้าของ</h2>
-                            <div class="dormitory-grid">
-                                <% dormitories.forEach(function(dormitory) { %>
-                                    <div class="dormitory-card">
-                                        <div class="dormitory-title">
-                                            <%= dormitory.name %>
+            <div class="main-content">
+                <!-- Header -->
+                <%- include("headtoppart.ejs") %>
+                    <!-- Card Section -->
+                        <!-- Main Section -->
+                        <main>
+                            <section class="content-box">
+                                <h2>เลือกหอพักที่เป็นเจ้าของ</h2>
+                                <div class="dormitory-grid">
+                                    <% dormitories.forEach(function(dormitory) { %>
+                                        <div class="dormitory-card">
+                                            <div class="dormitory-title">
+                                                <%= dormitory.name %>
+                                            </div>
+                                            <p>Owner ID: <%= dormitory.owner_id %>
+                                            </p>
                                         </div>
-                                        <p>Owner ID: <%= dormitory.owner_id %>
-                                        </p>
-                                    </div>
-                                    <% }); %>
-                            </div>
-                        </section>
-                    </main>
-                </div>
-            </main>
+                                        <% }); %>
+                                </div>
+                            </section>
+                        </main>
+            </div>
+        </div>
     </div>
     <style>
         /* ปรับแต่ง Main */

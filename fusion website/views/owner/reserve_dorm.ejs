@@ -1,14 +1,14 @@
 <%- include("headernav.ejs") %>
+<%- include("headernav.ejs") %>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Header -->
-        <%- include("headtoppart.ejs") %>
-        <!-- Main Content -->
-        <main>
-            </head>
-            <body>
-                <h2>ตารางจองหอพัก</h2>
+<div class="main-content">
+    <!-- Header -->
+    <%- include("headtoppart.ejs") %>
+        <!-- Card Section -->
+            <!-- Main Section -->
+            <main>
+                <section class="content-box">
+                    <h2>ตารางจองหอพัก</h2>
                 <table>
                     <thead>
                         <tr>
@@ -33,11 +33,8 @@
                         <% }); %>
                     </tbody>
                 </table>
-            </body>
-            </html>
-            
-        </main>
-    </div>
+                </section>
+            </main>
 </div>
 <style>
     table {
