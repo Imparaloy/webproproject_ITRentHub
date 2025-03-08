@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Dormitory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #ffffff;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: #f5f5f5;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+        
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .sidebar ul li a.active {
+            background-color: #ffffff;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            margin-left: 250px; /* Equal to sidebar width */
+        }
+        
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 10px 0;
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .notification-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .logout-btn {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        /* Content Box Styles */
+        .content-box {
+            background-color: #e0e0e0;
+            border-radius: 20px;
+            padding: 40px;
+            min-height: 400px;
+        }
+        
+        .content-box h2 {
+            font-size: 24px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        /* Dormitory Grid Styles */
+        .dormitory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .dormitory-card {
+            cursor: pointer;
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .dormitory-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .dormitory-title {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Select Dormitory</a></li>
+                    <li><a href="#">Add Dormitory</a></li>
+                    <li><a href="#">View Dormitory</a></li>
+                    <li><a href="#">Reserve Date</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header>
+                <h1>Welcome, <%= username %></h1>
+                <div class="header-right">
+                    <button class="notification-btn" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="logout-btn">Log Out</button>
+                </div>
+            </header>
+
+            <main>
+                <section class="content-box">
+                    <h2>Select Dormitory</h2>
+                    <div class="dormitory-grid">
+                        <% dormitories.forEach(function(dormitory) { %>
+                            <div class="dormitory-card" onclick="selectDormitory('<%= dormitory.id %>')">
+                                <div class="dormitory-title"><%= dormitory.name %></div>
+                                <p>Owner ID: <%= dormitory.Owner_ID %></p>
+                            </div>
+                        <% }); %>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function selectDormitory(dormitoryId) {
+            window.location.href = `/dormitory/details/${dormitoryId}`;
+        }
+    </script>
+</body>
+</html>
