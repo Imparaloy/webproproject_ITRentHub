@@ -113,7 +113,6 @@
                 </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD
                 <tbody>
                     <% rooms.forEach(rm => { %>
                         <tr>
@@ -137,27 +136,6 @@
                         </tr>
                     <% }) %>
                 </tbody>
-=======
-                <% rooms.forEach(rm => { %>
-                <tr>
-                    <td><%= rm.Room_Name %></td>
-                    <td><%= rm.Room_Type %></td>
-                    <td><%= rm.Size %> ตร.ม.</td>
-                    <td><%= rm.Monthly_Rental %> บาท</td>
-                    <td><%= rm.Number_Available_Room %> ห้อง</td>
-                    <td>
-                    <span class="status <%= rm.Room_Status == 1 ? 'available' : 'not-available' %>">
-                        <%= rm.Room_Status == 1 ? 'ว่าง' : 'ไม่ว่าง' %>
-                    </span>
-                    </td>
-                    <td>
-                        <a href="/reserve">
-                            <button class="reserve-btn">จอง</button>
-                        </a>
-                    </td>
-                </tr>
-                <% }) %>
->>>>>>> af6bc8bea67cf8996e4f90dd13194bfadc0db7c7
             </tbody>
             </table>
         </div>
