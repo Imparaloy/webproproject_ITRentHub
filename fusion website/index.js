@@ -234,7 +234,7 @@ app.get('/Apartment', function (req, res) {
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         LEFT JOIN facility f ON r.Rental_ID = f.Rental_ID
-        WHERE r.Rental_Name LIKE '%${searchTerm}%'
+        WHERE r.Rental_Name LIKE '%${searchTerm}%' AND r.Approved = 'Approved'
     `;
 
     if (facilities) {
@@ -1041,137 +1041,158 @@ app.post('/reserve', (req, res) => {
 // >>>>>>>>>>>>>>>>>>>>>>>>>End Reserve File>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>Start AdminPanle File>>>>>>>>>>>>>>>>>>>>>>>>>
-app.get('/home_admin', function (req, res) {
-  const query = 'SELECT * FROM rental_data';
-  const query2 = `
-      SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
-      FROM rental_data r
-      JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
-      JOIN review rv ON r.Rental_ID = rv.Rental_ID
-      GROUP BY r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
-      ORDER BY avg_rating DESC
-      LIMIT 4;
-  `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด
-  const query3 = `
-      SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
-      FROM rental_data r
-      JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
-      JOIN review rv ON r.Rental_ID = rv.Rental_ID
-      JOIN facility f ON r.Rental_ID = f.Rental_ID
-      WHERE f.Pets = 1
-      GROUP BY r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
-      ORDER BY avg_Rating DESC
-      LIMIT 4;
-  `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด และเลี้ยงสัตว์ได้
-  const query4 = `
-  SELECT name, name AS display_name  -- Use 'name' instead of 'column_name'
-  FROM pragma_table_info('facility')
-  WHERE name NOT IN ('Rental_ID')
-  `;
+app.get('/login_admin', function (req, res) { // login Admin ต้องพิมพ์ url ไปเท่านั้น
+  res.render("admin/login_admin", { message: null});
+});
 
-  db.all(query, (err, rows) => {
-      if (err) {
-          console.log(err.message);
-      }
-      db.all(query2, (err, topRatedRentals) => {
-          if (err) {
-              console.log(err.message);
-          }
-          db.all(query3, (err, topRatedPetrentals) => {
-              if (err) {
-                  console.log(err.message);
-              }
-              db.all(query4, (err, facilities) => {
-                  if (err) {
-                      console.log(err.message);
-                  }
-                  // Make sure you are passing 'facilities' here:
-                  res.render('admin/home_admin', {
-                      data: rows,
-                      topRatedRentals: topRatedRentals,
-                      topRatedPetrentals: topRatedPetrentals,
-                      facilities: facilities,
-                      user: req.session.user //เก็บ login session
-                  });
-              });
-          });
-      });
-  });
+
+app.get('/home_admin', function (req, res) {
+  if (req.session.user && req.session.roles == "admin") {
+    const query = 'SELECT * FROM rental_data';
+    const query2 = `
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+        FROM rental_data r
+        JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+        JOIN review rv ON r.Rental_ID = rv.Rental_ID
+        GROUP BY r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+        ORDER BY avg_rating DESC
+        LIMIT 4;
+    `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด
+    const query3 = `
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+        FROM rental_data r
+        JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+        JOIN review rv ON r.Rental_ID = rv.Rental_ID
+        JOIN facility f ON r.Rental_ID = f.Rental_ID
+        WHERE f.Pets = 1
+        GROUP BY r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+        ORDER BY avg_Rating DESC
+        LIMIT 4;
+    `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด และเลี้ยงสัตว์ได้
+    const query4 = `
+    SELECT name, name AS display_name  -- Use 'name' instead of 'column_name'
+    FROM pragma_table_info('facility')
+    WHERE name NOT IN ('Rental_ID')
+    `;
+
+    db.all(query, (err, rows) => {
+        if (err) {
+            console.log(err.message);
+        }
+        db.all(query2, (err, topRatedRentals) => {
+            if (err) {
+                console.log(err.message);
+            }
+            db.all(query3, (err, topRatedPetrentals) => {
+                if (err) {
+                    console.log(err.message);
+                }
+                db.all(query4, (err, facilities) => {
+                    if (err) {
+                        console.log(err.message);
+                    }
+                    // Make sure you are passing 'facilities' here:
+                    res.render('admin/home_admin', {
+                        data: rows,
+                        topRatedRentals: topRatedRentals,
+                        topRatedPetrentals: topRatedPetrentals,
+                        facilities: facilities,
+                        user: req.session.user //เก็บ login session
+                    });
+                });
+            });
+        });
+    });
+  } else {
+    res.redirect('/login_admin');
+  }
 });
 
 app.get('/Apartment_admin', function (req, res) {
-  const query = `
-      SELECT r.*, rp.Rental_price
-      FROM rental_data r
-      JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
-  `;
-  const query4 = `
-      SELECT name, name AS display_name
-      FROM pragma_table_info('facility')
-      WHERE name NOT IN ('Rental_ID')
-  `;
+  if (req.session.user && req.session.roles == "admin") {
+      const query = `
+        SELECT r.*, rp.Rental_price
+        FROM rental_data r
+        JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+    `;
+    const query4 = `
+        SELECT name, name AS display_name
+        FROM pragma_table_info('facility')
+        WHERE name NOT IN ('Rental_ID')
+    `;
 
-  db.all(query, (err, rows) => {
-      if (err) {
-          console.log(err.message);
-      }
-      db.all(query4, (err, facilities) => {
-          if (err) {
-              console.log(err.message);
-          }
-          res.render('admin/Apartment_admin', {
-              data: rows,
-              facilities: facilities,
-              user: req.session.user //เก็บ login session
-          });
-      });
-  });
+    db.all(query, (err, rows) => {
+        if (err) {
+            console.log(err.message);
+        }
+        db.all(query4, (err, facilities) => {
+            if (err) {
+                console.log(err.message);
+            }
+            res.render('admin/Apartment_admin', {
+                data: rows,
+                facilities: facilities,
+                user: req.session.user //เก็บ login session
+            });
+        });
+    });
+  } else {
+    res.redirect('/login_admin');
+  }
 });
 
 app.get('/search_admin', (req, res) => {
-  const searchTerm = req.query.q;
-  const facilities = req.query.facilities;
-  let sql = `
-      SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
-      FROM rental_data r
-      JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
-      LEFT JOIN facility f ON r.Rental_ID = f.Rental_ID
-      WHERE r.Rental_Name LIKE '%${searchTerm}%'
-  `;
+  if (req.session.user && req.session.roles == "admin") {
+    const searchTerm = req.query.q;
+    const facilities = req.query.facilities;
+    let sql = `
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+        FROM rental_data r
+        JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
+        LEFT JOIN facility f ON r.Rental_ID = f.Rental_ID
+        WHERE r.Rental_Name LIKE '%${searchTerm}%'
+    `;
 
-  if (facilities) {
-      const facilityList = facilities.split(',');
-      facilityList.forEach(facility => {
-          sql += ` AND f.${facility} = 1`;
-      });
+    if (facilities) {
+        const facilityList = facilities.split(',');
+        facilityList.forEach(facility => {
+            sql += ` AND f.${facility} = 1`;
+        });
+    }
+
+    db.all(sql, (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+  } else {
+    res.redirect('/login_admin');
   }
-
-  db.all(sql, (err, rows) => {
-      if (err) {
-          console.error(err.message);
-          return res.status(500).json({ error: err.message });
-      }
-      res.json(rows);
-  });
 });
 
 // admin
 app.get("/admin", function (req, res) {
-  let sql = `
-  SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Approved AS status
-  FROM rental_data`;
+  if (req.session.user && req.session.roles == "admin") {
+    let sql = `
+    SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Approved AS status
+    FROM rental_data`;
 
-  const username = req.session.user;
-  
-  db.all(sql, [], (err, rows) => {
-      if (err) {
-          console.log(err.message);
-          res.status(500).send("Database error!");
-          return;
-      }
-      
-      res.render("admin/adminpanel", { rentals: rows , username: username, user: req.session.user });
-  });
+    const username = req.session.user;
+    
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            console.log(err.message);
+            res.status(500).send("Database error!");
+            return;
+        }
+        
+        res.render("admin/adminpanel", { rentals: rows , username: username, user: req.session.user });
+    });
+  } else {
+    res.redirect('/login_admin');
+  }
 });
 
 app.post("/update-status", (req, res) => {
@@ -1183,6 +1204,39 @@ app.post("/update-status", (req, res) => {
           return res.status(500).send("Database update error!");
       }
       res.redirect("/admin");
+  });
+});
+
+//check login ADMIN
+app.post('/login_admin', async (req, res) => {
+  const { login, password, roles, rememberme } = req.body;
+  const sql = "SELECT * FROM account WHERE (User_Name = ? OR Email = ?) AND Roles = ?";
+  db.get(sql, [login, login, roles], async (err, admin) => { 
+    if (err) {
+      console.error(err);
+      return res.render("admin/login_admin", { message: "ฐานข้อมูลขัดข้อง"});
+    }
+
+    if (!admin || admin.Roles != 'admin') {
+      return res.render("admin/login_admin", { message: "ไม่พบบัญชี"});
+    }
+
+    try {
+      if (await bcrypt.compare(password, admin.Password)) {
+        req.session.user = admin;
+        req.session.roles = admin.Roles; // Store roles in session
+        if (rememberme) {
+          // Set a long-lived cookie if "rememberme" is checked
+          req.session.cookie.maxAge = 1 * 24 * 60 * 60 * 1000; // 1 days
+        }
+        res.redirect('/admin'); // Redirect to protected route
+      } else {
+        res.render('admin/login_admin', { message: 'รหัสผ่านไม่ถูกต้อง' }); // Render login.ejs with error
+      }
+    } catch (bcryptErr) {
+      console.error(bcryptErr);
+      return res.render("admin/login_admin", { message: "การยืนยันตัวตนขัดข้อง" });
+    }
   });
 });
 

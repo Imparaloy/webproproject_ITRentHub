@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adminr Login</title>
+    <%- include("../register/regis_style") %>
+</head>
+<body>
+    <div class="wrapper">
+    <div class="container" style="margin: auto;">
+        <h1>แอดมิน</h1>
+        <p>เข้าสู่ระบบในฐานะผู้ดูแลระบบ</p>
+
+        <% if (message) { %>
+            <p style="color: red; font-weight: bold;"><%= message %></p>
+        <% } %>
+
+        <form action="/login_admin" method="POST">
+            <label for="login">ชื่อผู้ใช้หรืออีเมล</label>
+            <input type="text" id="login" name="login" autocomplete="off" required>
+
+            <label for="password">รหัสผ่าน</label>
+            <input type="password" id="password" name="password" autocomplete="off" required>
+
+            <label for="password">คุณเป็น</label>
+            <input type="text" id="roles" name="roles" autocomplete="off" required> <!-- ต้องกำหนดบทบาทด้วย -->
+
+            <div class="remember-me-container">
+                <input type="checkbox" id="rememberme" name="rememberme">
+                <label for="rememberme">จดจำฉัน</label>
+            </div>
+
+            <button type="submit" class="btn">เข้าสู่ระบบ</button>
+        </form>
+    </div>
+    </div>
+</body>
+</html>

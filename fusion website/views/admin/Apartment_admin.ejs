@@ -111,7 +111,7 @@
         searchButton.addEventListener('click', () => {
             const searchTerm = searchInput.value;
             const facilities = selectedFacilities.join(',');
-            fetch(`/search?q=${searchTerm}&facilities=${facilities}`)
+            fetch(`/search_admin?q=${searchTerm}&facilities=${facilities}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
