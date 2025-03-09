@@ -63,6 +63,8 @@
                 <div class="info">
                     <p class="name"><%= r.Rental_Name %></p>
                     <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
+                    <p class="gender"><%= thaigender[r.Gender] %></p>
+                    <p class="type"><%= r.Type %></p>
                 </div>
                 </div>
             </a>
@@ -80,6 +82,8 @@
                 <div class="info">
                 <p class="name"><%= r.Rental_Name %></p>
                 <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
+                <p class="gender"><%= thaigender[r.Gender] %></p>
+                <p class="type"><%= r.Type %></p>
                 </div>
             </div>
             </a>
@@ -172,6 +176,11 @@
                     if (data && data.length > 0) {
                         data.forEach(r => {
                             const apartmentDiv = document.createElement('div');
+                            const thaigender = {
+                                "Man": "หอชาย",
+                                "Woman": "หอหญิง",
+                                "Mix": "หอรวม"
+                              };
                             apartmentDiv.innerHTML = `
                                 <a href="/Show_data?Rental_ID=${r.Rental_ID}" class="clickable-div">
                                     <div class="apartment">
@@ -179,6 +188,8 @@
                                         <div class="info">
                                             <p class="name">${r.Rental_Name}</p>
                                             <p class="price">${r.Rental_price} THB/month</p>
+                                            <p class="gender">${thaigender[r.Gender]}</p>
+                                            <p class="type">${r.Type}</p>
                                         </div>
                                     </div>
                                 </a>

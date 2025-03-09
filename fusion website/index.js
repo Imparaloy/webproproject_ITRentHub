@@ -142,7 +142,7 @@ app.get('/write_review', function (req, res) {
 app.get('/home', function (req, res) {
     const query = 'SELECT * FROM rental_data';
     const query2 = `
-        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating, r.Approved
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, r.Gender, r.Type, rp.Rental_price, AVG(rv.Rating) AS avg_Rating, r.Approved
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         JOIN review rv ON r.Rental_ID = rv.Rental_ID
@@ -151,7 +151,7 @@ app.get('/home', function (req, res) {
         LIMIT 4;
     `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด
     const query3 = `
-        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating, r.Approved
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, r.Gender, r.Type, rp.Rental_price, AVG(rv.Rating) AS avg_Rating, r.Approved
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         JOIN review rv ON r.Rental_ID = rv.Rental_ID
@@ -183,13 +183,19 @@ app.get('/home', function (req, res) {
                     if (err) {
                         console.log(err.message);
                     }
+                    const thaigender = {
+                      "Man": "หอชาย",
+                      "Woman": "หอหญิง",
+                      "Mix": "หอรวม"
+                    };
                     // Make sure you are passing 'facilities' here:
                     res.render('user/home', {
                         data: rows,
                         topRatedRentals: topRatedRentals,
                         topRatedPetrentals: topRatedPetrentals,
                         facilities: facilities,
-                        user: req.session.user //เก็บ login session
+                        user: req.session.user, //เก็บ login session
+                        thaigender : thaigender
                     });
                 });
             });
@@ -217,10 +223,16 @@ app.get('/Apartment', function (req, res) {
             if (err) {
                 console.log(err.message);
             }
+            const thaigender = {
+              "Man": "หอชาย",
+              "Woman": "หอหญิง",
+              "Mix": "หอรวม"
+            };
             res.render('user/Apartment', {
                 data: rows,
                 facilities: facilities,
-                user: req.session.user //เก็บ login session
+                user: req.session.user, //เก็บ login session
+                thaigender : thaigender
             });
         });
     });
@@ -230,7 +242,7 @@ app.get('/Apartment', function (req, res) {
     const searchTerm = req.query.q;
     const facilities = req.query.facilities;
     let sql = `
-        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, r.Gender, r.Type, rp.Rental_price
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         LEFT JOIN facility f ON r.Rental_ID = f.Rental_ID
@@ -1056,7 +1068,7 @@ app.get('/home_admin', function (req, res) {
   if (req.session.user && req.session.roles == "admin") {
     const query = 'SELECT * FROM rental_data';
     const query2 = `
-        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, r.Gender, r.Type, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         JOIN review rv ON r.Rental_ID = rv.Rental_ID
@@ -1065,7 +1077,7 @@ app.get('/home_admin', function (req, res) {
         LIMIT 4;
     `; // เลือก 4 อันดับคะแนนรีวิวสูงสุด
     const query3 = `
-        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, r.Gender, r.Type, rp.Rental_price, AVG(rv.Rating) AS avg_Rating
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         JOIN review rv ON r.Rental_ID = rv.Rental_ID
@@ -1097,13 +1109,19 @@ app.get('/home_admin', function (req, res) {
                     if (err) {
                         console.log(err.message);
                     }
+                    const thaigender = {
+                      "Man": "หอชาย",
+                      "Woman": "หอหญิง",
+                      "Mix": "หอรวม"
+                    };
                     // Make sure you are passing 'facilities' here:
                     res.render('admin/home_admin', {
                         data: rows,
                         topRatedRentals: topRatedRentals,
                         topRatedPetrentals: topRatedPetrentals,
                         facilities: facilities,
-                        user: req.session.user //เก็บ login session
+                        user: req.session.user, //เก็บ login session
+                        thaigender: thaigender
                     });
                 });
             });
@@ -1135,10 +1153,16 @@ app.get('/Apartment_admin', function (req, res) {
             if (err) {
                 console.log(err.message);
             }
+            const thaigender = {
+              "Man": "หอชาย",
+              "Woman": "หอหญิง",
+              "Mix": "หอรวม"
+            };
             res.render('admin/Apartment_admin', {
                 data: rows,
                 facilities: facilities,
-                user: req.session.user //เก็บ login session
+                user: req.session.user, //เก็บ login session
+                thaigender: thaigender
             });
         });
     });
@@ -1152,7 +1176,7 @@ app.get('/search_admin', (req, res) => {
     const searchTerm = req.query.q;
     const facilities = req.query.facilities;
     let sql = `
-        SELECT r.Rental_ID, r.Rental_Name, r.Photo, rp.Rental_price
+        SELECT r.Rental_ID, r.Rental_Name, r.Photo, r.Gender, r.Type, rp.Rental_price
         FROM rental_data r
         JOIN rental_price rp ON r.Rental_ID = rp.Rental_ID
         LEFT JOIN facility f ON r.Rental_ID = f.Rental_ID
