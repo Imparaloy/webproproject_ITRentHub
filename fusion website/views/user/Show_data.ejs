@@ -26,7 +26,10 @@
 
         <section class="apartment-detail">
         <div class="header">
+            <div class="rental-rate">
             <h1><%=data[0].Rental_Name%></h1>
+            <p>หอพักสำหรับ : <%=thaigender[data[0].Gender]%></p>
+            </div>
             <div class="rental-rate">
             <p>อัตราค่าเช่า :</p>
             <h2><%=data[0].Rental_price%> <span>บาท/เดือน</span></h2>
@@ -90,6 +93,20 @@
                 <i class="fas fa-wifi"></i>
                 <span>ค่าอินเทอร์เน็ต</span>
                 <p><%=data[0].Internet_price%> บาท/เดือน</p>
+                </div>
+                <br>
+                <div class="text-box">
+                    <h3>ช่องทางการติดต่อ</h3>
+                    <div class="cost-item">
+                    <i class="fas fa-phone"></i>
+                    <span>โทรศัพท์</span>
+                    <p><%=data[0].Phone_number%></p>
+                    </div>
+                    <div class="cost-item">
+                    <i class="fab fa-line"></i>
+                    <span>LINE</span>
+                    <p><%=data[0].Line_ID%></p>
+                    </div>
                 </div>
             </div>
             </div>

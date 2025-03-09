@@ -323,6 +323,11 @@ app.get('/Show_data', function (req, res) {
 
                         const description = mainRows[0].Description.replace(/\n/g, '<br>');
                         let images = mainRows[0].Gallery ? mainRows[0].Gallery.split(",") : [];
+                        const thaigender = {
+                          "Man": "ผู้ชาย",
+                          "Woman": "ผู้หญิง",
+                          "Mix": "ชายและหญิง"
+                        };
 
                         res.render("user/Show_data", { 
                             data: mainRows, 
@@ -333,7 +338,8 @@ app.get('/Show_data', function (req, res) {
                             averageRating: averageRatingRow.averageRating ? averageRatingRow.averageRating.toFixed(1) : 'N/A',
                             reviews: reviews, // ส่งข้อมูล reviews พร้อม User_Name ไปยัง template
                             user: req.session.user, //เก็บ login session
-                            rentalId: req.query.Rental_ID
+                            rentalId: req.query.Rental_ID,
+                            thaigender: thaigender
                         });
 
                         console.log("Main Rows:", mainRows);
