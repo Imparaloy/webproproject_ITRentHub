@@ -188,8 +188,13 @@ button {
 #closePopup, #resetFilter {
     padding: 5px 10px;
     cursor: pointer;
-    background-color: white;
-    border-radius: 10px;
+    background-color: transparent;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+#closePopup:hover, #resetFilter:hover {
+    background-color: #e0e0e0;
 }
 
 .search-container {
