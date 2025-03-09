@@ -56,7 +56,7 @@
                     <p class="name"><%= r.Rental_Name %></p>
                     <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
                     <p class="gender"><%= thaigender[r.Gender] %></p>
-                    <p class="type"><%= r.Type %></p>
+                    <p class="type"><%= typedorm[r.Type] %></p>
                 </div>
                 </div>
             </a>
@@ -130,6 +130,10 @@
                                 "Woman": "หอหญิง",
                                 "Mix": "หอรวม"
                               };
+                            const typedorm = {
+                                "Apartment": "อพาร์ทเมนท์",
+                                "Dormitory": "หอพัก"
+                            };
                             apartmentDiv.innerHTML = `
                                 <a href="/Show_data?Rental_ID=${r.Rental_ID}" class="clickable-div">
                                     <div class="apartment">
@@ -138,7 +142,7 @@
                                             <p class="name">${r.Rental_Name}</p>
                                             <p class="price">${r.Rental_price} THB/month</p>
                                             <p class="gender">${thaigender[r.Gender]}</p>
-                                            <p class="type">${r.Type}</p>
+                                            <p class="type">${typedorm[r.Type]}</p>
                                         </div>
                                     </div>
                                 </a>

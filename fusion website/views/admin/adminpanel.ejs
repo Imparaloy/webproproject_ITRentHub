@@ -105,6 +105,7 @@
                     <th>รหัสห้องเช่า</th>
                     <th>ชื่อห้องเช่า</th>
                     <th>ประเภทห้องเช่า</th>
+                    <th>เพศที่รับ</th>
                     <th>สถานะ</th>
                 </tr>
             </thead>
@@ -115,7 +116,8 @@
                                 <%= rental.id %>
                             </a></td>
                         <td><%= rental.name %></td>
-                        <td><%= rental.type %></td>
+                        <td><%= typedorm[rental.type] %></td>
+                        <td><%= thaigender[rental.gender] %></td>
                         <td>
                             <form action="/update-status" method="POST">
                                 <input type="hidden" name="rentalId" value="<%= rental.id %>">

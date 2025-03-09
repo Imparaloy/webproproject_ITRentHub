@@ -188,6 +188,10 @@ app.get('/home', function (req, res) {
                       "Woman": "หอหญิง",
                       "Mix": "หอรวม"
                     };
+                    const typedorm = {
+                      "Apartment": "อพาร์ทเมนท์",
+                      "Dormitory": "หอพัก"
+                    };
                     // Make sure you are passing 'facilities' here:
                     res.render('user/home', {
                         data: rows,
@@ -195,7 +199,8 @@ app.get('/home', function (req, res) {
                         topRatedPetrentals: topRatedPetrentals,
                         facilities: facilities,
                         user: req.session.user, //เก็บ login session
-                        thaigender : thaigender
+                        thaigender : thaigender,
+                        typedorm : typedorm
                     });
                 });
             });
@@ -228,11 +233,16 @@ app.get('/Apartment', function (req, res) {
               "Woman": "หอหญิง",
               "Mix": "หอรวม"
             };
+            const typedorm = {
+              "Apartment": "อพาร์ทเมนท์",
+              "Dormitory": "หอพัก"
+            };
             res.render('user/Apartment', {
                 data: rows,
                 facilities: facilities,
                 user: req.session.user, //เก็บ login session
-                thaigender : thaigender
+                thaigender : thaigender,
+                typedorm : typedorm
             });
         });
     });
@@ -340,6 +350,10 @@ app.get('/Show_data', function (req, res) {
                           "Woman": "ผู้หญิง",
                           "Mix": "ชายและหญิง"
                         };
+                        const typedorm = {
+                          "Apartment": "อพาร์ทเมนท์",
+                          "Dormitory": "หอพัก"
+                        };
 
                         res.render("user/Show_data", { 
                             data: mainRows, 
@@ -351,7 +365,8 @@ app.get('/Show_data', function (req, res) {
                             reviews: reviews, // ส่งข้อมูล reviews พร้อม User_Name ไปยัง template
                             user: req.session.user, //เก็บ login session
                             rentalId: req.query.Rental_ID,
-                            thaigender : thaigender
+                            thaigender : thaigender,
+                            typedorm : typedorm
                         });
 
                         console.log("Main Rows:", mainRows);
@@ -1114,6 +1129,10 @@ app.get('/home_admin', function (req, res) {
                       "Woman": "หอหญิง",
                       "Mix": "หอรวม"
                     };
+                    const typedorm = {
+                      "Apartment": "อพาร์ทเมนท์",
+                      "Dormitory": "หอพัก"
+                    };
                     // Make sure you are passing 'facilities' here:
                     res.render('admin/home_admin', {
                         data: rows,
@@ -1121,7 +1140,8 @@ app.get('/home_admin', function (req, res) {
                         topRatedPetrentals: topRatedPetrentals,
                         facilities: facilities,
                         user: req.session.user, //เก็บ login session
-                        thaigender: thaigender
+                        thaigender: thaigender,
+                        typedorm: typedorm
                     });
                 });
             });
@@ -1158,11 +1178,16 @@ app.get('/Apartment_admin', function (req, res) {
               "Woman": "หอหญิง",
               "Mix": "หอรวม"
             };
+            const typedorm = {
+              "Apartment": "อพาร์ทเมนท์",
+              "Dormitory": "หอพัก"
+            };
             res.render('admin/Apartment_admin', {
                 data: rows,
                 facilities: facilities,
                 user: req.session.user, //เก็บ login session
-                thaigender: thaigender
+                thaigender: thaigender,
+                typedorm: typedorm
             });
         });
     });
@@ -1206,7 +1231,7 @@ app.get('/search_admin', (req, res) => {
 app.get("/admin", function (req, res) {
   if (req.session.user && req.session.roles == "admin") {
     let sql = `
-    SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Approved AS status
+    SELECT Rental_ID AS id, Rental_Name AS name, Type AS type, Gender AS gender, Approved AS status
     FROM rental_data`;
 
     const username = req.session.user;
@@ -1217,8 +1242,22 @@ app.get("/admin", function (req, res) {
             res.status(500).send("Database error!");
             return;
         }
-        
-        res.render("admin/adminpanel", { rentals: rows , username: username, user: req.session.user });
+        const thaigender = {
+          "Man": "ผู้ชาย",
+          "Woman": "ผู้หญิง",
+          "Mix": "ชายและหญิง"
+        };
+        const typedorm = {
+          "Apartment": "อพาร์ทเมนท์",
+          "Dormitory": "หอพัก"
+        };
+        res.render("admin/adminpanel", {
+          rentals: rows,
+          username: username,
+          user: req.session.user,
+          thaigender: thaigender,
+          typedorm: typedorm
+         });
     });
   } else {
     res.redirect('/login_admin');
