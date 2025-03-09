@@ -14,7 +14,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #F9B314;
+    background: linear-gradient(90deg, #F9B314, #FFD700);
     padding: 1rem;
     border-radius: 50px;
     margin: 1rem;
@@ -32,18 +32,23 @@ button {
     font-family: 'Sarabun', sans-serif;
 }
 
-
 .logo {
     font-weight: bold;
     font-size: 1.25rem;
     margin-left: 1rem;
+    color: white; /* Change logo color to white */
 }
 
 .nav-links a, .login {
     background-color: transparent;
-    color: #1211CA;
+    color: white; /* Change nav links color to white */
     text-decoration: none;
     margin: 0 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover, .login:hover {
+    color: #1211CA; /* Change color on hover */
 }
 
 .hero {
@@ -91,29 +96,32 @@ button {
 .search-bar {
     display: flex;
     background-color: #F9B314;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border-radius: 50px;
     width: 60%;
-    max-width: 500px;
+    max-width: 600px;
     margin: 2rem auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar input {
     flex: 1;
     border: none;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border-radius: 50px;
     outline: none;
     font-family: 'Sarabun', sans-serif;
+    font-size: 1rem;
 }
 
 .sort-icon, .search-button {
-    padding: 0.5rem;
+    padding: 0.75rem;
     background-color: white;
     border-radius: 50px;
     cursor: pointer;
     border: none;
     margin-inline: 10px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .search-button {
@@ -130,16 +138,19 @@ button {
     justify-content: center;
 }
 
-
 .sort-icon .icon {
     width: 24px;
     height: 24px;
     transition: transform 0.2s ease-in-out;
 }
 
-
 .sort-icon:hover .icon {
     transform: scale(1.1);
+}
+
+.sort-icon:hover, .search-button:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
 }
 
 .facility-popup {

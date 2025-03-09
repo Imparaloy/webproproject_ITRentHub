@@ -10,7 +10,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #F9B314;
+    background: linear-gradient(90deg, #F9B314, #FFD700);
     padding: 1rem;
     border-radius: 50px;
     margin: 1rem;
@@ -20,8 +20,8 @@ body {
     font-size: 16px;
     font-family: 'Sarabun', sans-serif;
     border: none;
-    background-color: #F9B314;
     padding: 0px;
+    background-color: transparent;
 }
 
 button {
@@ -32,15 +32,20 @@ button {
     font-weight: bold;
     font-size: 1.25rem;
     margin-left: 1rem;
-    color: #1211CA;
+    color: white; /* Change logo color to white */
 }
 
 .nav-links a, .login {
-    color: #1211CA;
+    background-color: transparent;
+    color: white; /* Change nav links color to white */
     text-decoration: none;
     margin: 0 1rem;
+    transition: color 0.3s;
 }
 
+.nav-links a:hover, .login:hover {
+    color: #1211CA; /* Change color on hover */
+}
 .apartment-detail {
     margin: 2rem 5rem;
 }
