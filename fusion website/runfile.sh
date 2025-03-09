@@ -1,5 +1,7 @@
 #!/bin/bash
 
+chmod +x runfile.sh
+
 # Check if node_modules exists
 if [ ! -d "node_modules" ]; then
     echo "Installing node_modules..."
