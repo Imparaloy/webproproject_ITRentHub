@@ -12,15 +12,16 @@
     <nav class="navbar">
         <span class="logo">ITRentHub</span>
         <div class="nav-links">
-            <a href="/home">หน้าแรก</a>
-            <a href="/Apartment">อพาร์ทเมนท์</a>
+            <a href="/home_admin">หน้าแรก</a>
+            <a href="/Apartment_admin">อพาร์ทเมนท์</a>
+            <a href="/admin">แผงควบคุมผู้ดูแลระบบ</a>
         </div>
         <% if (user) { %>
             <form action="/logout" method="post">
                 <button type="submit" class="login">ออกจากระบบ</button>
             </form>
         <% } else { %>
-            <a href="/login" class="login">เข้าสู่ระบบ</a>
+            <a href="/login_admin" class="login"> เข้าสู่ระบบ </a>
         <% } %>
         </nav>
 
