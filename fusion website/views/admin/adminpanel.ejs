@@ -90,6 +90,24 @@
             font-size: 20px;
             font-weight: 600;
         }
+
+        /* ตัว approve reject ให้ดูแตกต่าง ใช้ script ด้วย*/
+        option {
+            color: black;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .status.approved { /* Class for Approved status */
+            background-color: #e0f2ff;
+            color: #4a90e2;
+        }
+
+        .status.rejected { /* Class for Rejected status */
+            background-color: #ffe0e0;
+            color: #e24a4a;
+        }
     </style>
 </head>
 <body>
@@ -121,7 +139,7 @@
                         <td>
                             <form action="/update-status" method="POST">
                                 <input type="hidden" name="rentalId" value="<%= rental.id %>">
-                                <select name="status" onchange="this.form.submit()">
+                                <select class="status" name="status" onchange="this.form.submit()">
                                     <option value="Pending" <%= rental.status === "Pending" ? 'selected' : '' %>>Pending</option>
                                     <option value="Approved" <%= rental.status === "Approved"  ? 'selected' : '' %>>Approved</option>
                                     <option value="Rejected" <%= rental.status === "Rejected" ? 'selected' : '' %>>Rejected</option>
@@ -137,5 +155,34 @@
     <footer>
         &copy; ITRentHub 2025
     </footer>
+
+    <script>
+        function updateStatusColor(selectElement) {
+          const selectedOption = selectElement.options[selectElement.selectedIndex];
+      
+          // Remove existing status classes
+          selectElement.classList.remove('approved', 'rejected');
+      
+          if (selectedOption.value === "Approved") {
+            selectElement.classList.add('approved');
+          } else if (selectedOption.value === "Rejected") {
+            selectElement.classList.add('rejected');
+          }
+        }
+      
+        // Call the function on page load to set initial color
+        const statusSelects = document.querySelectorAll('.status');
+
+        // Call updateStatusColor for each select element
+        statusSelects.forEach(selectElement => {
+            updateStatusColor(selectElement);
+
+            // Add event listener to each select element
+            selectElement.addEventListener('change', () => {
+            updateStatusColor(selectElement);
+            selectElement.form.submit(); // Submit the form on change
+            });
+        });
+    </script>
 </body>
 </html>

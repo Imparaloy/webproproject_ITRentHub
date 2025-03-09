@@ -295,6 +295,22 @@ h3 {
     color: #e24a4a; /* สีตัวอักษรแดง */
 }
 
+/* ตัวเพศให้ดูแตกต่าง */
+.status.Man {
+    background-color: #e0f2ff;
+    color: #4a90e2;
+}
+
+.status.Woman { /* เพิ่ม CSS สำหรับหอ หญิง */
+    background-color: #ffe0e0; /* สีพื้นหลังแดงอ่อน */
+    color: #e24a4a; /* สีตัวอักษรแดง */
+}
+
+.status.Mix { /* เพิ่ม CSS สำหรับหอ รวม */
+    background-color: #e2ffe0; /* สีพื้นหลังเขียวอ่อน */
+    color: #57e24a; /* สีตัวอักษรเขียว */
+}
+
 .reserve-btn {
     border: none;
     background-color: #eee;

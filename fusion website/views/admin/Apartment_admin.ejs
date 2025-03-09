@@ -54,8 +54,10 @@
                 <div class="image-placeholder"><img src="<%= r.Photo %>" alt="<%= r.Photo %>"></div>
                 <div class="info">
                     <p class="name"><%= r.Rental_Name %></p>
+                    <span class="status <%= r.Gender %>">
+                        <%= thaigender[r.Gender] %>
+                    </span>
                     <p class="price"><%= r.Rental_price %> บาท/เดือน</p>
-                    <p class="gender"><%= thaigender[r.Gender] %></p>
                     <p class="type"><%= typedorm[r.Type] %></p>
                 </div>
                 </div>
@@ -140,8 +142,10 @@
                                         <div class="image-placeholder"><img src="${r.Photo}" alt="${r.Photo}"></div>
                                         <div class="info">
                                             <p class="name">${r.Rental_Name}</p>
-                                            <p class="price">${r.Rental_price} THB/month</p>
-                                            <p class="gender">${thaigender[r.Gender]}</p>
+                                            <span class="status ${r.Gender}">
+                                                ${thaigender[r.Gender]}
+                                            </span>
+                                            <p class="price">${r.Rental_price} บาท/เดือน</p>
                                             <p class="type">${typedorm[r.Type]}</p>
                                         </div>
                                     </div>

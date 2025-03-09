@@ -28,7 +28,11 @@
         <div class="header">
             <div class="rental-rate">
             <h1><%=data[0].Rental_Name%></h1>
-            <p><%=typedorm[data[0].Type]%> : <%=thaigender[data[0].Gender]%></p>
+            <p><%=typedorm[data[0].Type]%> : 
+                <span class="status <%= data[0].Gender %>">
+                    <%= thaigender[data[0].Gender] %>
+                </span>
+            </p>
             </div>
             <div class="rental-rate">
             <p>อัตราค่าเช่า :</p>
