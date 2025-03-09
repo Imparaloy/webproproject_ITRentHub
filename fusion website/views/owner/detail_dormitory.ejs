@@ -21,6 +21,34 @@
                             ดูตารางจองหอพัก
                         </a>
                     </div>
+                    <a href="#" class="button delete-button" onclick="confirmDelete('<%= dormitory.Rental_ID %>')">
+                        ลบหอพัก
+                    </a>
+
+                    <script>
+                        function confirmDelete(rentalId) {
+                            if (confirm('คุณแน่ใจหรือว่าต้องการลบหอพักนี้?')) {
+                                fetch('/delete_dormitory', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ rentalId: rentalId })
+                                })
+                                .then(response => {
+                                    if (response.ok) {
+                                        window.location.href = '/select_dormitory';
+                                    } else {
+                                        alert('การลบหอพักล้มเหลว');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('เกิดข้อผิดพลาดในการลบหอพัก');
+                                });
+                            }
+                        }
+                    </script>
                 </section>
             </main>
     </div>
@@ -61,6 +89,17 @@
 
         .button:hover {
             background: black;
+            color: white;
+        }
+        .delete-button {
+            border-color: red;
+            color: red;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .delete-button:hover {
+            background: red;
             color: white;
         }
 

@@ -696,6 +696,59 @@ app.get("/dormitory/:id", (req, res) => {
     });
 });
 
+// >>>>>>>>>>>>>>>>>>>>>>>>>Start Delete Dorm>>>>>>>>>>>>>>>>>>>>>>>>>
+app.post('/delete_dormitory', (req, res) => {
+  const { rentalId } = req.body;
+
+  if (!rentalId) {
+    return res.status(400).send("Rental ID is required");
+  }
+
+  const deleteRentalQuery = `DELETE FROM rental_data WHERE Rental_ID = ?`;
+  const deletePriceQuery = `DELETE FROM rental_price WHERE Rental_ID = ?`;
+  const deleteFacilityQuery = `DELETE FROM facility WHERE Rental_ID = ?`;
+  const deleteRoomQuery = `DELETE FROM room_data WHERE Rental_ID = ?`;
+  const deleteReviewQuery = `DELETE FROM review WHERE Rental_ID = ?`;
+
+  db.run(deleteRentalQuery, [rentalId], function (err) {
+    if (err) {
+      console.error("Error deleting rental data:", err.message);
+      return res.status(500).send("Database error");
+    }
+
+    db.run(deletePriceQuery, [rentalId], function (err) {
+      if (err) {
+        console.error("Error deleting rental price:", err.message);
+        return res.status(500).send("Database error");
+      }
+
+      db.run(deleteFacilityQuery, [rentalId], function (err) {
+        if (err) {
+          console.error("Error deleting facility data:", err.message);
+          return res.status(500).send("Database error");
+        }
+
+        db.run(deleteRoomQuery, [rentalId], function (err) {
+          if (err) {
+            console.error("Error deleting room data:", err.message);
+            return res.status(500).send("Database error");
+          }
+
+          db.run(deleteReviewQuery, [rentalId], function (err) {
+            if (err) {
+              console.error("Error deleting review data:", err.message);
+              return res.status(500).send("Database error");
+            }
+
+            res.redirect('/select_dormitory');
+          });
+        });
+      });
+    });
+  });
+});
+// >>>>>>>>>>>>>>>>>>>>>>>>>EndDelete Dorm>>>>>>>>>>>>>>>>>>>>>>>>>
+
 // reserve_dorm ฝั่ง owner
 app.get('/reserve_dorm', function (req, res) {
   if (req.session.user && req.session.roles == "owner") {
@@ -1271,7 +1324,6 @@ app.post('/login_admin', async (req, res) => {
 });
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>End AdminPanle File>>>>>>>>>>>>>>>>>>>>>>>>>
-
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
