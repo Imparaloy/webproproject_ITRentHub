@@ -24,8 +24,8 @@ body {
     font-size: 16px;
     font-family: 'Sarabun', sans-serif;
     border: none;
-    background-color: #1211CA;
     padding: 0px;
+    background-color: transparent;
 }
 
 button {
@@ -40,6 +40,7 @@ button {
 }
 
 .nav-links a, .login {
+    background-color: transparent;
     color: #1211CA;
     text-decoration: none;
     margin: 0 1rem;
