@@ -8,12 +8,36 @@
                 <!-- Main Section -->
                 <main>
                     <section class="content-box">
-                        <h2>ไม่มีหอพักที่เป็นเจ้าของ</h2>
-                        <h3>คุณยังไม่ได้เป็นเจ้าของหอพัก</h3>
-                        <br>
-                        <p>เริ่มเพิ่มหอพักของคุณได้เลยตรงนี้:</p>
-                        <button class="add-btn" onclick="location.href='/add_dorm'">เพิ่มหอพัก</button>
+                        <section class="center">
+                            <h2>เลือกดูหอพักที่เป็นเจ้าของ</h2>
+                            <h3>คุณยังไม่ได้เป็นเจ้าของหอพัก</h3>
+                            <br>
+                            <p>เริ่มเพิ่มหอพักของคุณได้เลยตรงนี้:</p>
+                            <button class="add-btn" onclick="location.href='/add_dorm'">เพิ่มหอพัก</button>
+                        </section>
                     </section>
                 </main>
     </div>
 </div>
+<style>
+.center {
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+.add-btn {
+    border: 2px solid black;
+    background: none;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.add-btn:hover {
+    background-color: black;
+    color: white;
+}
+</style>
