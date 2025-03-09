@@ -24,7 +24,7 @@
                     <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Pool">สระว่ายน้ำ</span>
                     <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Fitness">ฟิตเนส</span>
                     <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Security_keycard">คีย์การ์ดรักษาความปลอดภัย</span>
-                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Security_finger_print">ลายนิ้วมือรักษาความปลอดภัย</span>
+                    <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Security_finger_print">สแกนลายนิ้วมือ</span>
                     <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="cctv">กล้องวงจรปิด</span>
                     <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="Security">ยามรักษาความปลอดภัย</span>
                     <span class="amenity" onclick="ChangeColor(this)" data-value="0" data-key="In_Room_WIFI">WIFI ในห้อง</span>
@@ -75,63 +75,150 @@
     <style>
         a {
             text-decoration: none;
+            color: #4a90e2;
+            transition: color 0.3s ease;
+            font-weight: 600;
+        }
+
+        a:hover {
+            color: #2a70c2;
         }
 
         .button-container {
             grid-column: 1 / -1;
             display: flex;
             justify-content: center;
+            margin-top: 20px;
         }
 
         button {
-            margin-top: 10px;
-            margin: 10px;
-            padding: 15px 20px;
+            padding: 12px 25px;
             font-size: 16px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
         }
+
+        button:hover {
+            background-color: #3a80d2;
+            transform: translateY(-2px);
+        }
+
         .amenity {
             cursor: pointer;
-            margin-top: 10px;
-            margin: 10px;
-            padding: 15px 15px;
+            margin: 6px;
+            padding: 15px 18px;
             font-size: 16px;
-            background-color: #e9e9ed;
-            border: 1px solid;
+            background-color: #f5f5f7;
+            border: 1px solid #e0e0e5;
             border-radius: 10px;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .facility {
+            padding: 20px 10px;
+            border-radius: 12px;
+            background-color: white;
+            font-weight: 500;
+        }
+
+        .forming {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        label {
+            margin-top: 15px;
+            font-weight: 500;
+            color: black;
+            font-size: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+        }
+
+        .submit {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .submit:hover {
+            background-color: #45a049;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
         }
 
         @media screen and (min-width:1000px) {
             .facility {
-                text-align: center;
-                display: grid;
-                grid-template-columns: auto auto auto auto;
-                row-gap: 5px;
-                margin-top: 10px;
+            text-align: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
             }
         }
+
         @media screen and (max-width:1000px) and (min-width:700px) {
             .facility {
-                text-align: center;
-                display: grid;
-                grid-template-columns: auto auto auto;
-                row-gap: 5px;
+            text-align: center;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             }
         }
+
         @media screen and (max-width:700px) and (min-width:400px) {
             .facility {
-                text-align: center;
-                display: grid;
-                grid-template-columns: auto auto;
-                row-gap: 5px;
+            text-align: center;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
             }
         }
+
         @media screen and (max-width:400px) {
             .facility {
-                text-align: center;
-                display: grid;
-                grid-template-columns: auto;
-                row-gap: 5px;
+            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
             }
         }
     </style>
