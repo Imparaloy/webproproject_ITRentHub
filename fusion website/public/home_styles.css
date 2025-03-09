@@ -14,7 +14,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #d1d5db;
+    background-color: #F9B314;
     padding: 1rem;
     border-radius: 50px;
     margin: 1rem;
@@ -24,7 +24,7 @@ body {
     font-size: 16px;
     font-family: 'Sarabun', sans-serif;
     border: none;
-    background-color: #d1d5db;
+    background-color: #1211CA;
     padding: 0px;
 }
 
@@ -40,7 +40,7 @@ button {
 }
 
 .nav-links a, .login {
-    color: black;
+    color: #1211CA;
     text-decoration: none;
     margin: 0 1rem;
 }
@@ -53,11 +53,13 @@ button {
 .hero h1 {
     font-size: 2rem;
     font-weight: bold;
+    color: #1211CA;
 }
 
 .headerr h1 {
     font-size: 2rem;
     font-weight: bold;
+    color: #1211CA;
 }
 
 .headerr {
@@ -72,15 +74,22 @@ button {
 .learn-more {
     margin-top: 1.5rem;
     padding: 0.5rem 1.5rem;
-    background-color: #d1d5db;
+    color: #1211CA;
     border-radius: 50px;
-    border: none;
+    border: 2px solid #1211CA;
+    background-color: transparent;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.learn-more:hover {
+    background-color: #1211CA;
+    color: white;
 }
 
 .search-bar {
     display: flex;
-    background-color: #d1d5db;
+    background-color: #F9B314;
     padding: 0.5rem;
     border-radius: 50px;
     width: 60%;
@@ -137,19 +146,19 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #e0e0e0;
+    background-color: #F9B314;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     padding: 20px;
     border-radius: 15px;
-    text-align: center; /* จัดให้ปุ่มอยู่ตรงกลาง */
+    text-align: center;
 }
 
 .facility-list {
-    display: grid; /* เปลี่ยนเป็น grid layout */
-    grid-template-columns: repeat(3, 1fr); /* กำหนด 3 คอลัมน์ */
-    gap: 10px; /* กำหนดระยะห่างระหว่าง items */
-    margin-bottom: 10px; /* เพิ่ม margin ด้านล่าง */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
 .facility-item {
@@ -160,7 +169,7 @@ button {
 }
 
 .facility-item.selected {
-    background-color: #007bff;
+    background-color: #1211CA;
     color: white;
 }
 
@@ -176,15 +185,15 @@ button {
 }
 
 #searchResults {
-    position: relative; /* เปลี่ยนเป็น relative */
-    top: 0; /* ลบ top: 100% */
+    position: relative;
+    top: 0;
     left: 0;
     width: 90%;
     z-index: 10;
 }
 
-.apartments:nth-child(3) { /* เลือก Recommend apartment */
-    margin-top: 20px; /* เพิ่ม margin-top */
+.apartments:nth-child(3) {
+    margin-top: 20px;
 }
 
 @media (max-width: 768px) {
@@ -216,7 +225,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #d1d5db;
+    background-color: whitesmoke;
     padding: 1rem;
     border-radius: 10px;
     width: 90%;
@@ -245,6 +254,7 @@ button {
 .name {
     font-weight: bold;
     font-size: 1.2rem;
+    color: #1211CA;
 }
 
 .price {
@@ -263,6 +273,10 @@ button {
     margin-top: 4rem;
 }
 
+.why-us h2 {
+    color: #1211CA;
+}
+
 .card-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -277,10 +291,12 @@ button {
     padding: 20px;
     text-align: center;
     transition: transform 0.2s;
+    border: 2px solid #F9B314;
 }
 
 .card:hover {
     transform: translateY(-5px);
+    border-color: #1211CA;
 }
 
 .card-icon {
@@ -291,7 +307,7 @@ button {
 .card h3 {
     font-size: 20px;
     margin-bottom: 10px;
-    color: #333;
+    color: #1211CA;
 }
 
 .card p {
@@ -302,9 +318,10 @@ button {
 footer {
     text-align: center;
     font-size: 0.875rem;
-    color: #6b7280;
+    color: #1211CA;
     margin-top: 2rem;
     padding-bottom: 1rem;
+    padding-top: 1rem;
 }
 
 /* ตัวเพศให้ดูแตกต่าง */
@@ -315,18 +332,18 @@ footer {
 }
 
 .status.Man {
-    background-color: #e0f2ff;
-    color: #4a90e2;
+    background-color: #3674B5;
+    color: white;
 }
 
-.status.Woman { /* เพิ่ม CSS สำหรับหอ หญิง */
-    background-color: #ffe0e0; /* สีพื้นหลังแดงอ่อน */
-    color: #e24a4a; /* สีตัวอักษรแดง */
+.status.Woman {
+    background-color: #EC7FA9;
+    color: white;
 }
 
-.status.Mix { /* เพิ่ม CSS สำหรับหอ รวม */
-    background-color: #e2ffe0; /* สีพื้นหลังเขียวอ่อน */
-    color: #57e24a; /* สีตัวอักษรเขียว */
+.status.Mix {
+    background-color: #493D9E;
+    color: #ffffff;
 }
 
 @media (max-width: 1024px) {

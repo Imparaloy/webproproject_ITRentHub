@@ -10,7 +10,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #d1d5db;
+    background-color: #F9B314;
     padding: 1rem;
     border-radius: 50px;
     margin: 1rem;
@@ -20,7 +20,7 @@ body {
     font-size: 16px;
     font-family: 'Sarabun', sans-serif;
     border: none;
-    background-color: #d1d5db;
+    background-color: #F9B314;
     padding: 0px;
 }
 
@@ -32,10 +32,11 @@ button {
     font-weight: bold;
     font-size: 1.25rem;
     margin-left: 1rem;
+    color: #1211CA;
 }
 
 .nav-links a, .login {
-    color: black;
+    color: #1211CA;
     text-decoration: none;
     margin: 0 1rem;
 }
@@ -52,6 +53,7 @@ button {
 
 .header h1 {
     font-size: 2rem;
+    color: #1211CA;
 }
 
 .rental-rate p {
@@ -64,6 +66,7 @@ button {
     font-size: 1.5rem;
     margin: 0;
     font-weight: bold;
+    color: #1211CA;
 }
 
 .rental-rate span {
@@ -76,6 +79,16 @@ button {
     gap: 2rem;
     margin-top: 1rem;
     font-weight: bold;
+    color: #1211CA;
+}
+
+.location-btn {
+    background-color: transparent;
+    color: #1211CA;
+    cursor: pointer;
+    transition: color 0.3s;
+    border: none;
+    outline: none;
 }
 
 .gallery {
@@ -102,7 +115,7 @@ button {
     top: 0;
     width: 30px;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(18, 17, 202, 0.2);
     border: none;
     color: white;
     font-size: 2rem;
@@ -128,7 +141,7 @@ button {
 }
 
 .arrow:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(18, 17, 202, 0.5);
 }
 
 .thumbnail-row {
@@ -137,7 +150,7 @@ button {
     white-space: nowrap;
     margin-top: 10px;
     width: 600px;
-    padding: 0 10px; /* เพิ่มระยะห่างจากขอบ */
+    padding: 0 10px;
 }
 
 .thumbnail {
@@ -155,29 +168,29 @@ button {
 }
 
 .thumbnail.active {
-    border: 2px solid #3498db;  /* กรอบสีฟ้าบนรูปที่แสดงอยู่ */
+    border: 2px solid #1211CA;
 }
 
 .container {
     display: flex;
-    justify-content: space-between;  /* ชิดซ้ายขวา */
-    align-items: flex-start;         /* ชิดด้านบน */
-    margin: 0 5rem;                 /* ขอบด้านข้าง */
-    height: auto;                   /* ปรับขนาดตามเนื้อหา */
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0 5rem;
+    height: auto;
     margin-top: 10%;
 }
 
 .detail-section {
     display: flex;
-    flex-direction: column;         /* ทำให้ Detail : อยู่ด้านบน */
-    width: 60%;                    /* ปรับความกว้างตามต้องการ */
+    flex-direction: column;
+    width: 60%;
 }
 
 .detail-text {
-    border: 1px solid #d1d5db;
+    border: 1px solid #F9B314;
     padding: 1rem;
     border-radius: 10px;
-    margin-top: 0.5rem;            /* ช่องว่างระหว่าง Detail : กับกล่อง */
+    margin-top: 0.5rem;
     white-space: pre-line;
 }
 
@@ -186,7 +199,7 @@ button {
 }
 
 .text-box {
-    background-color: #d1d5db;
+    background-color: #F9B314;
     border-radius: 10px;
     padding: 1rem;
     height: 100%;
@@ -200,6 +213,7 @@ button {
     text-align: center;
     margin-bottom: 1rem;
     font-size: 1.2rem;
+    color: #1211CA;
 }
 
 .cost-item {
@@ -207,30 +221,31 @@ button {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 0.5rem;
-    border-bottom: 1px solid #ccc; /* เพิ่มเส้นกั้นด้านล่าง */
-    padding-bottom: 0.5rem; /* เพิ่มช่องว่างด้านล่างเส้นกั้น */
+    border-bottom: 1px solid #1211CA;
+    padding-bottom: 0.5rem;
+    color: #1211CA;
 }
 
 .cost-item:last-child {
-    border-bottom: none; /* ลบเส้นกั้นสำหรับรายการสุดท้าย */
-    padding-bottom: 0; /* ลบ padding สำหรับรายการสุดท้าย */
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .cost-item i {
     margin-right: 0.5rem;
     font-size: 1.2rem;
-    color: #374151;
+    color: #1211CA;
 }
 
 .cost-item span {
-    flex-grow: 1; /* ให้ข้อมูลชื่อขยายเต็มพื้นที่ */
-    margin-left: 0.5rem; /* เพิ่มช่องว่างระหว่างไอคอนกับชื่อ */
+    flex-grow: 1;
+    margin-left: 0.5rem;
 }
 
 .cost-item p {
     margin: 0;
-    text-align: right; /* จัดข้อมูลชิดขวา */
-    min-width: 80px; /* กำหนดความกว้างขั้นต่ำสำหรับค่าใช้จ่าย */
+    text-align: right;
+    min-width: 80px;
 }
 
 .room {
@@ -242,10 +257,11 @@ h3 {
     font-size: 18px;
     margin-bottom: 5px;
     font-weight: 500;
+    color: #1211CA;
 }
 
 .room-type, .amenities {
-    background-color: #ddd;
+    background-color: #F9B314;
     border-radius: 10px;
     padding: 10px;
     display: flex;
@@ -257,6 +273,7 @@ h3 {
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid #F9B314;
 }
 
 .room-table {
@@ -271,12 +288,13 @@ h3 {
 }
 
 .room-table th {
-    background-color: #f5f5f5;
+    background-color: #F9B314;
     font-weight: 600;
+    color: #1211CA;
 }
 
 .room-table tbody tr:hover {
-    background-color: #f9f9f9;
+    background-color: rgba(249, 179, 20, 0.1);
 }
 
 .status {
@@ -286,37 +304,44 @@ h3 {
 }
 
 .status.available {
-    background-color: #e0f2ff;
-    color: #4a90e2;
+    background-color: #1211CA;
+    color: white;
 }
 
-.status.not-available { /* เพิ่ม CSS สำหรับสถานะ Not Available */
-    background-color: #ffe0e0; /* สีพื้นหลังแดงอ่อน */
-    color: #e24a4a; /* สีตัวอักษรแดง */
+.status.not-available {
+    background-color: #F9B314;
+    color: #1211CA;
 }
 
 /* ตัวเพศให้ดูแตกต่าง */
+
 .status.Man {
-    background-color: #e0f2ff;
-    color: #4a90e2;
+    background-color: #3674B5;
+    color: white;
 }
 
-.status.Woman { /* เพิ่ม CSS สำหรับหอ หญิง */
-    background-color: #ffe0e0; /* สีพื้นหลังแดงอ่อน */
-    color: #e24a4a; /* สีตัวอักษรแดง */
+.status.Woman {
+    background-color: #EC7FA9;
+    color: white;
 }
 
-.status.Mix { /* เพิ่ม CSS สำหรับหอ รวม */
-    background-color: #e2ffe0; /* สีพื้นหลังเขียวอ่อน */
-    color: #57e24a; /* สีตัวอักษรเขียว */
+.status.Mix {
+    background-color: #493D9E;
+    color: #ffffff;
 }
+
 
 .reserve-btn {
     border: none;
-    background-color: #eee;
+    color: white;
     border-radius: 20px;
     padding: 5px 15px;
     cursor: pointer;
+    transition: background-color 0.3s, background-color 0.3s;
+}
+
+.reserve-btn:hover {
+    background-color: #0e0e9e;
 }
 
 .amenities-container {
@@ -324,7 +349,7 @@ h3 {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     padding: 10px;
-    background-color: #e0e0e0;
+    background-color: #F9B314;
     border-radius: 10px;
 }
 
@@ -338,6 +363,7 @@ h3 {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     font-size: 16px;
     transition: background-color 0.3s ease;
+    color: #1211CA;
 }
 
 .amenity:hover {
@@ -345,19 +371,13 @@ h3 {
 }
 
 .amenity.active {
-    background-color: #007bff; /* Blue color */
-    color: #fff; /* White text color */
+    background-color: #1211CA;
+    color: #fff;
 }
 
 .guest-review {
     margin: 2rem 5rem;
     margin-bottom: 20px;
-}
-
-h3 {
-    font-size: 18px;
-    margin-bottom: 5px;
-    font-weight: 500;
 }
 
 .review-header {
@@ -376,18 +396,26 @@ h3 {
     font-size: 24px;
     font-weight: bold;
     margin-right: 5px;
+    color: #1211CA;
 }
 
 .score-text {
     font-size: 16px;
+    color: #1211CA;
 }
 
 .write-review-btn {
     border: none;
-    background-color: #eee;
+    background-color: #1211CA;
+    color: white;
     border-radius: 20px;
     padding: 5px 15px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.write-review-btn:hover {
+    background-color: #0e0e9e;
 }
 
 .review-list {
@@ -397,7 +425,7 @@ h3 {
 }
 
 .review-box {
-    background-color: #e0e0e0;
+    background-color: #F9B314;
     border-radius: 10px;
     padding: 15px;
     display: flex;
@@ -407,20 +435,23 @@ h3 {
 .review-user {
     font-weight: bold;
     margin-bottom: 5px;
+    color: #1211CA;
 }
 
 .review-content {
     margin-bottom: 10px;
+    color: #1211CA;
 }
 
 .review-score {
     text-align: right;
+    color: #1211CA;
 }
 
 footer {
     text-align: center;
     font-size: 0.875rem;
-    color: #6b7280;
+    color: #1211CA;
     margin-top: 2rem;
-    padding-bottom: 1rem;
+    padding: 1rem 0;
 }

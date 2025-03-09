@@ -3,7 +3,6 @@
 }
 
 body {
-    
     background-color: white;
     display: flex;
     justify-content: center;
@@ -14,7 +13,7 @@ body {
 }
 
 .container {
-    background-color: #d9d9d9;
+    background-color: #F9B314;
     padding: 30px;
     border-radius: 20px;
     text-align: center;
@@ -25,16 +24,18 @@ body {
 h1 {
     font-weight: 600;
     margin: 0px;
+    color: #1211CA;
 }
 
 p {
     font-size: 20px;
     margin: 10px 0px;
-    color: #333;
+    color: #1211CA;
 }
 
 a {
     text-decoration: none;
+    color: #1211CA;
 }
 
 label {
@@ -42,14 +43,15 @@ label {
     text-align: left;
     margin: 10px 0 5px;
     font-size: 16px;
-    color: #333;
+    color: #1211CA;
+    font-weight: 500;
 }
 
 input {
     width: 20%;
     margin: 0px 10px;
     padding: 10px;
-    border: none;
+    border: 2px solid #1211CA;
     border-radius: 20px;
     outline: none;
     background-color: white;
@@ -60,7 +62,7 @@ input {
 textarea {
     width: 100%;
     padding: 10px;
-    border: none;
+    border: 2px solid #1211CA;
     border-radius: 10px;
     outline: none;
     background-color: white;
@@ -73,7 +75,7 @@ button {
 }
 
 .btn {
-    background-color: black;
+    background-color: #1211CA;
     color: white;
     border: none;
     padding: 10px;
@@ -82,10 +84,12 @@ button {
     margin-top: 20px;
     cursor: pointer;
     font-size: 16px;
+    transition: all 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #333;
+    background-color: #0e0ea5;
+    transform: scale(1.05);
 }
 
 .score-container {
@@ -98,6 +102,7 @@ button {
     width: auto;
     margin-right: 5px;
     box-shadow: none;
+    accent-color: #1211CA;
 }
 
 .score-container label {
