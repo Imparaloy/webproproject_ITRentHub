@@ -7,6 +7,7 @@
             <!-- Main Section -->
             <main>
                 <section class="content-box">
+                    <a href="/select_dormitory" class="back-button">กลับ</a>
                     <h1 class="title">เลือกดูหอพัก</h1>
 
                     <div class="dormitory-container">
@@ -20,32 +21,47 @@
                             ดูตารางจองหอพัก
                         </a>
                     </div>
+                    <a href="#" class="button delete-button" onclick="confirmDelete('<%= dormitory.Rental_ID %>')">
+                        ลบหอพัก
+                    </a>
 
-                    <a href="/select_dormitory" class="back-button">กลับ</a>
+                    <script>
+                        function confirmDelete(rentalId) {
+                            if (confirm('คุณแน่ใจหรือว่าต้องการลบหอพักนี้?')) {
+                                fetch('/delete_dormitory', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ rentalId: rentalId })
+                                })
+                                .then(response => {
+                                    if (response.ok) {
+                                        window.location.href = '/select_dormitory';
+                                    } else {
+                                        alert('การลบหอพักล้มเหลว');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('เกิดข้อผิดพลาดในการลบหอพัก');
+                                });
+                            }
+                        }
+                    </script>
                 </section>
             </main>
     </div>
 
     <style>
-        /* ตั้งค่ากลางหน้า */
-
         /* ตั้งค่าหัวข้อ */
         .title {
             font-size: 32px;
             font-weight: bold;
             margin-bottom: 20px;
+            text-align: center;
         }
 
-        /* ตั้งค่ากล่องข้อมูลหอพัก */
-        .dormitory-container {
-            text-align: center;
-            background: #fff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            margin-bottom: 20px;
-        }
 
         /* ตั้งค่าชื่อหอพัก */
         .dormitory-name {
@@ -57,7 +73,7 @@
         /* ตั้งค่าปุ่ม */
         .button {
             display: block;
-            background: white;
+            background: none;
             border: 2px solid black;
             padding: 12px;
             border-radius: 50px;
@@ -72,7 +88,19 @@
         }
 
         .button:hover {
-            background: #f0f0f0;
+            background: black;
+            color: white;
+        }
+        .delete-button {
+            border-color: red;
+            color: red;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .delete-button:hover {
+            background: red;
+            color: white;
         }
 
         /* ปุ่ม back */
