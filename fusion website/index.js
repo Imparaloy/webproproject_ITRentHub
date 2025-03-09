@@ -339,7 +339,7 @@ app.get('/Show_data', function (req, res) {
                             reviews: reviews, // ส่งข้อมูล reviews พร้อม User_Name ไปยัง template
                             user: req.session.user, //เก็บ login session
                             rentalId: req.query.Rental_ID,
-                            thaigender: thaigender
+                            thaigender : thaigender
                         });
 
                         console.log("Main Rows:", mainRows);
