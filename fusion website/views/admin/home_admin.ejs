@@ -57,7 +57,7 @@
         <h2>อพาร์ทเมนท์แนะนำ</h2>
         <div class="apartment-list">
             <% topRatedRentals.forEach(r => { %>
-            <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
+            <a href="/Show_data_admin?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
                 <div class="apartment">
                 <div class="image-placeholder"><img src="<%= r.Photo %>"></div>
                 <div class="info">
@@ -78,7 +78,7 @@
         <h2>อพาร์ทเมนท์ที่อนุญาตให้เลี้ยงสัตว์</h2>
         <div class="apartment-list">
             <% topRatedPetrentals.forEach(r => { %>
-            <a href="/Show_data?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
+            <a href="/Show_data_admin?Rental_ID=<%=r.Rental_ID%>" class="clickable-div">
             <div class="apartment">
                 <div class="image-placeholder"><img src="<%= r.Photo %>"></div>
                 <div class="info">
@@ -190,7 +190,7 @@
                                 "Dormitory": "หอพัก"
                             };
                             apartmentDiv.innerHTML = `
-                                <a href="/Show_data?Rental_ID=${r.Rental_ID}" class="clickable-div">
+                                <a href="/Show_data_admin?Rental_ID=${r.Rental_ID}" class="clickable-div">
                                     <div class="apartment">
                                         <div class="image-placeholder"><img src="${r.Photo}"></div>
                                         <div class="info">
