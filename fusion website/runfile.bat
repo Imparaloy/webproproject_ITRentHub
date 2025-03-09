@@ -3,7 +3,7 @@
 :: Check if node_modules exists
 IF NOT EXIST node_modules (
   echo Installing node_modules...
-  npm install
+  call npm install
   IF %ERRORLEVEL% NEQ 0 (
     echo Error installing node_modules. Please check the console for details.
     pause
