@@ -2,6 +2,9 @@
 # Group-3-App
 
 A project for running a Node.js application with simple setup instructions for both Windows and macOS/Linux.
+![home](https://github.com/Imparaloy/webproproject_ITRentHub/blob/main/Asset/home.png)
+![view](https://github.com/Imparaloy/webproproject_ITRentHub/blob/main/Asset/view.png)
+![apartment](https://github.com/Imparaloy/webproproject_ITRentHub/blob/main/Asset/apartment.png)
 
 ## Installation & Running the Application
 
