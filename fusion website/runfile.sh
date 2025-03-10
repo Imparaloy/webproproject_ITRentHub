@@ -1,6 +1,10 @@
 #!/bin/bash
 
-chmod +x runfile.sh
+# แปลงไฟล์ให้ใช้ Line Ending ที่ถูกต้อง (LF)
+sed -i $'s/\r$//' "$0"
+
+# ให้สิทธิ์รันไฟล์ (ป้องกันปัญหา permission)
+chmod +x "$0"
 
 # Check if node_modules exists
 if [ ! -d "node_modules" ]; then
@@ -24,4 +28,11 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "App started successfully."
+echo "Server is running on http://localhost:3000"
 read -p "Press Enter to continue..."
+
+echo "Process completed. Do you want to close the terminal? (y/n)"
+read choice
+if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
+    exit
+fi
